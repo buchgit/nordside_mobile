@@ -1,4 +1,4 @@
-package com.nordside_trading.ui
+package com.example.nordside_mobile.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.nordside_trading.R
+import com.example.nordside_mobile.R
+
 
 class FragmentCommon : Fragment(), FragmentCategory.Callback {
 

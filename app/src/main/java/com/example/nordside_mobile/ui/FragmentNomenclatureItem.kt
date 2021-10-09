@@ -1,4 +1,4 @@
-package com.nordside_trading.ui
+package com.example.nordside_mobile.ui
 
 import android.annotation.SuppressLint
 import android.net.Uri
@@ -10,8 +10,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.nordside_trading.R
-import com.nordside_trading.model.Nomenclature
+import com.example.nordside_mobile.R
+import com.example.nordside_mobile.model.Nomenclature
 
 
 class FragmentNomenclatureItem : Fragment() {

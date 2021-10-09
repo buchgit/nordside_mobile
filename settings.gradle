@@ -17,5 +17,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "nordside_trading"
+rootProject.name = "nordside_mobile"
 include ':app'

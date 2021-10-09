@@ -1,4 +1,4 @@
-package com.nordside_trading.ui
+package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,20 +7,19 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.nordside_mobile.ApplicationConstants
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
+import com.example.nordside_mobile.model.LoginBody
+import com.example.nordside_mobile.model.Nomenclature
+import com.example.nordside_mobile.model.ServerToken
+import com.example.nordside_mobile.repository.NordsideRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.nordside_trading.ApplicationConstants
-import com.nordside_trading.R
-import com.nordside_trading.databinding.ActivityMainBinding
-import com.nordside_trading.model.LoginBody
-import com.nordside_trading.model.Nomenclature
-import com.nordside_trading.model.ServerToken
-import com.nordside_trading.repository.NordsideRepository
 
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,8 +39,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_login, R.id.navigation_cart
@@ -50,17 +47,6 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-
-//        val currentFragment = supportFragmentManager.findFragmentById(R.id.container_activity_main_1)
-//        if (currentFragment==null) {
-//            supportFragmentManager
-//                .beginTransaction()
-//                .add(R.id.container_activity_main_1, FragmentLogin.newInstance(), "FRAGMENT_LOGIN")
-//                //.add(R.id.container_activity_main_1, FragmentCommon.newInstance(), "FRAGMENT_COMMON")
-//                .addToBackStack("FRAGMENT_LOGIN")
-//                .commit()
-//        }
 
         //инициализируем файл для сохраниния параметров приложения
        appSettins = getSharedPreferences(ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE)

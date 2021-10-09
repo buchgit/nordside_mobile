@@ -1,4 +1,4 @@
-package com.nordside_trading.ui
+package com.example.nordside_mobile.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.nordside_trading.R
-import com.nordside_trading.model.Partner
-import com.nordside_trading.viewmodel.FragmentPartnerViewModel
+import com.example.nordside_mobile.R
+import com.example.nordside_mobile.model.Partner
+import com.example.nordside_mobile.viewmodel.FragmentPartnerViewModel
+
 
 class FragmentPartner: Fragment() {
 

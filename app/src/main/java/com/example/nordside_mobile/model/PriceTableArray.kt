@@ -1,6 +1,4 @@
-package com.nordside_trading.model
-
-import com.nordside_trading.model.PriceTable
+package com.example.nordside_mobile.model
 
 class PriceTableArray {
     lateinit var listOfPriceLines:List<PriceTable>

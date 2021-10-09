@@ -1,26 +1,21 @@
-package com.nordside_trading.repository
+package com.example.nordside_mobile.repository
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nordside_trading.ApplicationConstants
-//import com.nordside_trading.ApplicationConstants
-import com.nordside_trading.BuildConfig
-import com.nordside_trading.MyApp
-//import com.nordside_trading.MyApp
-import com.nordside_trading.api.NordsideApi
-import com.nordside_trading.model.*
-import okhttp3.ConnectionSpec
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.example.nordside_mobile.ApplicationConstants
+import com.example.nordside_mobile.BuildConfig
+import com.example.nordside_mobile.MyApp
+import com.example.nordside_mobile.api.NordsideApi
+import com.example.nordside_mobile.model.*
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 class NordsideRepository() {
 

@@ -1,9 +1,9 @@
-package com.nordside_trading.viewmodel
+package com.example.nordside_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.nordside_trading.model.NomenclatureCollection
-import com.nordside_trading.repository.NordsideRepository
+import com.example.nordside_mobile.model.NomenclatureCollection
+import com.example.nordside_mobile.repository.NordsideRepository
 
 class FragmentCollectionViewModel:ViewModel() {
     var  nomenclatureList:LiveData<List<NomenclatureCollection>>? = null

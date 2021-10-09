@@ -1,4 +1,4 @@
-package com.nordside_trading.model
+package com.example.nordside_mobile.model
 
 import com.google.gson.annotations.SerializedName
 

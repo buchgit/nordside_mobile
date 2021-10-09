@@ -1,3 +1,3 @@
-package com.nordside_trading.model
+package com.example.nordside_mobile.model
 
 class ServerToken (var token:String = "")

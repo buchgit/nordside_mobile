@@ -1,8 +1,8 @@
-package com.nordside_trading.api
+package com.example.nordside_mobile.api
 
 
 
-import com.nordside_trading.model.*
+import com.example.nordside_mobile.model.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

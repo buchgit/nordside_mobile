@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">nordside_trading</string>
+    <string name="app_name">nordside_mobile</string>
     <string name="nomenclature_collection">Коллекции товара</string>
     <string name="nomenclature">Номенклатура</string>
     <string name="Login">Вход</string>

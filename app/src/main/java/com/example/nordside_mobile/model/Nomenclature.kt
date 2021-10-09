@@ -1,8 +1,8 @@
-package com.nordside_trading.model
+package com.example.nordside_mobile.model
 
 import android.net.Uri
 import com.google.gson.annotations.SerializedName
-import com.nordside_trading.BuildConfig
+import com.example.nordside_mobile.BuildConfig
 import java.io.Serializable
 
 class Nomenclature : Serializable {

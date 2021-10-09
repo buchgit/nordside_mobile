@@ -1,4 +1,4 @@
-package com.nordside_trading.ui
+package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -13,9 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.nordside_trading.R
-import com.nordside_trading.model.NomenclatureCollection
-import com.nordside_trading.viewmodel.FragmentCollectionViewModel
+import com.example.nordside_mobile.R
+import com.example.nordside_mobile.model.NomenclatureCollection
+import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
+
+
 
 class FragmentCollection:Fragment(), FragmentCategory.Callback {
 

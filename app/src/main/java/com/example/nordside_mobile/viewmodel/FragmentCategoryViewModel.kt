@@ -1,9 +1,9 @@
-package com.nordside_trading.viewmodel
+package com.example.nordside_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.nordside_trading.model.Category
-import com.nordside_trading.repository.NordsideRepository
+import com.example.nordside_mobile.model.Category
+import com.example.nordside_mobile.repository.NordsideRepository
 
 class FragmentCategoryViewModel: ViewModel() {
 

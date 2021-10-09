@@ -1,4 +1,4 @@
-package com.nordside_trading
+package com.example.nordside_mobile
 
 import android.app.Application
 import android.content.Context
