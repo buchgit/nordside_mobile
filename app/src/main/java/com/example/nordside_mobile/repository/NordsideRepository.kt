@@ -10,6 +10,8 @@ import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.model.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -175,12 +177,12 @@ class NordsideRepository() {
                 response: Response<ServerToken>
             ) {
                 val responseBody: ServerToken? = response.body()
-                Log.v(TAG, "${responseBody?.token} -> onResponse")
+                Log.v(TAG, "login -> onResponse")
                 listLiveData.value = responseBody
             }
 
             override fun onFailure(call: Call<ServerToken>, t: Throwable) {
-                Log.v(TAG, "${t.stackTrace.toString()} ->  onFailure")
+                Log.v(TAG, "login ->  onFailure")
             }
         })
 

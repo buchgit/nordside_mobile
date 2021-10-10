@@ -2,6 +2,7 @@ package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.LoginBody
 
 class FragmentLogin:Fragment() {
+
+    private val TAG = "${FragmentLogin::class.simpleName} ###"
 
     //private val viewModel by viewModels<FragmentLoginViewModel>()
     private lateinit var editTextEmail: EditText;
@@ -50,6 +53,9 @@ class FragmentLogin:Fragment() {
         buttonLogin.setOnClickListener() {
             //Toast.makeText(context,"Авторизация",Toast.LENGTH_SHORT).show()
             login = LoginBody(editTextEmail.text.toString(),editTextPassword.text.toString())
+
+            Log.v(TAG,"login ${login.email} ${login.password}")
+
             callbacks?.onLoginClicked(login)
         }
 
