@@ -2,12 +2,13 @@ package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,6 +22,7 @@ import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
 
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var navController:NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -59,6 +63,9 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(id: String) {
         Log.v(TAG, id)
+        val bundle = Bundle()
+        bundle.putString("id", id)
+        navController.navigate(R.id.action_fragmentCommon_to_fragmentCollection, bundle)
        // val collectionFragment = supportFragmentManager.findFragmentById(R.id.container_fragment_2) as FragmentCollection
         //collectionFragment.onCategorySelected(id)
     }

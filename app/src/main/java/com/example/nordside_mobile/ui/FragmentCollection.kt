@@ -25,6 +25,7 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
     private val collectionViewModel by viewModels<FragmentCollectionViewModel>()
     private var callbacks: Callback? = null
+    private var categoryId: String? = null
 
     companion object {
         fun newInstance(): FragmentCollection {
@@ -34,6 +35,11 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
 
     interface Callback {
         fun onCollectionSelected(id: String)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        categoryId = requireArguments().getString("id")
     }
 
     override fun onCreateView(
@@ -64,6 +70,9 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
                 Log.v(TAG, collectionViewModel.nomenclatureList!!.value.toString())
                 adapter = ItemCollectionAdapter(nomList)
             })
+
+        categoryId?.let { onCategorySelected(it) }
+
     }
 
     inner class ItemCollectionAdapter(var collectionList: List<NomenclatureCollection>) :

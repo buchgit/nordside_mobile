@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/fragmentCommon">
+
+    <fragment
+        android:id="@+id/fragmentCategory"
+        android:name="com.example.nordside_mobile.ui.FragmentCategory"
+        android:label="FragmentCategory" />
+    <fragment
+        android:id="@+id/fragmentCollection"
+        android:name="com.example.nordside_mobile.ui.FragmentCollection"
+        android:label="FragmentCollection" />
+    <fragment
+        android:id="@+id/fragmentNomenclatureList"
+        android:name="com.example.nordside_mobile.ui.FragmentNomenclatureList"
+        android:label="FragmentNomenclatureList" />
+    <fragment
+        android:id="@+id/fragmentNomenclatureItem"
+        android:name="com.example.nordside_mobile.ui.FragmentNomenclatureItem"
+        android:label="FragmentNomenclatureItem" />
+    <fragment
+        android:id="@+id/fragmentCommon"
+        android:name="com.example.nordside_mobile.ui.FragmentCommon"
+        android:label="FragmentCommon" >
+        <action
+            android:id="@+id/action_fragmentCommon_to_fragmentCollection"
+            app:destination="@id/fragmentCollection" />
+    </fragment>
+</navigation>
