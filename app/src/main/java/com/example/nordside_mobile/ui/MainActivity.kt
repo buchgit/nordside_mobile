@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(id: String) {
         Log.v(TAG, id)
-        val collectionFragment = supportFragmentManager.findFragmentById(R.id.container_fragment_2) as FragmentCollection
-        collectionFragment.onCategorySelected(id)
+       // val collectionFragment = supportFragmentManager.findFragmentById(R.id.container_fragment_2) as FragmentCollection
+        //collectionFragment.onCategorySelected(id)
     }
 
     //    //проброска клика по коллекции во фрагмент

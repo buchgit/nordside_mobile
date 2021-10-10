@@ -34,17 +34,17 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
                 .add(R.id.container_fragment_1, FragmentCategory.newInstance(), "FRAGMENT_CATEGORY")
                 .commit()
         }
-        val currentFragmentCollection =
-            childFragmentManager.findFragmentById(R.id.container_fragment_2)
-        if (currentFragmentCollection == null) {
-            childFragmentManager.beginTransaction()
-                .add(
-                    R.id.container_fragment_2,
-                    FragmentCollection.newInstance(),
-                    "FRAGMENT_COLLECTION"
-                )
-                .commit()
-        }
+//        val currentFragmentCollection =
+//            childFragmentManager.findFragmentById(R.id.container_fragment_2)
+//        if (currentFragmentCollection == null) {
+//            childFragmentManager.beginTransaction()
+//                .add(
+//                    R.id.container_fragment_2,
+//                    FragmentCollection.newInstance(),
+//                    "FRAGMENT_COLLECTION"
+//                )
+//                .commit()
+//        }
 
         val currentFragmentPartner =
             childFragmentManager.findFragmentById(R.id.container_fragment_3)
