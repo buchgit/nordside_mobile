@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.viewmodel.FragmentCategoryViewModel

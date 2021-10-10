@@ -8,21 +8,18 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.nordside_mobile.ui.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:name="com.example.nordside_mobile.ui.FragmentCategory"
+        android:label="@string/title_category"
+        tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/navigation_login"
         android:name="com.example.nordside_mobile.ui.FragmentLogin"
         android:label="@string/title_login"
         tools:layout="@layout/fragment_login" />
-
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.example.nordside_mobile.ui.FragmentCategory"
+        android:name="com.example.nordside_mobile.ui.FragmentCart"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_category" />
-
+        tools:layout="@layout/fragment_cart" />
 
 </navigation>
