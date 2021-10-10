@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -49,16 +48,21 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         navView.setupWithNavController(navController)
 
         //инициализируем файл для сохраниния параметров приложения
-       appSettins = getSharedPreferences(ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE)
+        appSettins = getSharedPreferences(
+            ApplicationConstants().SHARED_PREFERENCES_FILE,
+            Context.MODE_PRIVATE
+        )
 
     }
+
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(id: String) {
 //        //Log.v(TAG,id)
 //        val fragment = supportFragmentManager.findFragmentByTag("FRAGMENT_COMMON") as FragmentCommon
 //        fragment.onCategorySelected(id)
     }
-//    //проброска клика по коллекции во фрагмент
+
+    //    //проброска клика по коллекции во фрагмент
     override fun onCollectionSelected(id: String) {
 //        //Log.v(TAG, id)
 //        val fragment = FragmentNomenclatureList.newInstance(id)
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 //            .commit()
     }
 
-//    //проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
+    //    //проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
     override fun onNomenclatureSelected(nomenclature: Nomenclature) {
 //        val fragment = FragmentNomenclatureItem.newInstance(nomenclature)
 //        supportFragmentManager
@@ -83,11 +87,9 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         val token: LiveData<ServerToken> = NordsideRepository().login(login)
         token.observe(this,
             Observer {
-                Toast.makeText(this, token.value?.token,Toast.LENGTH_SHORT).show()
-                appSettins.edit().putString(ApplicationConstants().TOKEN,token.value?.token).apply()
-
-
-
+                Toast.makeText(this, token.value?.token, Toast.LENGTH_SHORT).show()
+                appSettins.edit().putString(ApplicationConstants().TOKEN, token.value?.token)
+                    .apply()
             })
 
 //        //открываем фрагмент

@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
 
-
 class FragmentNomenclatureItem : Fragment() {
 
     private lateinit var currentNomenclature: Nomenclature

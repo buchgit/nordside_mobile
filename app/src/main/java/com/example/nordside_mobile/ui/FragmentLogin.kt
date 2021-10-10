@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.LoginBody
 
-class FragmentLogin:Fragment() {
+class FragmentLogin : Fragment() {
 
     private val TAG = "${FragmentLogin::class.simpleName} ###"
 
@@ -21,16 +21,16 @@ class FragmentLogin:Fragment() {
     private lateinit var editTextPassword: EditText
     private lateinit var buttonLogin: Button
     private lateinit var buttonRegistration: Button
-    private var callbacks: Callback?=null
+    private var callbacks: Callback? = null
     private lateinit var login: LoginBody
 
-    companion object{
+    companion object {
         fun newInstance(): FragmentLogin {
             return FragmentLogin()
         }
     }
 
-    interface Callback{
+    interface Callback {
         fun onLoginClicked(login: LoginBody)
         fun onRegistrationClicked(login: LoginBody)
     }
@@ -41,7 +41,7 @@ class FragmentLogin:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_login,container,false)
+        val view = inflater.inflate(R.layout.fragment_login, container, false)
         editTextEmail = view.findViewById(R.id.et_email)
         editTextPassword = view.findViewById(R.id.et_password)
         buttonLogin = view.findViewById(R.id.button_login)
@@ -52,15 +52,15 @@ class FragmentLogin:Fragment() {
 
         buttonLogin.setOnClickListener() {
             //Toast.makeText(context,"Авторизация",Toast.LENGTH_SHORT).show()
-            login = LoginBody(editTextEmail.text.toString(),editTextPassword.text.toString())
+            login = LoginBody(editTextEmail.text.toString(), editTextPassword.text.toString())
 
-            Log.v(TAG,"login ${login.email} ${login.password}")
+            Log.v(TAG, "login ${login.email} ${login.password}")
 
             callbacks?.onLoginClicked(login)
         }
 
-        buttonRegistration.setOnClickListener{
-            login = LoginBody(editTextEmail.text.toString(),editTextPassword.text.toString())
+        buttonRegistration.setOnClickListener {
+            login = LoginBody(editTextEmail.text.toString(), editTextPassword.text.toString())
             callbacks?.onRegistrationClicked(login)
         }
         return view

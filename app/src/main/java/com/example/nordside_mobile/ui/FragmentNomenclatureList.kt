@@ -17,8 +17,6 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.viewmodel.NomenclatureListViewModel
 
-
-
 class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
 
     private val TAG = FragmentNomenclatureList::class.simpleName
@@ -27,7 +25,7 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
     private val collectionViewModel by viewModels<NomenclatureListViewModel>()
     private lateinit var collectionId: String
-    private var callbacks: CallbackNomenclature?=null
+    private var callbacks: CallbackNomenclature? = null
 
     companion object {
         fun newInstance(id: String): FragmentNomenclatureList {
@@ -36,7 +34,7 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
         }
     }
 
-    interface CallbackNomenclature{
+    interface CallbackNomenclature {
         fun onNomenclatureSelected(nomenclature: Nomenclature)
     }
 
@@ -53,7 +51,7 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
         val view = inflater.inflate(R.layout.fragment_nomenclature_list, container, false)
         textView = view.findViewById(R.id.tw_fragment_nomenclature)
         recyclerView = view.findViewById(R.id.recycler_view_fragment_nomenclature) as RecyclerView
-        recyclerView.layoutManager = GridLayoutManager(context,2)
+        recyclerView.layoutManager = GridLayoutManager(context, 2)
         //recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //код ниже - для поворота экрана
@@ -97,10 +95,13 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
 
     }
 
-    inner class ItemCollectionHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ItemCollectionHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_nomenclature)
-        private var textView_title: TextView = itemView.findViewById(R.id.tw_nomenclature_view_holder_1)
-        private var textView_lenght: TextView = itemView.findViewById(R.id.tw_nomenclature_view_holder_2)
+        private var textView_title: TextView =
+            itemView.findViewById(R.id.tw_nomenclature_view_holder_1)
+        private var textView_lenght: TextView =
+            itemView.findViewById(R.id.tw_nomenclature_view_holder_2)
         private lateinit var currentNomenclature: Nomenclature
         fun bind(nomenclature: Nomenclature) {
             currentNomenclature = nomenclature

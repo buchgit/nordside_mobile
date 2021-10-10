@@ -1,7 +1,5 @@
 package com.example.nordside_mobile.api
 
-
-
 import com.example.nordside_mobile.model.*
 import retrofit2.Call
 import retrofit2.http.Body
@@ -14,24 +12,21 @@ interface NordsideApi {
     fun getAllNomenclature(): Call<List<PriceTable>>
 
     @GET("rest/user/nomenclature/all?email=user@gmail.com")
-    fun getNomenclatureList():  Call<List<NomenclatureCollection>>
+    fun getNomenclatureList(): Call<List<NomenclatureCollection>>
 
     @GET("rest/user/category/all")
-    fun getAllCategory():  Call<List<Category>>
+    fun getAllCategory(): Call<List<Category>>
 
     @GET("rest/user/collection/category/{id}")
-    fun getCollectionByCategory(@Path("id") id: String):  Call<List<NomenclatureCollection>>
+    fun getCollectionByCategory(@Path("id") id: String): Call<List<NomenclatureCollection>>
 
     @GET("rest/user/nomenclature/collection/{id}")
-    fun getNomenclatureByCollection(@Path("id") id: String):  Call<List<Nomenclature>>
+    fun getNomenclatureByCollection(@Path("id") id: String): Call<List<Nomenclature>>
 
     @GET("rest/user/partner/all")
-    fun getAllPartner():Call<List<Partner>>
+    fun getAllPartner(): Call<List<Partner>>
 
     @POST("rest/user/auth")
-    fun login(@Body login:LoginBody):Call<ServerToken>
-
-//    @POST("rest/user/auth")
-//    fun login():Call<String>
+    fun login(@Body login: LoginBody): Call<ServerToken>
 
 }

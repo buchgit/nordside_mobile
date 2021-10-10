@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.nordside_mobile.R
 
-
 class FragmentCommon : Fragment(), FragmentCategory.Callback {
 
     private var TAG = FragmentCommon::class.simpleName
 
-    companion object{
+    companion object {
         fun newInstance(): FragmentCommon {
             return FragmentCommon()
         }
@@ -25,10 +24,11 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_common,container,false)
+        val view = inflater.inflate(R.layout.fragment_common, container, false)
 
-        val currentFragmentCategory = childFragmentManager.findFragmentById(R.id.container_fragment_1)
-        if (currentFragmentCategory==null){
+        val currentFragmentCategory =
+            childFragmentManager.findFragmentById(R.id.container_fragment_1)
+        if (currentFragmentCategory == null) {
             childFragmentManager
                 .beginTransaction()
                 .add(R.id.container_fragment_1, FragmentCategory.newInstance())
@@ -36,15 +36,21 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
 //                .add(R.id.container_fragment_3,FragmentPartner.newInstance())
                 .commit()
         }
-        val currentFragmentCollection = childFragmentManager.findFragmentById(R.id.container_fragment_2)
-        if (currentFragmentCollection == null){
+        val currentFragmentCollection =
+            childFragmentManager.findFragmentById(R.id.container_fragment_2)
+        if (currentFragmentCollection == null) {
             childFragmentManager.beginTransaction()
-                .add(R.id.container_fragment_2, FragmentCollection.newInstance(),  "FRAGMENT_COLLECTION")
+                .add(
+                    R.id.container_fragment_2,
+                    FragmentCollection.newInstance(),
+                    "FRAGMENT_COLLECTION"
+                )
                 .commit()
         }
 
-        val currentFragmentPartner = childFragmentManager.findFragmentById(R.id.container_fragment_3)
-        if (currentFragmentPartner == null){
+        val currentFragmentPartner =
+            childFragmentManager.findFragmentById(R.id.container_fragment_3)
+        if (currentFragmentPartner == null) {
             childFragmentManager.beginTransaction()
                 .add(R.id.container_fragment_3, FragmentPartner.newInstance())
                 .commit()
@@ -56,8 +62,9 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
 
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(id: String) {
-        Log.v(TAG,id)
-        val collectionFragment = childFragmentManager.findFragmentByTag("FRAGMENT_COLLECTION") as FragmentCollection
+        Log.v(TAG, id)
+        val collectionFragment =
+            childFragmentManager.findFragmentByTag("FRAGMENT_COLLECTION") as FragmentCollection
         collectionFragment.onCategorySelected(id)
     }
 
@@ -81,7 +88,5 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
 //        Log.v(TAG,id)
 //        val fragment = childFragmentManager.findFragmentByTag("FRAGMENT_NOMENCLATURE") as FragmentNomenclature
 //        fragment.onCollectionSelected(id)
- //   }
-
-
+    //   }
 }
