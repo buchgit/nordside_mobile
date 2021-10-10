@@ -31,9 +31,7 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
         if (currentFragmentCategory == null) {
             childFragmentManager
                 .beginTransaction()
-                .add(R.id.container_fragment_1, FragmentCategory.newInstance())
-//                .add(R.id.container_fragment_2,FragmentCollection.newInstance(),  "FRAGMENT_COLLECTION")
-//                .add(R.id.container_fragment_3,FragmentPartner.newInstance())
+                .add(R.id.container_fragment_1, FragmentCategory.newInstance(), "FRAGMENT_CATEGORY")
                 .commit()
         }
         val currentFragmentCollection =
@@ -62,10 +60,10 @@ class FragmentCommon : Fragment(), FragmentCategory.Callback {
 
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(id: String) {
-        Log.v(TAG, id)
-        val collectionFragment =
-            childFragmentManager.findFragmentByTag("FRAGMENT_COLLECTION") as FragmentCollection
-        collectionFragment.onCategorySelected(id)
+//        Log.v(TAG, id)
+//        val collectionFragment =
+//            childFragmentManager.findFragmentByTag("FRAGMENT_COLLECTION") as FragmentCollection
+//        collectionFragment.onCategorySelected(id)
     }
 
 //    override fun onCollectionSelected(id: String) {

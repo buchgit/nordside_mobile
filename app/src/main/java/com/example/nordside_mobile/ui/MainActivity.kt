@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -23,7 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
 
-    private var TAG = MainActivity::class.simpleName
+    private var TAG = "${MainActivity::class.simpleName} ###"
 
     lateinit var appSettins: SharedPreferences
 
@@ -57,9 +58,9 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(id: String) {
-//        //Log.v(TAG,id)
-//        val fragment = supportFragmentManager.findFragmentByTag("FRAGMENT_COMMON") as FragmentCommon
-//        fragment.onCategorySelected(id)
+        Log.v(TAG, id)
+        val collectionFragment = supportFragmentManager.findFragmentById(R.id.container_fragment_2) as FragmentCollection
+        collectionFragment.onCategorySelected(id)
     }
 
     //    //проброска клика по коллекции во фрагмент

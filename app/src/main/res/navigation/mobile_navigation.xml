@@ -8,9 +8,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.nordside_mobile.ui.FragmentCategory"
-        android:label="@string/title_category"
-        tools:layout="@layout/fragment_category" />
+        android:name="com.example.nordside_mobile.ui.FragmentCommon"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_common" />
     <fragment
         android:id="@+id/navigation_login"
         android:name="com.example.nordside_mobile.ui.FragmentLogin"

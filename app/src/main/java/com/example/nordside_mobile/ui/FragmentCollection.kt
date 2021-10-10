@@ -19,7 +19,7 @@ import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
 
 class FragmentCollection : Fragment(), FragmentCategory.Callback {
 
-    private val TAG = FragmentCollection::class.simpleName
+    private val TAG = "${FragmentCollection::class.simpleName} ###"
     private lateinit var recyclerView: RecyclerView
     private lateinit var textView: TextView
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
