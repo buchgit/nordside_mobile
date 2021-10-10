@@ -11,11 +11,19 @@
     <fragment
         android:id="@+id/fragmentCollection"
         android:name="com.example.nordside_mobile.ui.FragmentCollection"
-        android:label="FragmentCollection" />
+        android:label="FragmentCollection" >
+        <action
+            android:id="@+id/action_fragmentCollection_to_fragmentNomenclatureList"
+            app:destination="@id/fragmentNomenclatureList" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentNomenclatureList"
         android:name="com.example.nordside_mobile.ui.FragmentNomenclatureList"
-        android:label="FragmentNomenclatureList" />
+        android:label="FragmentNomenclatureList" >
+        <action
+            android:id="@+id/action_fragmentNomenclatureList_to_fragmentNomenclatureItem"
+            app:destination="@id/fragmentNomenclatureItem" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentNomenclatureItem"
         android:name="com.example.nordside_mobile.ui.FragmentNomenclatureItem"

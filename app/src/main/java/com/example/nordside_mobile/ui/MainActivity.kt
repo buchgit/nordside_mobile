@@ -66,29 +66,22 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         val bundle = Bundle()
         bundle.putString("id", id)
         navController.navigate(R.id.action_fragmentCommon_to_fragmentCollection, bundle)
-       // val collectionFragment = supportFragmentManager.findFragmentById(R.id.container_fragment_2) as FragmentCollection
-        //collectionFragment.onCategorySelected(id)
     }
 
     //    //проброска клика по коллекции во фрагмент
     override fun onCollectionSelected(id: String) {
-//        //Log.v(TAG, id)
-//        val fragment = FragmentNomenclatureList.newInstance(id)
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.container_activity_main_1, fragment)
-//            .addToBackStack("FRAGMENT_NOMENCLATURE_LIST")
-//            .commit()
+        Log.v(TAG, id)
+        val bundle = Bundle()
+        bundle.putString("id", id)
+        navController.navigate(R.id.action_fragmentCollection_to_fragmentNomenclatureList, bundle)
     }
 
     //    //проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
     override fun onNomenclatureSelected(nomenclature: Nomenclature) {
-//        val fragment = FragmentNomenclatureItem.newInstance(nomenclature)
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.container_activity_main_1, fragment)
-//            .addToBackStack("FRAGMENT_NOMENCLATURE")
-//            .commit()
+        Log.v(TAG, nomenclature.toString())
+        val bundle = Bundle()
+        bundle.putSerializable("nomenclature", nomenclature)
+        navController.navigate(R.id.action_fragmentNomenclatureList_to_fragmentNomenclatureItem, bundle)
     }
 
     override fun onLoginClicked(login: LoginBody) {

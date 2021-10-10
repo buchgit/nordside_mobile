@@ -22,15 +22,13 @@ class FragmentNomenclatureItem : Fragment() {
 
     companion object {
         fun newInstance(nomenclature: Nomenclature): FragmentNomenclatureItem {
-            return FragmentNomenclatureItem().apply {
-                arguments = Bundle().apply { putSerializable("NOMENCLATURE", nomenclature) }
-            }
+            return FragmentNomenclatureItem()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentNomenclature = arguments?.getSerializable("NOMENCLATURE") as Nomenclature
+        currentNomenclature = arguments?.getSerializable("nomenclature") as Nomenclature
     }
 
     @SuppressLint("SetJavaScriptEnabled")

@@ -67,13 +67,9 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
         super.onViewCreated(view, savedInstanceState)
         collectionViewModel.getNomenclatureByCollection(collectionId).observe(viewLifecycleOwner,
             Observer { nomList ->
-                //Log.v(TAG, nomList.size.toString())
-//                Log.v(
-//                    TAG,
-//                    collectionViewModel.getNomenclatureByCollection(collectionId).value.toString()
-//                )
                 adapter = ItemCollectionAdapter(nomList)
             })
+        onCollectionSelected(collectionId)
     }
 
     inner class ItemCollectionAdapter(var collectionList: List<Nomenclature>) :
