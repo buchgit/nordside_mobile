@@ -47,4 +47,12 @@
             android:id="@+id/action_fragmentCommon_to_fragmentCollection"
             app:destination="@id/fragmentCollection" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.example.nordside_mobile.ui.FragmentLogin"
+        android:label="FragmentLogin" />
+    <fragment
+        android:id="@+id/fragmentCart"
+        android:name="com.example.nordside_mobile.ui.FragmentCart"
+        android:label="FragmentCart" />
 </navigation>
