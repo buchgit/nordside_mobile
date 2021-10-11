@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     private var TAG = "${MainActivity::class.simpleName} ###"
 
     lateinit var appSettins: SharedPreferences
-
+//fdfdf
     private lateinit var binding: ActivityMainBinding
 
     lateinit var navController:NavController
