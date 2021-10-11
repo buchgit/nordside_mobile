@@ -61,13 +61,10 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         )
 
     }
+
     //back button on action var
     override fun onSupportNavigateUp(): Boolean {
-        return if (navController.navigateUp()) {
-            true
-        } else {
-            super.onSupportNavigateUp()
-        }
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     //проброска клика по категории во фрагмент
