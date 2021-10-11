@@ -52,12 +52,22 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
+
         //инициализируем файл для сохраниния параметров приложения
         appSettins = getSharedPreferences(
             ApplicationConstants().SHARED_PREFERENCES_FILE,
             Context.MODE_PRIVATE
         )
 
+    }
+    //back button on action var
+    override fun onSupportNavigateUp(): Boolean {
+        return if (navController.navigateUp()) {
+            true
+        } else {
+            super.onSupportNavigateUp()
+        }
     }
 
     //проброска клика по категории во фрагмент

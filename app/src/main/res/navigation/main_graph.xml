@@ -7,11 +7,11 @@
     <fragment
         android:id="@+id/fragmentCategory"
         android:name="com.example.nordside_mobile.ui.FragmentCategory"
-        android:label="FragmentCategory" />
+        android:label="Категории товара" />
     <fragment
         android:id="@+id/fragmentCollection"
         android:name="com.example.nordside_mobile.ui.FragmentCollection"
-        android:label="FragmentCollection" >
+        android:label="Коллекции">
         <action
             android:id="@+id/action_fragmentCollection_to_fragmentNomenclatureList"
             app:destination="@id/fragmentNomenclatureList" />
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/fragmentNomenclatureList"
         android:name="com.example.nordside_mobile.ui.FragmentNomenclatureList"
-        android:label="FragmentNomenclatureList" >
+        android:label="Номенклатура">
         <action
             android:id="@+id/action_fragmentNomenclatureList_to_fragmentNomenclatureItem"
             app:destination="@id/fragmentNomenclatureItem" />
@@ -27,11 +27,11 @@
     <fragment
         android:id="@+id/fragmentNomenclatureItem"
         android:name="com.example.nordside_mobile.ui.FragmentNomenclatureItem"
-        android:label="FragmentNomenclatureItem" />
+        android:label="Выбранная позиция" />
     <fragment
         android:id="@+id/fragmentCommon"
         android:name="com.example.nordside_mobile.ui.FragmentCommon"
-        android:label="FragmentCommon" >
+        android:label="Главная">
         <action
             android:id="@+id/action_fragmentCommon_to_fragmentCollection"
             app:destination="@id/fragmentCollection" />
