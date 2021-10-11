@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
     app:startDestination="@id/fragmentCommon">
 
@@ -11,23 +12,33 @@
     <fragment
         android:id="@+id/fragmentCollection"
         android:name="com.example.nordside_mobile.ui.FragmentCollection"
-        android:label="Коллекции">
+        android:label="{category_title}">
         <action
             android:id="@+id/action_fragmentCollection_to_fragmentNomenclatureList"
             app:destination="@id/fragmentNomenclatureList" />
+        <argument
+            android:name="category_title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNomenclatureList"
         android:name="com.example.nordside_mobile.ui.FragmentNomenclatureList"
-        android:label="Номенклатура">
+        android:label="{collection_title}">
         <action
             android:id="@+id/action_fragmentNomenclatureList_to_fragmentNomenclatureItem"
             app:destination="@id/fragmentNomenclatureItem" />
+        <argument
+            android:name="collection_title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNomenclatureItem"
         android:name="com.example.nordside_mobile.ui.FragmentNomenclatureItem"
-        android:label="Выбранная позиция" />
+        android:label="{nomenclature_name}" >
+        <argument
+            android:name="nomenclature_name"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentCommon"
         android:name="com.example.nordside_mobile.ui.FragmentCommon"

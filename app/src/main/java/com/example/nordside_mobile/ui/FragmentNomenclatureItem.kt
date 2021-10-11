@@ -29,6 +29,7 @@ class FragmentNomenclatureItem : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentNomenclature = arguments?.getSerializable("nomenclature") as Nomenclature
+
     }
 
     @SuppressLint("SetJavaScriptEnabled")

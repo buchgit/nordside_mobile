@@ -30,7 +30,7 @@ class FragmentCategory : Fragment() {
     }
 
     interface Callback {
-        fun onCategorySelected(id: String)
+        fun onCategorySelected(category: Category?)
     }
 
     override fun onCreateView(
@@ -61,8 +61,8 @@ class FragmentCategory : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            Toast.makeText(context, "${category?.id} pressed!", Toast.LENGTH_SHORT).show()
-            callbacks?.onCategorySelected(category?.id.toString())
+            Toast.makeText(context, "${category?.title} pressed!", Toast.LENGTH_SHORT).show()
+            callbacks?.onCategorySelected(category)
         }
 
         fun bind(param: Category?) {

@@ -17,7 +17,7 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.viewmodel.NomenclatureListViewModel
 
-class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
+class FragmentNomenclatureList : Fragment() {
 
     private val TAG = FragmentNomenclatureList::class.simpleName
     private lateinit var recyclerView: RecyclerView
@@ -25,6 +25,7 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
     private val collectionViewModel by viewModels<NomenclatureListViewModel>()
     private lateinit var collectionId: String
+    private lateinit var collection_title: String
     private var callbacks: CallbackNomenclature? = null
 
     companion object {
@@ -41,6 +42,7 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectionId = arguments?.getString("id") ?: "100008" //TODO    подумать, убрать ли хардкор
+        collection_title = arguments?.getString("collection_title")?:""
     }
 
     override fun onCreateView(
@@ -115,7 +117,7 @@ class FragmentNomenclatureList : Fragment(), FragmentCollection.Callback {
 
     }
 
-    override fun onCollectionSelected(id: String) {
+    private fun onCollectionSelected(id: String) {
         collectionViewModel.getNomenclatureByCollection(id).observe(viewLifecycleOwner,
             Observer { nomList ->
                 Log.v(TAG, nomList.size.toString())

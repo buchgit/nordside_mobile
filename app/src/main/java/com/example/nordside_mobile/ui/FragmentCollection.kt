@@ -14,10 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.NomenclatureCollection
 import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
 
-class FragmentCollection : Fragment(), FragmentCategory.Callback {
+class FragmentCollection : Fragment() {
 
     private val TAG = "${FragmentCollection::class.simpleName} ###"
     private lateinit var recyclerView: RecyclerView
@@ -26,6 +27,7 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
     private val collectionViewModel by viewModels<FragmentCollectionViewModel>()
     private var callbacks: Callback? = null
     private var categoryId: String? = null
+    private var categoryTitle: String? = null
 
     companion object {
         fun newInstance(): FragmentCollection {
@@ -34,12 +36,13 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
     }
 
     interface Callback {
-        fun onCollectionSelected(id: String)
+        fun onCollectionSelected(nomenclatureCollection: NomenclatureCollection)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         categoryId = requireArguments().getString("id")
+        categoryTitle = requireArguments().getString("category_title")
     }
 
     override fun onCreateView(
@@ -99,11 +102,11 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
         View.OnClickListener {
         var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_item_collection)
         var textView: TextView = itemView.findViewById(R.id.tw_item_collection_view_holder)
-        lateinit var nomeCollection: NomenclatureCollection
+        lateinit var currentCollection: NomenclatureCollection
 
         fun bind(nomenclatureCollection: NomenclatureCollection) {
-            nomeCollection = nomenclatureCollection
-            textView.setText(nomeCollection.title)
+            currentCollection = nomenclatureCollection
+            textView.setText(currentCollection.title)
         }
 
         init {
@@ -111,13 +114,13 @@ class FragmentCollection : Fragment(), FragmentCategory.Callback {
         }
 
         override fun onClick(v: View?) {
-            callbacks?.onCollectionSelected(nomeCollection.id.toString())
+            callbacks?.onCollectionSelected(currentCollection)
         }
 
     }
 
     //отработка клика по категории
-    override fun onCategorySelected(id: String) {
+    private fun onCategorySelected(id: String) {
         Log.v(TAG, id)
         collectionViewModel.getNomenclatureCollectionByCategoryId(id)
         collectionViewModel.nomenclatureList?.observe(viewLifecycleOwner, Observer {

@@ -16,9 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.nordside_mobile.ApplicationConstants
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
-import com.example.nordside_mobile.model.LoginBody
-import com.example.nordside_mobile.model.Nomenclature
-import com.example.nordside_mobile.model.ServerToken
+import com.example.nordside_mobile.model.*
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -52,14 +50,11 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
-
         //инициализируем файл для сохраниния параметров приложения
         appSettins = getSharedPreferences(
             ApplicationConstants().SHARED_PREFERENCES_FILE,
             Context.MODE_PRIVATE
         )
-
     }
 
     //back button on action var
@@ -68,26 +63,31 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     }
 
     //проброска клика по категории во фрагмент
-    override fun onCategorySelected(id: String) {
-        Log.v(TAG, id)
-        val bundle = Bundle()
-        bundle.putString("id", id)
-        navController.navigate(R.id.action_fragmentCommon_to_fragmentCollection, bundle)
+    override fun onCategorySelected(category: Category?) {
+        if (category != null) {
+            Log.v(TAG, category.title)
+            val bundle = Bundle()
+            bundle.putString("id", category.id)
+            bundle.putString("category_title",category.title)
+            navController.navigate(R.id.action_fragmentCommon_to_fragmentCollection, bundle)
+        }
     }
 
-    //    //проброска клика по коллекции во фрагмент
-    override fun onCollectionSelected(id: String) {
-        Log.v(TAG, id)
+    //проброска клика по коллекции во фрагмент
+    override fun onCollectionSelected(nomenclatureCollection: NomenclatureCollection) {
+        Log.v(TAG, nomenclatureCollection.id)
         val bundle = Bundle()
-        bundle.putString("id", id)
+        bundle.putString("id", nomenclatureCollection.id)
+        bundle.putString("collection_title", nomenclatureCollection.title)
         navController.navigate(R.id.action_fragmentCollection_to_fragmentNomenclatureList, bundle)
     }
 
-    //    //проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
+    //проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
     override fun onNomenclatureSelected(nomenclature: Nomenclature) {
         Log.v(TAG, nomenclature.toString())
         val bundle = Bundle()
         bundle.putSerializable("nomenclature", nomenclature)
+        bundle.putString("nomenclature_name",nomenclature.title)
         navController.navigate(R.id.action_fragmentNomenclatureList_to_fragmentNomenclatureItem, bundle)
     }
 
@@ -99,15 +99,6 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
                 appSettins.edit().putString(ApplicationConstants().TOKEN, token.value?.token)
                     .apply()
             })
-
-//        //открываем фрагмент
-//        val fragment = FragmentCommon.newInstance()
-//        Log.v(TAG, "FRAGMENT_COMMON")
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.container_activity_main_1, fragment, "FRAGMENT_COMMON")
-//            .addToBackStack("FRAGMENT_COMMON")
-//            .commit()
 
     }
 
