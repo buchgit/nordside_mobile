@@ -8,4 +8,5 @@
     <string name="title_login">Вход</string>
     <string name="title_cart">Корзина</string>
     <string name="title_category">Категории товаров</string>
+    <string name="logo">logo</string>
 </resources>
