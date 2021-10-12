@@ -9,7 +9,9 @@ class Nomenclature : Serializable {
     @SerializedName("name")
     var title: String = ""
 
-    //    var code:String  = "",
+    // 1C-code
+    var code:String  = ""
+
     @SerializedName("fullName")
     var fullName:String = ""
 

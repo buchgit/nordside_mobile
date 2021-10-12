@@ -1,0 +1,21 @@
+package com.example.nordside_mobile.dao
+
+import androidx.room.*
+import com.example.nordside_mobile.entity.CartPosition
+
+@Dao
+interface CartDao {
+
+    @Query("select * from CartPosition")
+    fun getAllCartPositions()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveCartPosition(cartPosition: CartPosition)
+
+    @Query("update CartPosition set count = :count where code =:code")
+    fun updateCartPosition(code: String, count:Int)
+
+    @Query("delete from CartPosition where code=:code ")
+    fun deleteCartPosition(code: String)
+
+}
