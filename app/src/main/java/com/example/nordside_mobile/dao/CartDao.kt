@@ -1,5 +1,6 @@
 package com.example.nordside_mobile.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.nordside_mobile.entity.CartPosition
 
@@ -7,7 +8,7 @@ import com.example.nordside_mobile.entity.CartPosition
 interface CartDao {
 
     @Query("select * from CartPosition")
-    fun getAllCartPositions()
+    fun getAllCartPositions():LiveData<List<CartPosition>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveCartPosition(cartPosition: CartPosition)
