@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -54,6 +55,7 @@ class FragmentCategory : Fragment() {
 
         private var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_category)
         private var textView: TextView = itemView.findViewById(R.id.tw_category_view_holder)
+        private var imageView: ImageView = itemView.findViewById(R.id.iw_category_view_holder)
         private var category: Category? = null
 
         init {
@@ -67,7 +69,14 @@ class FragmentCategory : Fragment() {
 
         fun bind(param: Category?) {
             category = param
+
             textView.text = category?.title ?: EMPTY_TITLE
+            when(textView.text) {
+                "Виниловый сайдинг" -> imageView.setImageResource(R.drawable.image_vinil_said)
+                "Фасадные панели" -> imageView.setImageResource(R.drawable.image_fasad_panel)
+                "ПВХ панели" -> imageView.setImageResource(R.drawable.image_panel_pvh)
+                "Водосточные системы" -> imageView.setImageResource(R.drawable.image_vodos_syst)
+            }
         }
 
     }
