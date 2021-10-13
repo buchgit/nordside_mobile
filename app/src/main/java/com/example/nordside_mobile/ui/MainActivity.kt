@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     private var TAG = "${MainActivity::class.simpleName} ###"
 
     lateinit var appSettins: SharedPreferences
-//fdfdf
+
     private lateinit var binding: ActivityMainBinding
 
     lateinit var navController:NavController
@@ -38,16 +39,13 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbarMain)
+        supportActionBar?.also {
+            it.setDisplayShowTitleEnabled(false)
+        }
+
         val navView: BottomNavigationView = binding.navView
-
         navController = findNavController(R.id.nav_host_fragment_activity_main)
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_login, R.id.navigation_cart
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         //инициализируем файл для сохраниния параметров приложения
@@ -57,10 +55,10 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         )
     }
 
-    //back button on action var
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
+//    //back button on action var
+//    override fun onSupportNavigateUp(): Boolean {
+//        return navController.navigateUp() || super.onSupportNavigateUp()
+//    }
 
     //проброска клика по категории во фрагмент
     override fun onCategorySelected(category: Category?) {

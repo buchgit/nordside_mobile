@@ -10,9 +10,10 @@
         android:id="@+id/container_fragment_1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/container_fragment_3"
-        app:layout_constraintVertical_weight="1">
+        app:layout_constraintBottom_toTopOf="@+id/container_fragment_3">
     </FrameLayout>
 
 <!--    <FrameLayout-->
@@ -28,6 +29,7 @@
         android:id="@+id/container_fragment_3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintTop_toBottomOf="@+id/container_fragment_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_weight="1">
