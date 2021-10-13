@@ -10,23 +10,36 @@ import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.model.*
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.IllegalStateException
 
-class NordsideRepository() {
+class NordsideRepository private constructor() {
 
     val TAG = NordsideRepository::class.java.simpleName
     var nordsideApi: NordsideApi
-
     var appSettins:SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
         ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE)
     var token: String? = appSettins?.getString(ApplicationConstants().TOKEN,"")
+
+    companion object{
+        private var instance: NordsideRepository? = null
+
+        fun initialize(){
+            if (instance == null){
+                instance = NordsideRepository()
+            }
+        }
+
+        fun get(): NordsideRepository {
+            return instance ?: throw IllegalStateException("Repository must be initialized")
+        }
+    }
+
 
     init {
 

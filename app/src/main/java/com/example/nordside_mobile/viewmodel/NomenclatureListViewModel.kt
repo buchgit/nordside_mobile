@@ -7,8 +7,10 @@ import com.example.nordside_mobile.repository.NordsideRepository
 
 class NomenclatureListViewModel: ViewModel() {
 
+    val repository: NordsideRepository = NordsideRepository.get()
+
     fun getNomenclatureByCollection(id:String):LiveData<List<Nomenclature>>{
-        return NordsideRepository().getNomenclatureByCollection(id)
+        return repository.getNomenclatureByCollection(id)
     }
 
 }

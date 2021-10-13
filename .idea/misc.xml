@@ -3,22 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/activity_main.xml" value="0.446521287642783" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/category_view_holder.xml" value="0.22395833333333334" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/fragment_category.xml" value="0.1859375" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/fragment_common.xml" value="0.1859375" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/fragment_home.xml" value="0.12291666666666666" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/fragment_nomenclature_list.xml" value="0.12291666666666666" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/fragment_partner.xml" value="0.1859375" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/logo_view.xml" value="0.18125" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/partner_view_holder.xml" value="0.22395833333333334" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/toolbar.xml" value="0.20052083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20052083333333334" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
+        <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/nordside_logo.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_category.xml" value="0.3532608695652174" />
