@@ -6,54 +6,98 @@
     android:layout_height="match_parent">
 
 
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginBottom="10dp"
+        android:hint="e-mail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/et_email_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="216dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
+        app:startIconDrawable="@drawable/outline_email_black_18dp"
+        app:layout_constraintBottom_toTopOf="@id/et_password_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Почта" />
+        app:layout_constraintVertical_bias="0.18"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent="0.80">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email"
-        tools:text="Пароль" />
+      </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/button_login"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:placeholderTextColor="?attr/colorPrimary"
+        android:hint="password"
+        app:endIconMode="password_toggle"
+        android:id="@+id/et_password_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/Login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_password" />
-
-    <Button
-        android:id="@+id/button_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/registration"
+        app:startIconDrawable="@drawable/outline_lock_black_18dp"
+        app:layout_constraintWidth_percent="0.80"
+        app:layout_constraintTop_toBottomOf="@+id/et_email_container"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/button_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Вход"
+        app:cornerRadius="50dp"
+        android:layout_marginBottom="10dp"
+        android:textAllCaps="false"
+        app:strokeColor="?attr/colorPrimary"
+        app:layout_constraintWidth_percent="0.60"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/button_registration"
+        app:layout_constraintTop_toBottomOf="@+id/et_password_container" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/button_registration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/registration"
+        android:textAllCaps="false"
+        app:cornerRadius="50dp"
+        app:strokeColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Забыли пароль?"
+        android:textSize="12sp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_registration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

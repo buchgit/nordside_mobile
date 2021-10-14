@@ -11,16 +11,18 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.LoginBody
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
 class FragmentLogin : Fragment() {
 
     private val TAG = "${FragmentLogin::class.simpleName} ###"
 
     //private val viewModel by viewModels<FragmentLoginViewModel>()
-    private lateinit var editTextEmail: EditText;
-    private lateinit var editTextPassword: EditText
-    private lateinit var buttonLogin: Button
-    private lateinit var buttonRegistration: Button
+    private lateinit var editTextEmail: TextInputEditText;
+    private lateinit var editTextPassword: TextInputEditText
+    private lateinit var buttonLogin: MaterialButton
+    private lateinit var buttonRegistration: MaterialButton
     private var callbacks: Callback? = null
     private lateinit var login: LoginBody
 
@@ -46,9 +48,6 @@ class FragmentLogin : Fragment() {
         editTextPassword = view.findViewById(R.id.et_password)
         buttonLogin = view.findViewById(R.id.button_login)
         buttonRegistration = view.findViewById(R.id.button_registration)
-
-        editTextEmail.setText("user@gmail.com")
-        editTextPassword.setText("user")
 
         buttonLogin.setOnClickListener() {
             //Toast.makeText(context,"Авторизация",Toast.LENGTH_SHORT).show()
