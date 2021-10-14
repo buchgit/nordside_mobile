@@ -7,6 +7,8 @@ import com.example.nordside_mobile.repository.NordsideRepository
 
 class FragmentCategoryViewModel: ViewModel() {
 
-    var categoryList:LiveData<List<Category>> = NordsideRepository().getAllCategory()
+    val repository: NordsideRepository = NordsideRepository.get()
+
+    var categoryList:LiveData<List<Category>> = repository.getAllCategory()
 
 }

@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     lateinit var navController:NavController
 
+    val repository: NordsideRepository = NordsideRepository.get()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -90,7 +92,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     }
 
     override fun onLoginClicked(login: LoginBody) {
-        val token: LiveData<ServerToken> = NordsideRepository().login(login)
+        val token: LiveData<ServerToken> = repository.login(login)
         token.observe(this,
             Observer {
                 Toast.makeText(this, token.value?.token, Toast.LENGTH_SHORT).show()

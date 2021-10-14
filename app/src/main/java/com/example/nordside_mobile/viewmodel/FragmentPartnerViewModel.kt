@@ -6,6 +6,8 @@ import com.example.nordside_mobile.model.Partner
 import com.example.nordside_mobile.repository.NordsideRepository
 
 class FragmentPartnerViewModel:ViewModel() {
-    var partnerList:LiveData<List<Partner>> = NordsideRepository().getAllPartner()
+
+    val repository: NordsideRepository = NordsideRepository.get()
+    var partnerList:LiveData<List<Partner>> = repository.getAllPartner()
 
 }

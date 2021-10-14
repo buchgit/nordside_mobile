@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
@@ -53,8 +55,8 @@ class FragmentNomenclatureList : Fragment() {
         val view = inflater.inflate(R.layout.fragment_nomenclature_list, container, false)
         textView = view.findViewById(R.id.tw_fragment_nomenclature)
         recyclerView = view.findViewById(R.id.recycler_view_fragment_nomenclature) as RecyclerView
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
-        //recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        //recyclerView.layoutManager = GridLayoutManager(context, 2)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //код ниже - для поворота экрана
         collectionViewModel.getNomenclatureByCollection(collectionId)
@@ -100,6 +102,15 @@ class FragmentNomenclatureList : Fragment() {
             itemView.findViewById(R.id.tw_nomenclature_view_holder_1)
         private var textView_lenght: TextView =
             itemView.findViewById(R.id.tw_nomenclature_view_holder_2)
+        private var textView_count: TextView =
+            itemView.findViewById(R.id.tw_nomenclature_view_holder_3)
+        private var button_plus: Button =
+            itemView.findViewById(R.id.button_plus)
+        private var button_minus: Button =
+            itemView.findViewById(R.id.button_minus)
+
+
+
         private lateinit var currentNomenclature: Nomenclature
         fun bind(nomenclature: Nomenclature) {
             currentNomenclature = nomenclature
@@ -109,6 +120,12 @@ class FragmentNomenclatureList : Fragment() {
 
         init {
             itemView.setOnClickListener(this)
+            button_plus.setOnClickListener(View.OnClickListener {
+                //TODO
+            })
+            button_minus.setOnClickListener(View.OnClickListener {
+                //TODO
+            })
         }
 
         override fun onClick(v: View?) {

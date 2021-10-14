@@ -7,9 +7,10 @@ import com.example.nordside_mobile.repository.NordsideRepository
 
 class FragmentCollectionViewModel:ViewModel() {
     var  nomenclatureList:LiveData<List<NomenclatureCollection>>? = null
+    val repository: NordsideRepository = NordsideRepository.get()
 
     fun getNomenclatureCollectionByCategoryId(id:String){
-        nomenclatureList = NordsideRepository().getCollectionByCategoryId(id)
+        nomenclatureList = repository.getCollectionByCategoryId(id)
     }
 
 }
