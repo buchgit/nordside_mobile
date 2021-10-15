@@ -13,6 +13,7 @@ import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.database.NordsideDataBase
+import com.example.nordside_mobile.database.SummaCountPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
 import kotlinx.coroutines.launch
@@ -225,16 +226,16 @@ class NordsideRepository private constructor(context: Context) {
     }
 
     @Transaction
-    fun saveToCart(code:String, count:Double) = runBlocking{
+    fun saveToCart(code:String, count:Double, summa:Double) = runBlocking{
         launch{
-            cartDao.saveCartPosition(CartPosition(UUID.randomUUID(), code,count))
+            cartDao.saveCartPosition(CartPosition(UUID.randomUUID(), code,count,summa))
             Log.v(TAG,cartDao.getCartPositionsCount(code).toString())
         }
     }
 
-    fun updateCartPosition(code:String, count:Double) = runBlocking{
+    fun updateCartPosition(code:String, count:Double, summa:Double) = runBlocking{
         launch{
-            cartDao.updateCartPosition(code,count)
+            cartDao.updateCartPosition(code,count,summa)
         }
     }
 
@@ -244,9 +245,11 @@ class NordsideRepository private constructor(context: Context) {
         }
     }
 
-    fun getCartPositionsCount(code:String):LiveData<Double> {
+    fun getCartPositionsCount(code:String):LiveData<SummaCountPojo> {
         return cartDao.getCartPositionsCount(code)
     }
+
+
 
 
 }

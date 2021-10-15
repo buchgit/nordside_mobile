@@ -32,6 +32,7 @@ class FragmentNomenclatureItem : Fragment() {
     private val nomenclatureItemViewModel by viewModels<NomenclatureItemViewModel>()
     private var COUNT_TO_CART = 1.00
     private var COUNT_TO_CART_MINUS = -1.00
+    private val DEFAULT_PRICE = 11.01
 
     companion object {
         fun newInstance(nomenclature: Nomenclature): FragmentNomenclatureItem {
@@ -63,7 +64,8 @@ class FragmentNomenclatureItem : Fragment() {
 
         nomenclatureItemViewModel.getCartPositionCount(currentNomenclature.code)
             .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                textView_3.setText(it.toString())
+                //count in the cart
+                textView_3.setText(it.count.toString())
             })
 
         webView = view.findViewById(R.id.wc_fragment_nomenclature_item_1)
@@ -78,11 +80,11 @@ class FragmentNomenclatureItem : Fragment() {
 
         button_add.setOnClickListener(View.OnClickListener {
             Log.v(TAG,it.id.toString())
-            nomenclatureItemViewModel.saveToCart(currentNomenclature.code, COUNT_TO_CART)
+            nomenclatureItemViewModel.saveToCart(currentNomenclature.code, COUNT_TO_CART, DEFAULT_PRICE)
         })
 
         button_del.setOnClickListener(View.OnClickListener {
-            nomenclatureItemViewModel.saveToCart(currentNomenclature.code, COUNT_TO_CART_MINUS)
+            nomenclatureItemViewModel.saveToCart(currentNomenclature.code, COUNT_TO_CART_MINUS, DEFAULT_PRICE)
         })
 
         val uri: Uri = currentNomenclature.imageUri
