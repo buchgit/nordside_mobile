@@ -221,6 +221,7 @@ class NordsideRepository private constructor(context: Context) {
             }
         })
 
+
         return listLiveData
     }
 

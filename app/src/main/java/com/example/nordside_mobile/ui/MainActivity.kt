@@ -23,79 +23,67 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
 
     private var TAG = "${MainActivity::class.simpleName} ###"
-
     lateinit var appSettins: SharedPreferences
-
     private lateinit var binding: ActivityMainBinding
-
     lateinit var navController:NavController
-
     val repository: NordsideRepository = NordsideRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         setSupportActionBar(binding.toolbarMain)
-        supportActionBar?.also {
-            it.setDisplayShowTitleEnabled(false)
-        }
+        supportActionBar?.also { it.setDisplayShowTitleEnabled(false) }
 
         val navView: BottomNavigationView = binding.navView
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
-        //инициализируем файл для сохраниния параметров приложения
         appSettins = getSharedPreferences(
             ApplicationConstants().SHARED_PREFERENCES_FILE,
             Context.MODE_PRIVATE
         )
     }
 
-//    //back button on action var
-//    override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp() || super.onSupportNavigateUp()
-//    }
+    // Общая функций для навигации
+    private fun launchDestination(destinationId: Int, args: Bundle?) {
+        navController.navigate(destinationId, args)
+    }
 
-    //проброска клика по категории во фрагмент
+    // Проброска клика по категории во фрагмент
     override fun onCategorySelected(category: Category?) {
-        if (category != null) {
+        category?.let {
             Log.v(TAG, category.title)
-            val bundle = Bundle()
-            bundle.putString("id", category.id)
-            bundle.putString("category_title",category.title)
-            navController.navigate(R.id.action_fragmentCommon_to_fragmentCollection, bundle)
+            launchDestination(R.id.fragmentCollection, FragmentCollection.createArgs(category))
         }
     }
 
-    //проброска клика по коллекции во фрагмент
+    // Проброска клика по коллекции во фрагмент
     override fun onCollectionSelected(nomenclatureCollection: NomenclatureCollection) {
         Log.v(TAG, nomenclatureCollection.id)
-        val bundle = Bundle()
-        bundle.putString("id", nomenclatureCollection.id)
-        bundle.putString("collection_title", nomenclatureCollection.title)
-        navController.navigate(R.id.action_fragmentCollection_to_fragmentNomenclatureList, bundle)
+        launchDestination(
+            R.id.fragmentNomenclatureList,
+            FragmentNomenclatureList.createArgs(nomenclatureCollection)
+        )
     }
 
-    //проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
+    // Проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
     override fun onNomenclatureSelected(nomenclature: Nomenclature) {
         Log.v(TAG, nomenclature.toString())
-        val bundle = Bundle()
-        bundle.putSerializable("nomenclature", nomenclature)
-        bundle.putString("nomenclature_name",nomenclature.title)
-        navController.navigate(R.id.action_fragmentNomenclatureList_to_fragmentNomenclatureItem, bundle)
+        launchDestination(
+            R.id.fragmentNomenclatureItem,
+            FragmentNomenclatureItem.createArgs(nomenclature)
+        )
     }
 
     override fun onLoginClicked(login: LoginBody) {
         val token: LiveData<ServerToken> = repository.login(login)
-        token.observe(this,
-            Observer {
-                Toast.makeText(this, token.value?.token, Toast.LENGTH_SHORT).show()
-                appSettins.edit().putString(ApplicationConstants().TOKEN, token.value?.token)
-                    .apply()
-            })
+        token.observe(this, Observer {
+            Toast.makeText(this, token.value?.token, Toast.LENGTH_SHORT).show()
+            appSettins.edit()
+                .putString(ApplicationConstants().TOKEN, token.value?.token)
+                .apply()
+        })
 
     }
 
@@ -103,4 +91,9 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     }
 
+
+//    //back button on action var
+//    override fun onSupportNavigateUp(): Boolean {
+//        return navController.navigateUp() || super.onSupportNavigateUp()
+//    }
 }

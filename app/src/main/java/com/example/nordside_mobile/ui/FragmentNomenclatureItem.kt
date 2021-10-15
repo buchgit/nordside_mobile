@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -34,9 +35,10 @@ class FragmentNomenclatureItem : Fragment() {
     private var COUNT_TO_CART_MINUS = -1.00
 
     companion object {
-        fun newInstance(nomenclature: Nomenclature): FragmentNomenclatureItem {
-            return FragmentNomenclatureItem()
-        }
+        fun createArgs(nomenclature: Nomenclature) = bundleOf(
+            "nomenclature" to nomenclature,
+            "nomenclature_name" to nomenclature.title
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
