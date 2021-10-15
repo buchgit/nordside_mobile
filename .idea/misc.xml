@@ -11,6 +11,8 @@
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/nordside_logo.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
+        <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/cart_view_holder.xml" value="0.2807971014492754" />
+        <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/category_view_holder.xml" value="0.2807971014492754" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_category.xml" value="0.3532608695652174" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_common.xml" value="0.1621376811594203" />
