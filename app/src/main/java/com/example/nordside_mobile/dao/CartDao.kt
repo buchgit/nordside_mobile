@@ -8,15 +8,18 @@ import com.example.nordside_mobile.entity.CartPosition
 interface CartDao {
 
     @Query("select * from CartPosition")
-    fun getAllCartPositions():LiveData<List<CartPosition>>
+    suspend fun getAllCartPositions():List<CartPosition>
+
+    @Query("select sum(count) as total from CartPosition where code=:code ")
+    fun getCartPositionsCount(code: String):LiveData<Double>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveCartPosition(cartPosition: CartPosition)
+    suspend fun saveCartPosition(cartPosition: CartPosition)
 
     @Query("update CartPosition set count = :count where code =:code")
-    fun updateCartPosition(code: String, count:Int)
+    suspend fun updateCartPosition(code: String, count:Double)
 
     @Query("delete from CartPosition where code=:code ")
-    fun deleteCartPosition(code: String)
+    suspend fun deleteCartPosition(code: String)
 
 }

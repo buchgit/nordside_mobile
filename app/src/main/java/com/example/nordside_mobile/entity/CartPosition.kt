@@ -11,4 +11,4 @@ data class CartPosition (@PrimaryKey val id:UUID = UUID.randomUUID(),
                          @ColumnInfo(name = "code") //при совпадении можно не писать
                          var code: String,
                          @ColumnInfo(name = "count")
-                         var count:Int)
+                         var count:Double)

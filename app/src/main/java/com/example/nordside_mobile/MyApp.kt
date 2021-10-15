@@ -19,7 +19,7 @@ class MyApp : Application() {
         instance = this;
 
         //create repository singleton
-        NordsideRepository.initialize()
+        NordsideRepository.initialize(this)
 
     }
 }
