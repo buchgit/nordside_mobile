@@ -1,15 +1,21 @@
 package com.example.nordside_mobile.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.nordside_mobile.utils.ApplicationConstants
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
 import com.example.nordside_mobile.model.*
-import com.example.nordside_mobile.data.repositories.NordsideRepository
+import com.example.nordside_mobile.repository.NordsideRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

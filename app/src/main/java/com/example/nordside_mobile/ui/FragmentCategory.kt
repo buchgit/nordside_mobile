@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
-import com.example.nordside_mobile.viewmodels.FragmentCategoryViewModel
+import com.example.nordside_mobile.viewmodel.FragmentCategoryViewModel
 
 class FragmentCategory : Fragment() {
     private lateinit var recyclerView: RecyclerView

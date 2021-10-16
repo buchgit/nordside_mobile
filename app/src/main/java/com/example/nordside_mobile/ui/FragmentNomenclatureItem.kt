@@ -13,10 +13,12 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
-import com.example.nordside_mobile.viewmodels.NomenclatureItemViewModel
+import com.example.nordside_mobile.viewmodel.NomenclatureItemViewModel
 import com.google.android.material.button.MaterialButton
+import java.util.*
 
 class FragmentNomenclatureItem : Fragment() {
 

@@ -1,8 +1,10 @@
-package com.example.nordside_mobile.viewmodels
+package com.example.nordside_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.nordside_mobile.data.repositories.NordsideRepository
+import com.example.nordside_mobile.model.Nomenclature
+import com.example.nordside_mobile.model.Partner
+import com.example.nordside_mobile.repository.NordsideRepository
 
 class NomenclatureItemViewModel:ViewModel() {
 

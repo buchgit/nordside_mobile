@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Partner
-import com.example.nordside_mobile.viewmodels.FragmentPartnerViewModel
+import com.example.nordside_mobile.viewmodel.FragmentPartnerViewModel
 
 class FragmentPartner : Fragment() {
 

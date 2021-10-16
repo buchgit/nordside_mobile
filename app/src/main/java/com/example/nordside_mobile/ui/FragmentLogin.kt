@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.withCreated
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.utils.ApplicationConstants
-import com.example.nordside_mobile.viewmodels.FragmentLoginViewModel
+import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

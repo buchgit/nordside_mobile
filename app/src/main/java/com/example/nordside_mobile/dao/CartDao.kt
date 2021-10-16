@@ -1,8 +1,8 @@
-package com.example.nordside_mobile.data.db.dao
+package com.example.nordside_mobile.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.nordside_mobile.data.db.entity.CartPosition
+import com.example.nordside_mobile.entity.CartPosition
 
 @Dao
 interface CartDao {

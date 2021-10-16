@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.nordside_mobile.databinding.FragmentHomeBinding
-import com.example.nordside_mobile.viewmodels.HomeViewModel
+import com.example.nordside_mobile.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 

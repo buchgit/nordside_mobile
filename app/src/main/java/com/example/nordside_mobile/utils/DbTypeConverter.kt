@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.data.db.typeconverters
+package com.example.nordside_mobile.utils
 
 import androidx.room.TypeConverter
 import java.util.*

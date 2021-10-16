@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.viewmodels
+package com.example.nordside_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

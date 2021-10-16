@@ -1,8 +1,9 @@
-package com.example.nordside_mobile.data.repositories
+package com.example.nordside_mobile.repository
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
@@ -10,9 +11,9 @@ import androidx.room.Transaction
 import com.example.nordside_mobile.utils.ApplicationConstants
 import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
-import com.example.nordside_mobile.data.network.api.NordsideApi
-import com.example.nordside_mobile.data.db.database.NordsideDataBase
-import com.example.nordside_mobile.data.db.entity.CartPosition
+import com.example.nordside_mobile.api.NordsideApi
+import com.example.nordside_mobile.database.NordsideDataBase
+import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
