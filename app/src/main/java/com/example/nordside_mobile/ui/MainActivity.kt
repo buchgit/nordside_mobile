@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
 
     private var TAG = "${MainActivity::class.simpleName} ###"
-    lateinit var appSettins: SharedPreferences
     private lateinit var binding: ActivityMainBinding
     lateinit var navController:NavController
     val repository: NordsideRepository = NordsideRepository.get()
@@ -39,15 +38,16 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
-        appSettins = getSharedPreferences(
-            ApplicationConstants().SHARED_PREFERENCES_FILE,
-            Context.MODE_PRIVATE
-        )
+
     }
 
     // Общая функций для навигации
-    private fun launchDestination(destinationId: Int, args: Bundle?) {
-        navController.navigate(destinationId, args)
+    private fun launchDestination(destinationId: Int, args: Bundle? = null) {
+        if (args != null) {
+            navController.navigate(destinationId, args)
+        } else {
+            navController.navigate(destinationId)
+        }
     }
 
     // Проброска клика по категории во фрагмент
@@ -76,15 +76,12 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         )
     }
 
-    override fun onLoginClicked(login: LoginBody) {
-        val token: LiveData<ServerToken> = repository.login(login)
-        token.observe(this, Observer {
-            Toast.makeText(this, token.value?.token, Toast.LENGTH_SHORT).show()
-            appSettins.edit()
-                .putString(ApplicationConstants().TOKEN, token.value?.token)
-                .apply()
-        })
-
+    override fun onLoginClicked(isCorrectLogin: Boolean) {
+        if (isCorrectLogin) {
+            launchDestination(R.id.fragmentPersonal)
+        } else {
+            launchDestination(R.id.fragmentForgotPass)
+        }
     }
 
     override fun onRegistrationClicked(login: LoginBody) {

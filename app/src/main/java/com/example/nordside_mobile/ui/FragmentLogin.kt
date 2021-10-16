@@ -3,66 +3,86 @@ package com.example.nordside_mobile.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.withCreated
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
+import com.example.nordside_mobile.utils.ApplicationConstants
+import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class FragmentLogin : Fragment() {
+class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private val TAG = "${FragmentLogin::class.simpleName} ###"
 
-    //private val viewModel by viewModels<FragmentLoginViewModel>()
-    private lateinit var editTextEmail: TextInputEditText;
-    private lateinit var editTextPassword: TextInputEditText
-    private lateinit var buttonLogin: MaterialButton
-    private lateinit var buttonRegistration: MaterialButton
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by viewModels<FragmentLoginViewModel>()
     private var callbacks: Callback? = null
-    private lateinit var login: LoginBody
+    private lateinit var loginBody: LoginBody
 
     companion object {
-        fun newInstance(): FragmentLogin {
-            return FragmentLogin()
-        }
+        fun createArgs() = bundleOf(
+        )
     }
 
     interface Callback {
-        fun onLoginClicked(login: LoginBody)
+        fun onLoginClicked(isCorrectLogin: Boolean)
         fun onRegistrationClicked(login: LoginBody)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
-        editTextEmail = view.findViewById(R.id.et_email)
-        editTextPassword = view.findViewById(R.id.et_password)
-        buttonLogin = view.findViewById(R.id.button_login)
-        buttonRegistration = view.findViewById(R.id.button_registration)
+        // Для метода bind требуется view, можно также через inflate в onCreateView и без конструктора в фрагменте
+        _binding = FragmentLoginBinding.bind(view)
 
-        buttonLogin.setOnClickListener() {
-            //Toast.makeText(context,"Авторизация",Toast.LENGTH_SHORT).show()
-            login = LoginBody(editTextEmail.text.toString(), editTextPassword.text.toString())
-
-            Log.v(TAG, "login ${login.email} ${login.password}")
-
-            callbacks?.onLoginClicked(login)
+        with(binding) {
+            buttonLogin.setOnClickListener() { loginButtonListener() }
+            buttonRegistration.setOnClickListener { registrationButtonListener() }
         }
+    }
 
-        buttonRegistration.setOnClickListener {
-            login = LoginBody(editTextEmail.text.toString(), editTextPassword.text.toString())
-            callbacks?.onRegistrationClicked(login)
+    private fun loginButtonListener() {
+        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        Log.v(TAG, "login ${loginBody.email} ${loginBody.password}")
+
+        viewModel.viewModelScope.launch {
+            val isCorrectLogin = viewModel.loginBodyChecker(loginBody)
+            val tokenLiveData = withContext(Dispatchers.Default) {
+                viewModel.logIn(loginBody)
+            }
+            // !!!!! Почему-то не работало с оберткой tokenLiveData.value?.let {}
+                tokenLiveData.observe(viewLifecycleOwner, Observer {
+                    Toast.makeText(requireActivity(), tokenLiveData.value?.token, Toast.LENGTH_SHORT).show()
+
+                    // !!!!! Подумать куда перенести SharedPref.
+                    val appSettings = requireActivity().getSharedPreferences(
+                        ApplicationConstants().SHARED_PREFERENCES_FILE,
+                        Context.MODE_PRIVATE
+                    )
+                    appSettings.edit()
+                        .putString(ApplicationConstants().TOKEN, tokenLiveData.value?.token)
+                        .apply()
+
+                })
+            callbacks?.onLoginClicked(isCorrectLogin)
         }
-        return view
+    }
+
+    private fun registrationButtonListener() {
+        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        callbacks?.onRegistrationClicked(loginBody)
     }
 
     override fun onAttach(context: Context) {
@@ -73,6 +93,7 @@ class FragmentLogin : Fragment() {
     override fun onDetach() {
         super.onDetach()
         callbacks = null
+        _binding = null
     }
 
 }
