@@ -1,9 +1,8 @@
-package com.example.nordside_mobile.entity
+package com.example.nordside_mobile.data.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.nordside_mobile.model.Nomenclature
 import java.util.*
 
 @Entity

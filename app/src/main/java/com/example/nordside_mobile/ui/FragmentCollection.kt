@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.NomenclatureCollection
-import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
+import com.example.nordside_mobile.viewmodels.FragmentCollectionViewModel
 
 class FragmentCollection : Fragment() {
 

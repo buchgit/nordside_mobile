@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.api
+package com.example.nordside_mobile.data.network.api
 
 import com.example.nordside_mobile.model.*
 import retrofit2.Call

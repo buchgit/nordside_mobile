@@ -1,11 +1,11 @@
-package com.example.nordside_mobile.database
+package com.example.nordside_mobile.data.db.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.nordside_mobile.dao.CartDao
-import com.example.nordside_mobile.entity.CartPosition
-import com.example.nordside_mobile.utils.DbTypeConverter
+import com.example.nordside_mobile.data.db.dao.CartDao
+import com.example.nordside_mobile.data.db.entity.CartPosition
+import com.example.nordside_mobile.data.db.typeconverters.DbTypeConverter
 
 @Database(entities = [CartPosition::class],version = 1)
 @TypeConverters(DbTypeConverter::class)

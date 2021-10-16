@@ -1,14 +1,13 @@
-package com.example.nordside_mobile.viewmodel
+package com.example.nordside_mobile.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
-import com.example.nordside_mobile.repository.NordsideRepository
+import com.example.nordside_mobile.data.repositories.NordsideRepository
 import com.example.nordside_mobile.usecases.LoginCheckerUseCase
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 // Переписать, чтобы репозиторий передавался в фабрике в конструкторе
 class FragmentLoginViewModel() : ViewModel() {
