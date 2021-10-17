@@ -44,7 +44,6 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Для метода bind требуется view, можно также через inflate в onCreateView и без конструктора в фрагменте
         _binding = FragmentLoginBinding.bind(view)
 
         with(binding) {
@@ -59,24 +58,12 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
         viewModel.viewModelScope.launch {
             val isCorrectLogin = viewModel.loginBodyChecker(loginBody)
-            val tokenLiveData = withContext(Dispatchers.Default) {
-                viewModel.logIn(loginBody)
+
+            // По идее нужен просто Token, не LiveData
+            val tokenLiveData = viewModel.logIn(loginBody, requireContext())
+            if (tokenLiveData != null) {
+                callbacks?.onLoginClicked(isCorrectLogin)
             }
-            // !!!!! Почему-то не работало с оберткой tokenLiveData.value?.let {}
-                tokenLiveData.observe(viewLifecycleOwner, Observer {
-                    Toast.makeText(requireActivity(), tokenLiveData.value?.token, Toast.LENGTH_SHORT).show()
-
-                    // !!!!! Подумать куда перенести SharedPref.
-                    val appSettings = requireActivity().getSharedPreferences(
-                        ApplicationConstants().SHARED_PREFERENCES_FILE,
-                        Context.MODE_PRIVATE
-                    )
-                    appSettings.edit()
-                        .putString(ApplicationConstants().TOKEN, tokenLiveData.value?.token)
-                        .apply()
-
-                })
-            callbacks?.onLoginClicked(isCorrectLogin)
         }
     }
 

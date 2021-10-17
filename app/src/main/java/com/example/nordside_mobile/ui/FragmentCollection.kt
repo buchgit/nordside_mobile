@@ -37,6 +37,7 @@ class FragmentCollection : Fragment() {
         )
     }
 
+
     interface Callback {
         fun onCollectionSelected(nomenclatureCollection: NomenclatureCollection)
     }

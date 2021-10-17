@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.nordside_mobile.utils.ApplicationConstants
 import com.example.nordside_mobile.R
@@ -27,6 +31,22 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     lateinit var navController:NavController
     val repository: NordsideRepository = NordsideRepository.get()
 
+    private var currentFragment: Fragment? = null
+
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentViewCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            v: View,
+            savedInstanceState: Bundle?
+        ) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            if (f is NavHostFragment) return
+            currentFragment = f
+            updateUi()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
@@ -38,7 +58,7 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
-
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
     }
 
     // Общая функций для навигации
@@ -88,9 +108,24 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     }
 
+    fun goBack() {
+        onBackPressed()
+    }
 
-//    //back button on action var
-//    override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp() || super.onSupportNavigateUp()
-//    }
+    private fun updateUi() {
+        when(currentFragment) {
+            is FragmentNomenclatureList, is FragmentNomenclatureItem, is FragmentCollection -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar?.setDisplayShowHomeEnabled(true)
+                }
+            else -> {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setDisplayShowHomeEnabled(false)
+            }
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+       return navController.navigateUp() || super.onSupportNavigateUp()
+   }
 }
