@@ -3,7 +3,6 @@ package com.example.nordside_mobile.repository
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
@@ -13,7 +12,7 @@ import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.database.NordsideDataBase
-import com.example.nordside_mobile.database.SummaCountPojo
+import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
 import kotlinx.coroutines.launch
@@ -226,16 +225,17 @@ class NordsideRepository private constructor(context: Context) {
     }
 
     @Transaction
-    fun saveToCart(code:String, count:Double, summa:Double) = runBlocking{
+    fun saveToCart(code:String, count:Double, summa:Double, title:String, unit:String) = runBlocking{
         launch{
-            cartDao.saveCartPosition(CartPosition(UUID.randomUUID(), code,count,summa))
+            deleteCartPosition(code)
+            cartDao.saveCartPosition(CartPosition(UUID.randomUUID(), code, count, summa, title, unit))
             Log.v(TAG,cartDao.getCartPositionsCount(code).toString())
         }
     }
 
-    fun updateCartPosition(code:String, count:Double, summa:Double) = runBlocking{
+    fun updateCartPosition(code:String, count:Double, summa:Double, title:String, unit:String) = runBlocking{
         launch{
-            cartDao.updateCartPosition(code,count,summa)
+            cartDao.updateCartPosition(code,count,summa, title, unit)
         }
     }
 
@@ -245,11 +245,19 @@ class NordsideRepository private constructor(context: Context) {
         }
     }
 
-    fun getCartPositionsCount(code:String):LiveData<SummaCountPojo> {
+//    fun cleanCart() = runBlocking{
+//        launch{
+//            cartDao.deleteAll()
+//        }
+//    }
+
+    fun getCartPositionsCount(code:String):LiveData<CartPositionPojo?> {
         return cartDao.getCartPositionsCount(code)
     }
 
-
+    fun getAllCartPosition(): LiveData<List<CartPositionPojo?>>{
+        return cartDao.getAllCartPositions()
+    }
 
 
 }

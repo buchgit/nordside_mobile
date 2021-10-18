@@ -10,14 +10,18 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.LifecycleOwner
+
+import androidx.lifecycle.Observer
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.viewmodel.NomenclatureItemViewModel
 import com.google.android.material.button.MaterialButton
-import java.util.*
+
 
 class FragmentNomenclatureItem : Fragment() {
 
@@ -30,9 +34,12 @@ class FragmentNomenclatureItem : Fragment() {
     private lateinit var button_add:MaterialButton
     private lateinit var button_del:MaterialButton
     private val nomenclatureItemViewModel by viewModels<NomenclatureItemViewModel>()
-    private var COUNT_TO_CART = 1.00
+    private var COUNT_TO_CART_PLUS = 1.00
     private var COUNT_TO_CART_MINUS = -1.00
-    private val DEFAULT_PRICE = 11.01
+    private var CURRENT_SUMMA = 0.00
+    private var currentCount:Double? = null
+    private var currentSumma:Double? = null
+    private var currentPrice:Double? = null
 
     companion object {
         fun newInstance(nomenclature: Nomenclature): FragmentNomenclatureItem {
@@ -46,7 +53,7 @@ class FragmentNomenclatureItem : Fragment() {
 
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled", "SetTextI18n", "ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,10 +70,26 @@ class FragmentNomenclatureItem : Fragment() {
         textView_2.setText(currentNomenclature.unit)
 
         nomenclatureItemViewModel.getCartPositionCount(currentNomenclature.code)
-            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                //count in the cart
-                textView_3.setText(it.count.toString())
-            })
+            .observe(viewLifecycleOwner,
+                Observer {
+                    if (it != null) {
+                        if (it.count != null) {
+                            currentCount = it.count
+                            currentSumma = it.summa
+                            textView_3.setText(
+                                String.format("%.2f", currentCount)) //two digit after decimal point
+                        } else {
+                            currentCount = 0.00
+                            currentSumma = 0.00
+                                textView_3.setText(getString(R.string.zero))
+                        }
+                    } else {
+                        currentCount = 0.00
+                        currentSumma = 0.00
+                            textView_3.setText(getString(R.string.zero))
+                    }
+                }
+            )
 
         webView = view.findViewById(R.id.wc_fragment_nomenclature_item_1)
         webView.settings.setJavaScriptEnabled(true)
@@ -79,12 +102,11 @@ class FragmentNomenclatureItem : Fragment() {
         }
 
         button_add.setOnClickListener(View.OnClickListener {
-            Log.v(TAG,it.id.toString())
-            nomenclatureItemViewModel.saveToCart(currentNomenclature.code, COUNT_TO_CART, DEFAULT_PRICE)
+            changeCart(this.button_add)
         })
 
         button_del.setOnClickListener(View.OnClickListener {
-            nomenclatureItemViewModel.saveToCart(currentNomenclature.code, COUNT_TO_CART_MINUS, DEFAULT_PRICE)
+            changeCart(this.button_del)
         })
 
         val uri: Uri = currentNomenclature.imageUri
@@ -92,6 +114,41 @@ class FragmentNomenclatureItem : Fragment() {
         //webView.loadUrl("http://192.168.1.179:8080/ru.nordside-1.4-SNAPSHOT/resources/static/images/00000000318.JPEG")
         webView.loadUrl(uri.toString())
         return view
+    }
+
+    fun changeCart(event:View){
+        currentPrice = currentSumma!! / currentCount!!
+        CURRENT_SUMMA = currentSumma as Double
+        if (event.id == R.id.button_add_fragment_nomenclature_item) {
+            CURRENT_SUMMA += currentPrice!!
+            COUNT_TO_CART_PLUS = currentCount?.plus(1.00) ?: 1.00
+            nomenclatureItemViewModel.saveToCart(
+                viewLifecycleOwner,
+                currentNomenclature.code,
+                COUNT_TO_CART_PLUS,
+                CURRENT_SUMMA,
+                currentNomenclature.title,
+                currentNomenclature.unit
+            )
+        } else if (event.id == R.id.button_delete_fragment_nomenclature_item) {
+            CURRENT_SUMMA -= currentPrice!!
+            if (currentCount == null) {
+                return
+            }
+            COUNT_TO_CART_MINUS = currentCount?.minus(1.00) ?: 0.00
+            if (COUNT_TO_CART_MINUS.compareTo(0.00) <= 0) {
+                nomenclatureItemViewModel.deleteCartPosition(currentNomenclature.code)
+            } else {
+                nomenclatureItemViewModel.saveToCart(
+                    viewLifecycleOwner,
+                    currentNomenclature.code,
+                    COUNT_TO_CART_MINUS,
+                    -CURRENT_SUMMA,
+                    currentNomenclature.title,
+                    currentNomenclature.unit
+                )
+            }
+        }
     }
 
 }
