@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
+import com.example.nordside_mobile.model.NomenclatureCollection
 import com.example.nordside_mobile.viewmodel.NomenclatureListViewModel
 
 class FragmentNomenclatureList : Fragment() {
@@ -31,10 +33,10 @@ class FragmentNomenclatureList : Fragment() {
     private var callbacks: CallbackNomenclature? = null
 
     companion object {
-        fun newInstance(id: String): FragmentNomenclatureList {
-            val args = Bundle().apply { putString("id", id) }
-            return FragmentNomenclatureList().apply { arguments = args }
-        }
+        fun createArgs(nomenclatureCollection: NomenclatureCollection) = bundleOf(
+            "id" to nomenclatureCollection.id,
+            "collection_title" to nomenclatureCollection.title
+        )
     }
 
     interface CallbackNomenclature {

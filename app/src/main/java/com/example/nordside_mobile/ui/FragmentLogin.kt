@@ -3,67 +3,95 @@ package com.example.nordside_mobile.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
+import com.example.nordside_mobile.usecases.ValidateState
+import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
+import kotlinx.coroutines.launch
 
-class FragmentLogin : Fragment() {
+class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private val TAG = "${FragmentLogin::class.simpleName} ###"
 
-    //private val viewModel by viewModels<FragmentLoginViewModel>()
-    private lateinit var editTextEmail: EditText;
-    private lateinit var editTextPassword: EditText
-    private lateinit var buttonLogin: Button
-    private lateinit var buttonRegistration: Button
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by viewModels<FragmentLoginViewModel>()
     private var callbacks: Callback? = null
-    private lateinit var login: LoginBody
+    private lateinit var loginBody: LoginBody
 
     companion object {
-        fun newInstance(): FragmentLogin {
-            return FragmentLogin()
-        }
+        fun createArgs() = bundleOf(
+        )
     }
 
     interface Callback {
-        fun onLoginClicked(login: LoginBody)
+        fun onLoginClicked(isCorrectLogin: Boolean)
         fun onRegistrationClicked(login: LoginBody)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
-        editTextEmail = view.findViewById(R.id.et_email)
-        editTextPassword = view.findViewById(R.id.et_password)
-        buttonLogin = view.findViewById(R.id.button_login)
-        buttonRegistration = view.findViewById(R.id.button_registration)
+        _binding = FragmentLoginBinding.bind(view)
 
-        editTextEmail.setText("user@gmail.com")
-        editTextPassword.setText("user")
-
-        buttonLogin.setOnClickListener() {
-            //Toast.makeText(context,"Авторизация",Toast.LENGTH_SHORT).show()
-            login = LoginBody(editTextEmail.text.toString(), editTextPassword.text.toString())
-
-            Log.v(TAG, "login ${login.email} ${login.password}")
-
-            callbacks?.onLoginClicked(login)
+        with(binding) {
+            buttonLogin.setOnClickListener() { loginButtonListener() }
+            buttonRegistration.setOnClickListener { registrationButtonListener() }
         }
+    }
 
-        buttonRegistration.setOnClickListener {
-            login = LoginBody(editTextEmail.text.toString(), editTextPassword.text.toString())
-            callbacks?.onRegistrationClicked(login)
+    private fun loginButtonListener() {
+        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        Log.v(TAG, "login ${loginBody.email} ${loginBody.password}")
+
+        viewModel.viewModelScope.launch {
+            val validateState = viewModel.loginBodyChecker(loginBody)
+            with(validateState) {
+
+                if (emailState == ValidateState.EmailState.OK
+                    && passwordState == ValidateState.PasswordState.OK) {
+
+                    // По идее нужен просто Token, не LiveData
+                    val tokenLiveData = viewModel.logIn(loginBody, requireContext())
+                    if (tokenLiveData != null) {
+                        callbacks?.onLoginClicked(true)
+                    }
+                }
+
+                when (emailState) {
+                    ValidateState.EmailState.EMPTY -> {
+                        binding.etEmailContainer.error = getString(R.string.email_empty)
+                    }
+                    ValidateState.EmailState.INCORRECT -> {
+                        binding.etEmailContainer.error = getString(R.string.email_incorrect)
+                    }
+                    ValidateState.EmailState.SMALL -> {
+                        binding.etEmailContainer.error = getString(R.string.email_small)
+                    }
+                }
+
+                when (passwordState) {
+                    ValidateState.PasswordState.EMPTY -> {
+                        binding.etPasswordContainer.error = getString(R.string.password_empty)
+                    }
+                    ValidateState.PasswordState.SMALL -> {
+                        binding.etPasswordContainer.error = getString(R.string.password_small)
+                    }
+                }
+
+            }
         }
-        return view
+    }
+
+    private fun registrationButtonListener() {
+        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        callbacks?.onRegistrationClicked(loginBody)
     }
 
     override fun onAttach(context: Context) {
@@ -74,6 +102,7 @@ class FragmentLogin : Fragment() {
     override fun onDetach() {
         super.onDetach()
         callbacks = null
+        _binding = null
     }
 
 }
