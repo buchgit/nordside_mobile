@@ -54,5 +54,13 @@
     <fragment
         android:id="@+id/fragmentCart"
         android:name="com.example.nordside_mobile.ui.FragmentCart"
-        android:label="Корзина" />
+        android:label="FragmentCart" />
+    <fragment
+        android:id="@+id/fragmentForgotPass"
+        android:name="com.example.nordside_mobile.ui.authoriz.FragmentForgotPass"
+        android:label="FragmentForgotPass" />
+    <fragment
+        android:id="@+id/fragmentPersonal"
+        android:name="com.example.nordside_mobile.ui.authoriz.FragmentPersonal"
+        android:label="FragmentPersonal" />
 </navigation>

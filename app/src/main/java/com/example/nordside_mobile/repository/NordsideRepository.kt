@@ -220,7 +220,6 @@ class NordsideRepository private constructor(context: Context) {
                 Log.v(TAG, "login ->  onFailure")
             }
         })
-
         return listLiveData
     }
 

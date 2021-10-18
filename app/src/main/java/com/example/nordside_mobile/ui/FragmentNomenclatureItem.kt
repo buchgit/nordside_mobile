@@ -10,18 +10,17 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
-import androidx.annotation.Nullable
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 
 import androidx.lifecycle.Observer
 import com.example.nordside_mobile.R
-import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.viewmodel.NomenclatureItemViewModel
 import com.google.android.material.button.MaterialButton
-
+import java.util.*
 
 class FragmentNomenclatureItem : Fragment() {
 
@@ -42,9 +41,10 @@ class FragmentNomenclatureItem : Fragment() {
     private var currentPrice:Double? = null
 
     companion object {
-        fun newInstance(nomenclature: Nomenclature): FragmentNomenclatureItem {
-            return FragmentNomenclatureItem()
-        }
+        fun createArgs(nomenclature: Nomenclature) = bundleOf(
+            "nomenclature" to nomenclature,
+            "nomenclature_name" to nomenclature.title
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

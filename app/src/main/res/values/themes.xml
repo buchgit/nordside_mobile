@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Nordside_mobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Nordside_mobile" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#3F59B5</item>
-        <item name="colorPrimaryVariant">#2196F3</item>
+        <item name="colorPrimary">#015DA8</item>
+        <item name="colorPrimaryVariant">#587DFF</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
