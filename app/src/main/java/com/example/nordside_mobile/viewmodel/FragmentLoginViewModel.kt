@@ -8,9 +8,9 @@ import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.usecases.GetTokenUseCase
-import com.example.nordside_mobile.usecases.LoginCheckerUseCase
+import com.example.nordside_mobile.usecases.LoginValidatorUseCase
+import com.example.nordside_mobile.usecases.ValidateState
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 // Переписать, чтобы репозиторий передавался в фабрике в конструкторе
 class FragmentLoginViewModel() : ViewModel() {
@@ -27,9 +27,9 @@ class FragmentLoginViewModel() : ViewModel() {
 //        return repositoryApi.login(loginBody)
     }
 
-    suspend fun loginBodyChecker(loginBody: LoginBody) : Boolean {
+    suspend fun loginBodyChecker(loginBody: LoginBody) : ValidateState {
         val isCorrectLoginDeferred = viewModelScope.async {
-            LoginCheckerUseCase.newInstance().execute(loginBody)
+            LoginValidatorUseCase.newInstance().execute(loginBody)
         }
         return isCorrectLoginDeferred.await()
     }

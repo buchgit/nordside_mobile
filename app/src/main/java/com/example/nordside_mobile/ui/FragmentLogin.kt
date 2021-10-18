@@ -4,22 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.withCreated
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
-import com.example.nordside_mobile.utils.ApplicationConstants
+import com.example.nordside_mobile.usecases.ValidateState
 import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FragmentLogin : Fragment(R.layout.fragment_login) {
 
@@ -57,12 +51,40 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         Log.v(TAG, "login ${loginBody.email} ${loginBody.password}")
 
         viewModel.viewModelScope.launch {
-            val isCorrectLogin = viewModel.loginBodyChecker(loginBody)
+            val validateState = viewModel.loginBodyChecker(loginBody)
+            with(validateState) {
 
-            // По идее нужен просто Token, не LiveData
-            val tokenLiveData = viewModel.logIn(loginBody, requireContext())
-            if (tokenLiveData != null) {
-                callbacks?.onLoginClicked(isCorrectLogin)
+                if (emailState == ValidateState.EmailState.OK
+                    && passwordState == ValidateState.PasswordState.OK) {
+
+                    // По идее нужен просто Token, не LiveData
+                    val tokenLiveData = viewModel.logIn(loginBody, requireContext())
+                    if (tokenLiveData != null) {
+                        callbacks?.onLoginClicked(true)
+                    }
+                }
+
+                when (emailState) {
+                    ValidateState.EmailState.EMPTY -> {
+                        binding.etEmailContainer.error = getString(R.string.email_empty)
+                    }
+                    ValidateState.EmailState.INCORRECT -> {
+                        binding.etEmailContainer.error = getString(R.string.email_incorrect)
+                    }
+                    ValidateState.EmailState.SMALL -> {
+                        binding.etEmailContainer.error = getString(R.string.email_small)
+                    }
+                }
+
+                when (passwordState) {
+                    ValidateState.PasswordState.EMPTY -> {
+                        binding.etPasswordContainer.error = getString(R.string.password_empty)
+                    }
+                    ValidateState.PasswordState.SMALL -> {
+                        binding.etPasswordContainer.error = getString(R.string.password_small)
+                    }
+                }
+
             }
         }
     }

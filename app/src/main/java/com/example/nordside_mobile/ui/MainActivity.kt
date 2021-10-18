@@ -108,10 +108,6 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
 
     }
 
-    fun goBack() {
-        onBackPressed()
-    }
-
     private fun updateUi() {
         when(currentFragment) {
             is FragmentNomenclatureList, is FragmentNomenclatureItem, is FragmentCollection -> {

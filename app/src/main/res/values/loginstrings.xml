@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email_empty">Введите email</string>
+    <string name="email_incorrect">Некорректный email</string>
+    <string name="email_small">Email должен содержать минимум 6 символов</string>
+    <string name="password_empty">Введите пароль</string>
+    <string name="password_small">Пароль должен содержать минимум 6 символов</string>
+</resources>
