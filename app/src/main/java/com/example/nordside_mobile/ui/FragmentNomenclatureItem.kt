@@ -33,7 +33,7 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
     private val TAG =  "${FragmentNomenclatureItem::class.simpleName} ###"
     private lateinit var currentNomenclature: Nomenclature
 
-    private val nomenclatureItemViewModel by viewModels<NomenclatureItemViewModel>()
+    private val nomenclatureItemViewModel: NomenclatureItemViewModel by viewModels()
     private var COUNT_TO_CART = 1.00
     private var COUNT_TO_CART_MINUS = -1.00
     private val DEFAULT_PRICE = 11.01
@@ -82,5 +82,10 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
         Glide.with(this)
             .load(currentNomenclature.imageUri)
             .into(binding.ivFragmentNomenclatureItem1)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        _binding = null
     }
 }

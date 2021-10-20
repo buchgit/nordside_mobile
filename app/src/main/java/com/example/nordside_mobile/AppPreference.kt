@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.data.preferences
+package com.example.nordside_mobile
 
 import android.content.Context
 import com.example.nordside_mobile.utils.ApplicationConstants
@@ -15,7 +15,7 @@ class AppPreference @Inject constructor(
         Context.MODE_PRIVATE
     )
 
-    fun saveString(key: String, value: String){
+    fun saveString(key: String, value: String?){
         appPreference.edit()
             .putString(key, value)
             .apply()

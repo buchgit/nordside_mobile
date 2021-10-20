@@ -35,6 +35,11 @@ class FragmentCart:Fragment() {
         return root
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        _binding = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
     }
