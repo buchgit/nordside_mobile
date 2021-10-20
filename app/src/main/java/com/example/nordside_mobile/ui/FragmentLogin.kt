@@ -13,8 +13,10 @@ import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.usecases.ValidateState
 import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private val TAG = "${FragmentLogin::class.simpleName} ###"

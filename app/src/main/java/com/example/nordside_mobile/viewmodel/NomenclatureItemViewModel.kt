@@ -6,10 +6,14 @@ import com.example.nordside_mobile.database.SummaCountPojo
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.model.Partner
 import com.example.nordside_mobile.repository.NordsideRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NomenclatureItemViewModel:ViewModel() {
+@HiltViewModel
+class NomenclatureItemViewModel @Inject constructor(
+    private val repository: NordsideRepository
+):ViewModel() {
 
-    private val repository: NordsideRepository = NordsideRepository.get()
     //var currentNomenclatureCode: String? = repository.getCurrentNomenclature()
 
     fun saveToCart(code: String, count: Double, summa:Double) {

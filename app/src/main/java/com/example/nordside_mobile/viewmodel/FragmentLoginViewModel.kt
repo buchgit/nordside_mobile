@@ -10,13 +10,15 @@ import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.usecases.GetTokenUseCase
 import com.example.nordside_mobile.usecases.LoginValidatorUseCase
 import com.example.nordside_mobile.usecases.ValidateState
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import javax.inject.Inject
 
-// Переписать, чтобы репозиторий передавался в фабрике в конструкторе
-class FragmentLoginViewModel() : ViewModel() {
-
-    private val repositoryApi: NordsideRepository = NordsideRepository.get()
-    private var tokenLiveData : LiveData<ServerToken>? = null
+@HiltViewModel
+class FragmentLoginViewModel @Inject constructor(
+    private val repositoryApi: NordsideRepository
+) : ViewModel() {
 
     suspend fun logIn(loginBody: LoginBody, context: Context) : LiveData<ServerToken>? {
         return GetTokenUseCase.newInstance().execute(
@@ -24,7 +26,6 @@ class FragmentLoginViewModel() : ViewModel() {
             repositoryApi,
             context
         )
-//        return repositoryApi.login(loginBody)
     }
 
     suspend fun loginBodyChecker(loginBody: LoginBody) : ValidateState {

@@ -17,7 +17,9 @@ import androidx.lifecycle.Observer
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.viewmodel.FragmentCategoryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentCategory : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val EMPTY_TITLE = "empty title of category"

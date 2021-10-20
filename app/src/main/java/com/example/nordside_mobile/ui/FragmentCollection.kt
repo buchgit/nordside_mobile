@@ -18,7 +18,9 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.NomenclatureCollection
 import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentCollection : Fragment() {
 
     private val TAG = "${FragmentCollection::class.simpleName} ###"
