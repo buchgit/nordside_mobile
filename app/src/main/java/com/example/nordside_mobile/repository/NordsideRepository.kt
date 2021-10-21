@@ -12,10 +12,12 @@ import com.example.nordside_mobile.utils.ApplicationConstants
 import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
+import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
 import com.example.nordside_mobile.database.SummaCountPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -26,75 +28,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.IllegalStateException
 import java.util.*
-
-class NordsideRepository private constructor(context: Context) {
-
-    private val DATABASE_NAME = "nordside database"
-
-    private val database : NordsideDataBase =
-        Room.databaseBuilder(
-            context.applicationContext,
-            NordsideDataBase::class.java,
-            DATABASE_NAME
-        ).build()
-
-    private val cartDao = database.cartDao()
-
-    companion object {
-
-        val TAG = "${NordsideRepository::class.java.simpleName} ###"
-        lateinit var nordsideApi: NordsideApi
-        var appSettins: SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
-            ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
-        )
-        var token: String? = appSettins?.getString(ApplicationConstants().TOKEN, "")
-
-        private var instance: NordsideRepository? = null
-
-        fun initialize(context: Context) {
-            if (instance == null) {
-                instance = NordsideRepository(context)
-            }
-        }
-
-        fun get(): NordsideRepository {
-            return instance ?: throw IllegalStateException("Repository must be initialized")
-        }
-    }
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-    init {
+@Singleton
+class NordsideRepository @Inject constructor(
+    @ApplicationContext context: Context,
+    private val cartDao: CartDao,
+    private val nordsideApi: NordsideApi
+) {
 
+    private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 
-//        val client = OkHttpClient.Builder().addInterceptor { chain ->
-//            val newRequest: Request = chain.request().newBuilder()
-//                .addHeader("Authorization", "Bearer $token")
-//                .build()
-//            chain.proceed(newRequest)
-//        }
-//            .build()
-
-//        val client = OkHttpClient.Builder().addInterceptor { chain ->
-//            val newRequest: Request = chain.request().newBuilder()
-//                .addHeader("Authorization", "Bearer $token")
-//                .build()
-//            chain.proceed(newRequest)
-//        }
-//            .build()
-
-
-//        val client = OkHttpClient.Builder()
-//            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS) )
-//            .build()
-
-        val retrofit: Retrofit = Retrofit.Builder()
-            //.client(client)
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        nordsideApi = retrofit.create(NordsideApi::class.java)
-    }
 
     fun getNomenclatureList(): LiveData<List<NomenclatureCollection>> {
         val nomenclatureCollectionList: MutableLiveData<List<NomenclatureCollection>> =
@@ -118,6 +64,7 @@ class NordsideRepository private constructor(context: Context) {
         return nomenclatureCollectionList
     }
 
+
     fun getAllCategory(): LiveData<List<Category>> {
         val listLiveData: MutableLiveData<List<Category>> = MutableLiveData()
         val siteRequest: Call<List<Category>> = nordsideApi.getAllCategory()
@@ -137,6 +84,7 @@ class NordsideRepository private constructor(context: Context) {
         })
         return listLiveData
     }
+
 
     fun getCollectionByCategoryId(id: String): LiveData<List<NomenclatureCollection>> {
         val listLiveData: MutableLiveData<List<NomenclatureCollection>> = MutableLiveData()
@@ -161,6 +109,7 @@ class NordsideRepository private constructor(context: Context) {
         return listLiveData
     }
 
+
     fun getNomenclatureByCollection(id: String): LiveData<List<Nomenclature>> {
         val listLiveData: MutableLiveData<List<Nomenclature>> = MutableLiveData()
         val siteRequest: Call<List<Nomenclature>> = nordsideApi.getNomenclatureByCollection(id)
@@ -180,6 +129,7 @@ class NordsideRepository private constructor(context: Context) {
         })
         return listLiveData
     }
+
 
     fun getAllPartner(): LiveData<List<Partner>> {
         val listLiveData: MutableLiveData<List<Partner>> = MutableLiveData()
@@ -224,6 +174,7 @@ class NordsideRepository private constructor(context: Context) {
         return listLiveData
     }
 
+
     @Transaction
     fun saveToCart(code:String, count:Double, summa:Double) = runBlocking{
         launch{
@@ -247,10 +198,6 @@ class NordsideRepository private constructor(context: Context) {
     fun getCartPositionsCount(code:String):LiveData<SummaCountPojo> {
         return cartDao.getCartPositionsCount(code)
     }
-
-
-
-
 }
 
 

@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.nordside_mobile.databinding.FragmentCartBinding
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentCart:Fragment() {
 
     private val cartViewModel by viewModels<FragmentCartViewModel>()
@@ -31,6 +33,11 @@ class FragmentCart:Fragment() {
 
 
         return root
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        _binding = null
     }
 
     override fun onDestroy() {

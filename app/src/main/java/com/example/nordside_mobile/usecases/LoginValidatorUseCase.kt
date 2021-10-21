@@ -1,8 +1,9 @@
 package com.example.nordside_mobile.usecases
 
 import com.example.nordside_mobile.model.LoginBody
+import javax.inject.Inject
 
-class LoginValidatorUseCase {
+class LoginValidatorUseCase @Inject constructor() {
 
     suspend fun execute(loginBody: LoginBody) : ValidateState {
 
@@ -29,9 +30,6 @@ class LoginValidatorUseCase {
         return validateState
     }
 
-    companion object {
-        fun newInstance() = LoginValidatorUseCase()
-    }
 }
 
 data class ValidateState (

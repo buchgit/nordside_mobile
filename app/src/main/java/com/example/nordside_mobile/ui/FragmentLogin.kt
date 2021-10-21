@@ -13,15 +13,16 @@ import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.usecases.ValidateState
 import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private val TAG = "${FragmentLogin::class.simpleName} ###"
-
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<FragmentLoginViewModel>()
+    private val viewModel: FragmentLoginViewModel by viewModels()
     private var callbacks: Callback? = null
     private lateinit var loginBody: LoginBody
 
@@ -57,8 +58,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
                 if (emailState == ValidateState.EmailState.OK
                     && passwordState == ValidateState.PasswordState.OK) {
 
-                    // По идее нужен просто Token, не LiveData
-                    val tokenLiveData = viewModel.logIn(loginBody, requireContext())
+                    val tokenLiveData = viewModel.logIn(loginBody)
                     if (tokenLiveData != null) {
                         callbacks?.onLoginClicked(true)
                     }

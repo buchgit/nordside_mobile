@@ -20,14 +20,16 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.model.NomenclatureCollection
 import com.example.nordside_mobile.viewmodel.NomenclatureListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentNomenclatureList : Fragment() {
 
     private val TAG = FragmentNomenclatureList::class.simpleName
     private lateinit var recyclerView: RecyclerView
     private lateinit var textView: TextView
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
-    private val collectionViewModel by viewModels<NomenclatureListViewModel>()
+    private val collectionViewModel : NomenclatureListViewModel by viewModels()
     private lateinit var collectionId: String
     private lateinit var collection_title: String
     private var callbacks: CallbackNomenclature? = null
