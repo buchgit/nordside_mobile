@@ -1,14 +1,11 @@
 package com.example.nordside_mobile.di.modules
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.nordside_mobile.BuildConfig
-import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
-import com.example.nordside_mobile.utils.ApplicationConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

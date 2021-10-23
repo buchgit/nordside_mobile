@@ -1,12 +1,16 @@
 package com.example.nordside_mobile.usecases
 
 import android.util.Log
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.*
+import com.bumptech.glide.manager.Lifecycle
 import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.NordsideRepository
+import com.example.nordside_mobile.ui.MainActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -20,18 +24,20 @@ class GetTokenUseCase @Inject constructor(
 
     suspend fun execute(
         loginBody: LoginBody,
-    ) : LiveData<ServerToken>? {
-        var tokenLiveData: LiveData<ServerToken>?= null
+    ): LiveData<ServerToken>? {
+        var tokenLiveData: LiveData<ServerToken>? = null
         try {
-
-            withContext(Dispatchers.Default) {
-                tokenLiveData = repositoryApi.login(loginBody)
-            }
-
-            sharedPreferences.saveString(ApplicationConstants().TOKEN, tokenLiveData?.value?.token)
-
+            tokenLiveData = repositoryApi.login(loginBody)
+            tokenLiveData.observe(
+                ProcessLifecycleOwner.get(),
+                Observer {
+                    sharedPreferences.saveString(
+                        ApplicationConstants().TOKEN,
+                        tokenLiveData.value?.token
+                    )
+                })
         } catch (throwable: Throwable) {
-            when(throwable) {
+            when (throwable) {
                 is HttpException -> {
                     Log.v(TAG, "HttpException")
                 }

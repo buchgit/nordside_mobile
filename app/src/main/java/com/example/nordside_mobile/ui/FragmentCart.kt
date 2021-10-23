@@ -66,10 +66,10 @@ class FragmentCart:Fragment() {
 
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        _binding = null
-    }
+//    override fun onDetach() {
+//        super.onDetach()
+//        _binding = null
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -50,7 +50,11 @@
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="com.example.nordside_mobile.ui.FragmentLogin"
-        android:label="Login" />
+        android:label="Login" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentCommon"
+            app:destination="@id/fragmentCommon" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentCart"
         android:name="com.example.nordside_mobile.ui.FragmentCart"

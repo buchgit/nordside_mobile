@@ -1,22 +1,20 @@
 package com.example.nordside_mobile.repository
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import androidx.room.Transaction
+import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.usecases.ApplicationConstants
 import com.example.nordside_mobile.BuildConfig
-import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
-import com.example.nordside_mobile.usecases.SharedPreferencesData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -28,11 +26,17 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.IllegalStateException
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NordsideRepository private constructor(context: Context) {
+@Singleton
+class NordsideRepository @Inject constructor(@ApplicationContext context: Context,
+                                             private val cartDao: CartDao,
+                                             private val nordsideApi: NordsideApi,
+                                             private val appSetting: AppPreference) {
 
+    private val TAG = "${NordsideRepository::class.java.simpleName} ###"
     private val DATABASE_NAME = "nordside database"
 
     private val database : NordsideDataBase =
@@ -42,40 +46,32 @@ class NordsideRepository private constructor(context: Context) {
             DATABASE_NAME
         ).build()
 
-    private val cartDao = database.cartDao()
+    //private val cartDao = database.cartDao()
 
     companion object {
 
-        val TAG = "${NordsideRepository::class.java.simpleName} ###"
-        lateinit var nordsideApi: NordsideApi
+        //val TAG = "${NordsideRepository::class.java.simpleName} ###"
+        //lateinit var nordsideApi: NordsideApi
 
-        private var instance: NordsideRepository? = null
+//        private var instance: NordsideRepository? = null
+//
+//        fun initialize(context: Context) {
+//            if (instance == null) {
+//                instance = NordsideRepository(context)
+//            }
+//        }
 
-        fun initialize(context: Context) {
-            if (instance == null) {
-                instance = NordsideRepository(context)
-            }
-        }
-
-        fun get(): NordsideRepository {
-            return instance ?: throw IllegalStateException("Repository must be initialized")
-        }
+//        fun get(): NordsideRepository {
+//            return instance ?: throw IllegalStateException("Repository must be initialized")
+//        }
     }
 
-import javax.inject.Inject
-import javax.inject.Singleton
 
+//        val appSettins: SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
+//            ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
+//        )
+        val token: String? = appSetting.getSavedString(ApplicationConstants().TOKEN)
 
-        val appSettins: SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
-            ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
-        )
-        val token: String? = appSettins?.getString(ApplicationConstants().TOKEN, "")
-@Singleton
-class NordsideRepository @Inject constructor(
-    @ApplicationContext context: Context,
-    private val cartDao: CartDao,
-    private val nordsideApi: NordsideApi
-) {
 
         val client = OkHttpClient.Builder().addInterceptor { chain ->
             val newRequest: Request = chain.request().newBuilder()
@@ -84,7 +80,6 @@ class NordsideRepository @Inject constructor(
             chain.proceed(newRequest)
         }
             .build()
-    private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 
 //        val client = OkHttpClient.Builder().addInterceptor { chain ->
 //            val newRequest: Request = chain.request().newBuilder()
@@ -104,9 +99,6 @@ class NordsideRepository @Inject constructor(
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-        nordsideApi = retrofit.create(NordsideApi::class.java)
-    }
 
     fun getNomenclatureList(): LiveData<List<NomenclatureCollection>> {
         val nomenclatureCollectionList: MutableLiveData<List<NomenclatureCollection>> =
@@ -294,8 +286,6 @@ class NordsideRepository @Inject constructor(
     fun getAllCartPosition(): LiveData<List<CartPositionPojo?>>{
         return cartDao.getAllCartPositions()
     }
-
-
 
 }
 
