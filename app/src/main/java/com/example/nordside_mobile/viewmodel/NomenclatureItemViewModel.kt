@@ -9,11 +9,17 @@ import androidx.lifecycle.ViewModel
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.ui.FragmentNomenclatureItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NomenclatureItemViewModel:ViewModel() {
+@HiltViewModel
+class NomenclatureItemViewModel @Inject constructor(
+    private val repository: NordsideRepository
+):ViewModel() {
 
     private val TAG =  "${NomenclatureItemViewModel::class.simpleName} ###"
     private val repository: NordsideRepository = NordsideRepository.get()
+    //var currentNomenclatureCode: String? = repository.getCurrentNomenclature()
 
     fun saveToCart(owner: LifecycleOwner, code: String, count: Double, summa:Double, title:String, unit:String) {
         repository.saveToCart(code, count, summa, title, unit)

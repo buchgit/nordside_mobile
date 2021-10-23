@@ -14,8 +14,10 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import com.google.android.material.button.MaterialButton
 
+@AndroidEntryPoint
 class FragmentCart:Fragment() {
 
     private val cartViewModel by viewModels<FragmentCartViewModel>()
@@ -62,6 +64,11 @@ class FragmentCart:Fragment() {
                 recyclerView.adapter = CartAdapter(it)
             })
 
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        _binding = null
     }
 
     override fun onDestroy() {

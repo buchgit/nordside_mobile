@@ -23,13 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <WebView
-                android:id="@+id/wc_fragment_nomenclature_item_1"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_fragment_nomenclature_item_1"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/tw_fragment_nomenclature_item_1"
@@ -39,7 +39,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wc_fragment_nomenclature_item_1" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_fragment_nomenclature_item_1" />
 
             <TextView
                 android:id="@+id/tw_fragment_nomenclature_item_2"

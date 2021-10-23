@@ -15,15 +15,15 @@ import com.example.nordside_mobile.databinding.ActivityMainBinding
 import com.example.nordside_mobile.model.*
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
-    lateinit var navController:NavController
-    val repository: NordsideRepository = NordsideRepository.get()
+    lateinit var navController: NavController
 
     private var currentFragment: Fragment? = null
 

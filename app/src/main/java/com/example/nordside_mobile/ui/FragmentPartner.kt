@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Partner
 import com.example.nordside_mobile.viewmodel.FragmentPartnerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentPartner : Fragment() {
 
     private lateinit var recyclerView: RecyclerView

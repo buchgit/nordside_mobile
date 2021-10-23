@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.model.PriceTable
 import com.example.nordside_mobile.repository.NordsideRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NomenclatureListViewModel: ViewModel() {
-
-    val repository: NordsideRepository = NordsideRepository.get()
+@HiltViewModel
+class NomenclatureListViewModel @Inject constructor(
+    val repository: NordsideRepository
+): ViewModel() {
 
     fun getNomenclatureByCollection(id:String):LiveData<List<Nomenclature>>{
         return repository.getNomenclatureByCollection(id)
