@@ -2,13 +2,16 @@ package com.example.nordside_mobile.model
 
 import android.net.Uri
 import com.example.nordside_mobile.BuildConfig
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class PriceTable(
-    var id: String = "",
-    var nomenclature: Nomenclature? = null,
-    var unit: String = "",
+class PriceTable: Serializable{
+
+    var id: String = ""
+    var nomenclature: Nomenclature? = null
+    var unit: String = ""
     var price: Double = 0.00
-) {
+
     val imageUri: Uri
         get() {
             return Uri.parse(BuildConfig.BASE_URL)

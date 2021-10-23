@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.NordsideRepository
-import com.example.nordside_mobile.utils.ApplicationConstants
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 

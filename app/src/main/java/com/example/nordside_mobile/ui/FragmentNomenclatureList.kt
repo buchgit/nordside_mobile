@@ -2,7 +2,6 @@ package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,24 +12,23 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
-import com.example.nordside_mobile.model.Nomenclature
 import com.example.nordside_mobile.model.NomenclatureCollection
+import com.example.nordside_mobile.model.PriceTable
 import com.example.nordside_mobile.viewmodel.NomenclatureListViewModel
 
 class FragmentNomenclatureList : Fragment() {
 
     private val TAG = FragmentNomenclatureList::class.simpleName
     private lateinit var recyclerView: RecyclerView
-    private lateinit var textView: TextView
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
     private val collectionViewModel by viewModels<NomenclatureListViewModel>()
     private lateinit var collectionId: String
     private lateinit var collection_title: String
     private var callbacks: CallbackNomenclature? = null
+    private lateinit var textView: TextView
 
     companion object {
         fun createArgs(nomenclatureCollection: NomenclatureCollection) = bundleOf(
@@ -40,13 +38,14 @@ class FragmentNomenclatureList : Fragment() {
     }
 
     interface CallbackNomenclature {
-        fun onNomenclatureSelected(nomenclature: Nomenclature)
+        fun onNomenclatureSelected(nomenclatureWithPrice: PriceTable)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectionId = arguments?.getString("id") ?: "100008" //TODO    подумать, убрать ли хардкор
         collection_title = arguments?.getString("collection_title")?:""
+
     }
 
     override fun onCreateView(
@@ -61,7 +60,7 @@ class FragmentNomenclatureList : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //код ниже - для поворота экрана
-        collectionViewModel.getNomenclatureByCollection(collectionId)
+        collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
             .observe(viewLifecycleOwner, Observer {
                 recyclerView.adapter = ItemCollectionAdapter(it)
             })
@@ -71,14 +70,16 @@ class FragmentNomenclatureList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectionViewModel.getNomenclatureByCollection(collectionId).observe(viewLifecycleOwner,
-            Observer { nomList ->
-                adapter = ItemCollectionAdapter(nomList)
-            })
+        collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
+            .observe(viewLifecycleOwner,
+                Observer { nomList ->
+                    adapter = ItemCollectionAdapter(nomList)
+                })
+
         onCollectionSelected(collectionId)
     }
 
-    inner class ItemCollectionAdapter(var collectionList: List<Nomenclature>) :
+    inner class ItemCollectionAdapter(var collectionList: List<PriceTable>) :
         RecyclerView.Adapter<ItemCollectionHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemCollectionHolder {
@@ -111,13 +112,13 @@ class FragmentNomenclatureList : Fragment() {
         private var button_minus: Button =
             itemView.findViewById(R.id.button_minus)
 
-
-
-        private lateinit var currentNomenclature: Nomenclature
-        fun bind(nomenclature: Nomenclature) {
-            currentNomenclature = nomenclature
+        private lateinit var currentNomenclatureWithPrice: PriceTable
+        fun bind(nomenclatureWithPrice: PriceTable) {
+            currentNomenclatureWithPrice = nomenclatureWithPrice
+            val currentNomenclature = currentNomenclatureWithPrice.nomenclature!!
             textView_title.setText(currentNomenclature.title)
             textView_lenght.setText(currentNomenclature.length.toString())
+
         }
 
         init {
@@ -131,18 +132,17 @@ class FragmentNomenclatureList : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            callbacks?.onNomenclatureSelected(currentNomenclature)
+            callbacks?.onNomenclatureSelected(currentNomenclatureWithPrice)
         }
 
     }
 
     private fun onCollectionSelected(id: String) {
-        collectionViewModel.getNomenclatureByCollection(id).observe(viewLifecycleOwner,
-            Observer { nomList ->
-                Log.v(TAG, nomList.size.toString())
-                Log.v(TAG, collectionViewModel.getNomenclatureByCollection(id).value.toString())
-                adapter = ItemCollectionAdapter(nomList)
-            })
+        collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
+            .observe(viewLifecycleOwner,
+                Observer { nomList ->
+                    adapter = ItemCollectionAdapter(nomList)
+                })
     }
 
     override fun onAttach(context: Context) {
@@ -154,5 +154,4 @@ class FragmentNomenclatureList : Fragment() {
         super.onDetach()
         callbacks = null
     }
-
 }

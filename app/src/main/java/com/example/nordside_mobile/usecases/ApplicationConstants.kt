@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.utils
+package com.example.nordside_mobile.usecases
 
 class ApplicationConstants {
     val SHARED_PREFERENCES_FILE = "setting file"

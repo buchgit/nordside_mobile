@@ -3,13 +3,14 @@
 
 buildscript {
     ext.nav_version = "2.3.5"
-//    repositories {
-//        google()
-//       // mavenCentral()
-//    }
-//    dependencies {
-//        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
-//    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        //classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+//       classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
+    }
 }
 
 task clean(type: Delete) {
@@ -17,15 +18,3 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 
 }
-
-//allprojects {
-//    repositories {
-//        google()
-//
-//        // If you're using a version of Gradle lower than 4.1, you must instead use:
-//        // maven {
-//        //     url = "https://maven.google.com"
-//        // }
-//        // An alternative URL is "https://dl.google.com/dl/android/maven2/".
-//    }
-//}

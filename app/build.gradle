@@ -1,11 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("dagger.hilt.android.plugin")
+
 //    id("androidx.navigation.safeargs")
-//    id 'androidx.navigation.safeargs.kotlin'
+ //   id 'androidx.navigation.safeargs.kotlin'
 }
 
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdk 31
@@ -69,8 +72,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //Room
-    implementation 'androidx.room:room-runtime:2.4.0-alpha05'
-    kapt 'androidx.room:room-compiler:2.4.0-alpha05'
+    implementation 'androidx.room:room-runtime:2.4.0-beta01'
+    kapt 'androidx.room:room-compiler:2.4.0-beta01'
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.3.0")
 
@@ -97,4 +100,16 @@ dependencies {
     // Jetpack Compose Integration
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
+    //hilt
+    implementation 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+
+    //
+    //implementation 'androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5'
+
+}
+
+kapt {
+    correctErrorTypes = true
 }

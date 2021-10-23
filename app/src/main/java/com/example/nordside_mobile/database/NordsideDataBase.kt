@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.entity.CartPosition
-import com.example.nordside_mobile.utils.DbTypeConverter
+import com.example.nordside_mobile.usecases.DbTypeConverter
 
 @Database(entities = [CartPosition::class],version = 1)
 @TypeConverters(DbTypeConverter::class)

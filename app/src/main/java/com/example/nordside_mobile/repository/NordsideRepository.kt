@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import androidx.room.Transaction
-import com.example.nordside_mobile.utils.ApplicationConstants
+import com.example.nordside_mobile.usecases.ApplicationConstants
 import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.api.NordsideApi
@@ -15,8 +15,11 @@ import com.example.nordside_mobile.database.NordsideDataBase
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
+import com.example.nordside_mobile.usecases.SharedPreferencesData
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,10 +46,6 @@ class NordsideRepository private constructor(context: Context) {
 
         val TAG = "${NordsideRepository::class.java.simpleName} ###"
         lateinit var nordsideApi: NordsideApi
-        var appSettins: SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
-            ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
-        )
-        var token: String? = appSettins?.getString(ApplicationConstants().TOKEN, "")
 
         private var instance: NordsideRepository? = null
 
@@ -64,14 +63,18 @@ class NordsideRepository private constructor(context: Context) {
 
     init {
 
+        val appSettins: SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
+            ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
+        )
+        val token: String? = appSettins?.getString(ApplicationConstants().TOKEN, "")
 
-//        val client = OkHttpClient.Builder().addInterceptor { chain ->
-//            val newRequest: Request = chain.request().newBuilder()
-//                .addHeader("Authorization", "Bearer $token")
-//                .build()
-//            chain.proceed(newRequest)
-//        }
-//            .build()
+        val client = OkHttpClient.Builder().addInterceptor { chain ->
+            val newRequest: Request = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            chain.proceed(newRequest)
+        }
+            .build()
 
 //        val client = OkHttpClient.Builder().addInterceptor { chain ->
 //            val newRequest: Request = chain.request().newBuilder()
@@ -87,7 +90,7 @@ class NordsideRepository private constructor(context: Context) {
 //            .build()
 
         val retrofit: Retrofit = Retrofit.Builder()
-            //.client(client)
+            .client(client)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -105,7 +108,7 @@ class NordsideRepository private constructor(context: Context) {
                 response: Response<List<NomenclatureCollection>>
             ) {
                 val responseBody: List<NomenclatureCollection>? = response.body()
-                Log.v(TAG, "${responseBody?.size.toString()} -> onResponse")
+                Log.v(TAG, "$TAG getNomenclatureList() -> onResponse")
                 nomenclatureCollectionList.value = responseBody
             }
 
@@ -202,6 +205,25 @@ class NordsideRepository private constructor(context: Context) {
         return listLiveData
     }
 
+    fun getPersonalNomenclatureListByCollection(id: String): LiveData<List<PriceTable>> {
+        val listLiveData: MutableLiveData<List<PriceTable>> = MutableLiveData()
+        val siteRequest: Call<List<PriceTable>> = nordsideApi.getPersonalNomenclatureListByCollection(id)
+        siteRequest.enqueue(object : Callback<List<PriceTable>> {
+            override fun onResponse(
+                call: Call<List<PriceTable>>,
+                response: Response<List<PriceTable>>
+            ) {
+                val responseBody: List<PriceTable>? = response.body()
+                Log.v(TAG, "getPersonalNomenclatureListByCollection() -> onResponse")
+                listLiveData.value = responseBody
+            }
+
+            override fun onFailure(call: Call<List<PriceTable>>, t: Throwable) {
+                Log.v(TAG, "getPersonalNomenclatureListByCollection() ->  onFailure")
+            }
+        })
+        return listLiveData
+    }
 
     fun login(login: LoginBody): LiveData<ServerToken> {
         val listLiveData: MutableLiveData<ServerToken> = MutableLiveData()
@@ -257,6 +279,7 @@ class NordsideRepository private constructor(context: Context) {
     fun getAllCartPosition(): LiveData<List<CartPositionPojo?>>{
         return cartDao.getAllCartPositions()
     }
+
 
 
 }

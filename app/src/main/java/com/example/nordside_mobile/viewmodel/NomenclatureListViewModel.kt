@@ -3,6 +3,7 @@ package com.example.nordside_mobile.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.nordside_mobile.model.Nomenclature
+import com.example.nordside_mobile.model.PriceTable
 import com.example.nordside_mobile.repository.NordsideRepository
 
 class NomenclatureListViewModel: ViewModel() {
@@ -11,6 +12,10 @@ class NomenclatureListViewModel: ViewModel() {
 
     fun getNomenclatureByCollection(id:String):LiveData<List<Nomenclature>>{
         return repository.getNomenclatureByCollection(id)
+    }
+
+    fun getPersonalNomenclatureListByCollection(collectionId: String): LiveData<List<PriceTable>> {
+        return repository.getPersonalNomenclatureListByCollection(collectionId)
     }
 
 }
