@@ -11,6 +11,7 @@
     <string name="logo">logo</string>
     <string name="cart">Корзина</string>
 
+
 <!--Категории товаров-->
     <string name="categ1">Виниловый сайдинг</string>
     <string name="categ2">Фасадные панели</string>
@@ -24,4 +25,7 @@
     <string name="email_small">Email должен содержать минимум 6 символов</string>
     <string name="password_empty">Введите пароль</string>
     <string name="password_small">Пароль должен содержать минимум 6 символов</string>
+
+    <string name="zero">0.00</string>
+
 </resources>

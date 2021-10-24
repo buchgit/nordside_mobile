@@ -12,6 +12,9 @@ interface NordsideApi {
     @GET("rest/user/nomenclature/all?email=user@gmail.com")
     suspend fun getAllNomenclature(): List<PriceTable>
 
+    @GET("rest/user/personal/nomenclature/collection/{id}")
+    fun getPersonalNomenclatureListByCollection(@Path("id") id: String): Call<List<PriceTable>>
+
     @GET("rest/user/nomenclature/all?email=user@gmail.com")
     suspend fun getNomenclatureList(): List<NomenclatureCollection>
 

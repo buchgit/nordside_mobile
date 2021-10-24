@@ -23,7 +23,7 @@ class LoginValidatorUseCase @Inject constructor() {
 
             if (password.isEmpty()) {
                 validateState.passwordState = ValidateState.PasswordState.EMPTY
-            }else if (password.length < 5) {
+            }else if (password.length < 4) {
                 validateState.passwordState = ValidateState.PasswordState.SMALL
             }
         }

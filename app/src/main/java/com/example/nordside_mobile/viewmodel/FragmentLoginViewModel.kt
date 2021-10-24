@@ -4,9 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
+
 import com.example.nordside_mobile.repository.Resource
+
+import com.example.nordside_mobile.usecases.ApplicationConstants
+
 import com.example.nordside_mobile.usecases.GetTokenUseCase
 import com.example.nordside_mobile.usecases.LoginValidatorUseCase
 import com.example.nordside_mobile.usecases.ValidateState
@@ -17,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FragmentLoginViewModel @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase,
-    private val loginValidatorUseCase: LoginValidatorUseCase
+    private val loginValidatorUseCase: LoginValidatorUseCase,
+    private val appSetting: AppPreference
 ) : ViewModel() {
 
     private var _tokenLiveData: MutableLiveData<Resource<ServerToken>> = MutableLiveData()
@@ -37,5 +43,11 @@ class FragmentLoginViewModel @Inject constructor(
         }
         return isCorrectLoginDeferred.await()
     }
+
+    fun getTokenFromSharedPreferences():String?{
+        return appSetting.getSavedString(ApplicationConstants().TOKEN)
+    }
+
+
 
 }

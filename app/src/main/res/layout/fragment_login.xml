@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginBottom="10dp"
         android:hint="e-mail"
@@ -29,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
+            android:text="user@gmail.com"
             android:textSize="18sp" />
 
       </com.google.android.material.textfield.TextInputLayout>
@@ -56,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
+            android:text="user"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -97,9 +98,20 @@
         android:text="@string/registration"
         android:textSize="10sp"
         app:layout_constraintVertical_bias="0.6"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/forgot_password" />
+
+    <TextView
+        android:id="@+id/tw_token"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="token string is empty"
+        app:layout_constraintTop_toBottomOf="@+id/button_registration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

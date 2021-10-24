@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.utils
+package com.example.nordside_mobile.usecases
 
 import androidx.room.TypeConverter
 import java.util.*

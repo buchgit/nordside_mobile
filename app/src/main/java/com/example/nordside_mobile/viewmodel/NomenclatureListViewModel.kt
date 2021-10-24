@@ -5,7 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nordside_mobile.model.Nomenclature
+
 import com.example.nordside_mobile.model.NomenclatureCollection
+
+import com.example.nordside_mobile.model.PriceTable
+
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.repository.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +30,12 @@ class NomenclatureListViewModel @Inject constructor(
         }
     }
 
+
 }
 
+    fun getPersonalNomenclatureListByCollection(collectionId: String): LiveData<List<PriceTable>> {
+        return repository.getPersonalNomenclatureListByCollection(collectionId)
+    }
 
-
+}
 

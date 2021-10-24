@@ -1,21 +1,15 @@
 package com.example.nordside_mobile.ui
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.nordside_mobile.utils.ApplicationConstants
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
 import com.example.nordside_mobile.model.*
@@ -88,11 +82,10 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     }
 
     // Проброска клика по позиции номенклатуры в списке, открывает карточку номенклатуры на всю страничку
-    override fun onNomenclatureSelected(nomenclature: Nomenclature) {
-        Log.v(TAG, nomenclature.toString())
+    override fun onNomenclatureSelected(nomenclatureWithPrice: PriceTable) {
         launchDestination(
             R.id.fragmentNomenclatureItem,
-            FragmentNomenclatureItem.createArgs(nomenclature)
+            FragmentNomenclatureItem.createArgs(nomenclatureWithPrice)
         )
     }
 

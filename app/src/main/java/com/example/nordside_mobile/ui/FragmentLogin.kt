@@ -47,6 +47,11 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         with(binding) {
             buttonLogin.setOnClickListener() { loginButtonListener() }
             buttonRegistration.setOnClickListener { registrationButtonListener() }
+            val textViewToken = binding.twToken
+
+            //TODO удалить после отладки
+            textViewToken.setText(viewModel.getTokenFromSharedPreferences() ?: "token is null")
+
         }
     }
 
