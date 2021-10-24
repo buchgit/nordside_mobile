@@ -3,30 +3,22 @@ package com.example.nordside_mobile.repository
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import androidx.room.Transaction
-import com.example.nordside_mobile.api.NordsideApi
-import com.example.nordside_mobile.dao.CartDao
-import com.example.nordside_mobile.database.SummaCountPojo
-import com.example.nordside_mobile.AppPreference
-import com.example.nordside_mobile.usecases.ApplicationConstants
-import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.OkHttpClient
-import okhttp3.Request
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,27 +26,26 @@ import javax.inject.Singleton
 @Singleton
 
 class NordsideRepository @Inject constructor(
+    @ApplicationContext context: Context,
     private val cartDao: CartDao,
-  private val retrofit: Retrofit,
+    private val retrofit: Retrofit,
     private val nordsideApi: NordsideApi
 ) : BaseApiRepository() {
-  
-private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 
-  suspend fun getNomenclatureList(): Resource<List<NomenclatureCollection>> {
-        return safeApiCall { nordsideApi.getNomenclatureList() }
+    private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 
-    
     private val DATABASE_NAME = "nordside database"
 
-    private val database : NordsideDataBase =
+    private val database: NordsideDataBase =
         Room.databaseBuilder(
             context.applicationContext,
             NordsideDataBase::class.java,
             DATABASE_NAME
         ).build()
 
-  }
+    suspend fun getNomenclatureList(): Resource<List<NomenclatureCollection>> {
+        return safeApiCall { nordsideApi.getNomenclatureList() }
+    }
 
     suspend fun getAllCategory(): Resource<List<Category>> {
         return safeApiCall { nordsideApi.getAllCategory() }
@@ -74,10 +65,12 @@ private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 
     suspend fun login(login: LoginBody): Resource<ServerToken> {
         return safeApiCall { nordsideApi.login(login) }
+    }
 
     fun getPersonalNomenclatureListByCollection(id: String): LiveData<List<PriceTable>> {
         val listLiveData: MutableLiveData<List<PriceTable>> = MutableLiveData()
-        val siteRequest: Call<List<PriceTable>> = nordsideApi.getPersonalNomenclatureListByCollection(id)
+        val siteRequest: Call<List<PriceTable>> =
+            nordsideApi.getPersonalNomenclatureListByCollection(id)
         siteRequest.enqueue(object : Callback<List<PriceTable>> {
             override fun onResponse(
                 call: Call<List<PriceTable>>,
@@ -95,25 +88,39 @@ private val TAG = "${NordsideRepository::class.java.simpleName} ###"
         return listLiveData
     }
 
-}
+    @Transaction
+    fun saveToCart(code: String, count: Double, summa: Double, title: String, unit: String) =
+        runBlocking {
+            launch {
+                deleteCartPosition(code)
+                cartDao.saveCartPosition(
+                    CartPosition(
+                        UUID.randomUUID(),
+                        code,
+                        count,
+                        summa,
+                        title,
+                        unit
+                    )
+                )
+                Log.v(TAG, cartDao.getCartPositionsCount(code).toString())
+            }
+        }
 
-@Transaction
-    fun saveToCart(code:String, count:Double, summa:Double, title:String, unit:String) = runBlocking{
-        launch{
-            deleteCartPosition(code)
-            cartDao.saveCartPosition(CartPosition(UUID.randomUUID(), code, count, summa, title, unit))
-            Log.v(TAG,cartDao.getCartPositionsCount(code).toString())
+    fun updateCartPosition(
+        code: String,
+        count: Double,
+        summa: Double,
+        title: String,
+        unit: String
+    ) = runBlocking {
+        launch {
+            cartDao.updateCartPosition(code, count, summa, title, unit)
         }
     }
 
-    fun updateCartPosition(code:String, count:Double, summa:Double, title:String, unit:String) = runBlocking{
-        launch{
-            cartDao.updateCartPosition(code,count,summa, title, unit)
-        }
-    }
-
-    fun deleteCartPosition(code:String) = runBlocking{
-        launch{
+    fun deleteCartPosition(code: String) = runBlocking {
+        launch {
             cartDao.deleteCartPosition(code)
         }
     }
@@ -124,11 +131,11 @@ private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 //        }
 //    }
 
-    fun getCartPositionsCount(code:String):LiveData<CartPositionPojo?> {
+    fun getCartPositionsCount(code: String): LiveData<CartPositionPojo?> {
         return cartDao.getCartPositionsCount(code)
     }
 
-    fun getAllCartPosition(): LiveData<List<CartPositionPojo?>>{
+    fun getAllCartPosition(): LiveData<List<CartPositionPojo?>> {
         return cartDao.getAllCartPositions()
     }
 

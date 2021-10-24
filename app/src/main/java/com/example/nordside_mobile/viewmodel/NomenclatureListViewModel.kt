@@ -30,9 +30,6 @@ class NomenclatureListViewModel @Inject constructor(
         }
     }
 
-
-}
-
     fun getPersonalNomenclatureListByCollection(collectionId: String): LiveData<List<PriceTable>> {
         return repository.getPersonalNomenclatureListByCollection(collectionId)
     }
