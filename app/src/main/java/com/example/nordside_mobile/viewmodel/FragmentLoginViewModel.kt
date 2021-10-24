@@ -1,10 +1,12 @@
 package com.example.nordside_mobile.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
+import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.usecases.GetTokenUseCase
 import com.example.nordside_mobile.usecases.LoginValidatorUseCase
 import com.example.nordside_mobile.usecases.ValidateState
@@ -18,8 +20,15 @@ class FragmentLoginViewModel @Inject constructor(
     private val loginValidatorUseCase: LoginValidatorUseCase
 ) : ViewModel() {
 
-    suspend fun logIn(loginBody: LoginBody) : LiveData<ServerToken>? {
-        return getTokenUseCase.execute(loginBody)
+    private var _tokenLiveData: MutableLiveData<Resource<ServerToken>> = MutableLiveData()
+    val tokenLiveData: LiveData<Resource<ServerToken>> get() = _tokenLiveData
+
+    suspend fun logIn(loginBody: LoginBody) : LiveData<Resource<ServerToken>> {
+        val tokenResource = getTokenUseCase.execute(loginBody)
+        if (tokenResource is Resource.Success) {
+            _tokenLiveData.value = tokenResource
+        }
+        return tokenLiveData
     }
 
     suspend fun loginBodyChecker(loginBody: LoginBody) : ValidateState {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +12,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.model.LoginBody
+import com.example.nordside_mobile.model.ServerToken
+import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.usecases.ValidateState
 import com.example.nordside_mobile.viewmodel.FragmentLoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,40 +56,68 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
         viewModel.viewModelScope.launch {
             val validateState = viewModel.loginBodyChecker(loginBody)
-            with(validateState) {
 
-                if (emailState == ValidateState.EmailState.OK
-                    && passwordState == ValidateState.PasswordState.OK) {
+            if (validateState.emailState == ValidateState.EmailState.OK
+                && validateState.passwordState == ValidateState.PasswordState.OK) {
 
-                    val tokenLiveData = viewModel.logIn(loginBody)
-                    if (tokenLiveData != null) {
+                showProgressBar()
+                val tokenLiveData = viewModel.logIn(loginBody)
+                hideProgressBar()
+
+                when (tokenLiveData.value) {
+                    is Resource.Success -> {
+                        Toast.makeText(
+                            context?.applicationContext,
+                            (tokenLiveData.value as Resource.Success<ServerToken>).data?.token,
+                            Toast.LENGTH_LONG
+                        ).show()
+
                         callbacks?.onLoginClicked(true)
                     }
-                }
-
-                when (emailState) {
-                    ValidateState.EmailState.EMPTY -> {
-                        binding.etEmailContainer.error = getString(R.string.email_empty)
-                    }
-                    ValidateState.EmailState.INCORRECT -> {
-                        binding.etEmailContainer.error = getString(R.string.email_incorrect)
-                    }
-                    ValidateState.EmailState.SMALL -> {
-                        binding.etEmailContainer.error = getString(R.string.email_small)
-                    }
-                }
-
-                when (passwordState) {
-                    ValidateState.PasswordState.EMPTY -> {
-                        binding.etPasswordContainer.error = getString(R.string.password_empty)
-                    }
-                    ValidateState.PasswordState.SMALL -> {
-                        binding.etPasswordContainer.error = getString(R.string.password_small)
+                    is Resource.Error -> {
+                        showErrorMessage(
+                            (tokenLiveData.value as Resource.Error<ServerToken>).message
+                        )
                     }
                 }
 
             }
+
+            when (validateState.emailState) {
+                ValidateState.EmailState.EMPTY -> {
+                    binding.etEmailContainer.error = getString(R.string.email_empty)
+                }
+                ValidateState.EmailState.INCORRECT -> {
+                    binding.etEmailContainer.error = getString(R.string.email_incorrect)
+                }
+                ValidateState.EmailState.SMALL -> {
+                    binding.etEmailContainer.error = getString(R.string.email_small)
+                }
+            }
+
+            when (validateState.passwordState) {
+                ValidateState.PasswordState.EMPTY -> {
+                    binding.etPasswordContainer.error = getString(R.string.password_empty)
+                }
+                ValidateState.PasswordState.SMALL -> {
+                    binding.etPasswordContainer.error = getString(R.string.password_small)
+                }
+            }
+
+
         }
+    }
+
+    private fun showErrorMessage(message: String?) {
+
+    }
+
+    private fun hideProgressBar() {
+
+    }
+
+    private fun showProgressBar() {
+
     }
 
     private fun registrationButtonListener() {

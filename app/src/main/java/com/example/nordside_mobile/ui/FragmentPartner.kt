@@ -12,15 +12,17 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.Partner
+import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.viewmodel.FragmentPartnerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentPartner : Fragment() {
+class FragmentPartner : Fragment(R.layout.fragment_partner) {
 
     private lateinit var recyclerView: RecyclerView
-    private val viewModel by viewModels<FragmentPartnerViewModel>()
+    private val partnerViewModel by viewModels<FragmentPartnerViewModel>()
 
     companion object {
         fun newInstance(): FragmentPartner {
@@ -28,21 +30,21 @@ class FragmentPartner : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_partner, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         recyclerView = view.findViewById(R.id.recycler_view_fragment_partner) as RecyclerView
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        viewModel.partnerList.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = PartnerAdapter(it)
+
+        val partnerListLiveData = partnerViewModel.partnerListLiveData
+
+        partnerListLiveData.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = PartnerAdapter(it.data!!)
         })
-        return view
     }
+
 
     inner class PartnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_partner)
@@ -52,6 +54,7 @@ class FragmentPartner : Fragment() {
             textView.setText(partner.title)
         }
     }
+
 
     inner class PartnerAdapter(var partnerList: List<Partner>) :
         RecyclerView.Adapter<PartnerViewHolder>() {
@@ -69,6 +72,10 @@ class FragmentPartner : Fragment() {
         override fun getItemCount(): Int {
             return partnerList.size
         }
+    }
+
+
+    private fun showErrorMessage(message: String) {
 
     }
 }

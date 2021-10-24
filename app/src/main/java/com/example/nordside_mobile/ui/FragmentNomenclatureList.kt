@@ -64,18 +64,20 @@ class FragmentNomenclatureList : Fragment() {
 
         //код ниже - для поворота экрана
         collectionViewModel.getNomenclatureByCollection(collectionId)
-            .observe(viewLifecycleOwner, Observer {
-                recyclerView.adapter = ItemCollectionAdapter(it)
-            })
+
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
+        })
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectionViewModel.getNomenclatureByCollection(collectionId).observe(viewLifecycleOwner,
+        collectionViewModel.getNomenclatureByCollection(collectionId)
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
             Observer { nomList ->
-                adapter = ItemCollectionAdapter(nomList)
+                adapter = ItemCollectionAdapter(nomList.data!!)
             })
         onCollectionSelected(collectionId)
     }
@@ -139,11 +141,12 @@ class FragmentNomenclatureList : Fragment() {
     }
 
     private fun onCollectionSelected(id: String) {
-        collectionViewModel.getNomenclatureByCollection(id).observe(viewLifecycleOwner,
+        collectionViewModel.getNomenclatureByCollection(id)
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
             Observer { nomList ->
-                Log.v(TAG, nomList.size.toString())
-                Log.v(TAG, collectionViewModel.getNomenclatureByCollection(id).value.toString())
-                adapter = ItemCollectionAdapter(nomList)
+//                Log.v(TAG, nomList.size.toString())
+//                Log.v(TAG, collectionViewModel.getNomenclatureByCollection(id).value.toString())
+                adapter = ItemCollectionAdapter(nomList.data!!)
             })
     }
 

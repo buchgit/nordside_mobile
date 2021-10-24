@@ -10,4 +10,18 @@
     <string name="title_category">Категории товаров</string>
     <string name="logo">logo</string>
     <string name="cart">Корзина</string>
+
+<!--Категории товаров-->
+    <string name="categ1">Виниловый сайдинг</string>
+    <string name="categ2">Фасадные панели</string>
+    <string name="categ3">ПВХ панели</string>
+    <string name="categ4">Водосточные системы</string>
+
+
+<!--ЛОГИН-->
+    <string name="email_empty">Введите email</string>
+    <string name="email_incorrect">Некорректный email</string>
+    <string name="email_small">Email должен содержать минимум 6 символов</string>
+    <string name="password_empty">Введите пароль</string>
+    <string name="password_small">Пароль должен содержать минимум 6 символов</string>
 </resources>

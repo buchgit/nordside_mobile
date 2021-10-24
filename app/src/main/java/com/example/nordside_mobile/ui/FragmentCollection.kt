@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.NomenclatureCollection
+import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,9 +63,9 @@ class FragmentCollection : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        //код ниже - для поворота экрана
-        collectionViewModel.nomenclatureList?.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = ItemCollectionAdapter(it)
+
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
         })
 
         return view
@@ -72,11 +73,11 @@ class FragmentCollection : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectionViewModel.nomenclatureList?.observe(viewLifecycleOwner,
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
             Observer { nomList ->
-                Log.v(TAG, nomList.size.toString())
-                Log.v(TAG, collectionViewModel.nomenclatureList!!.value.toString())
-                adapter = ItemCollectionAdapter(nomList)
+                Log.v(TAG, nomList.data?.size.toString())
+                Log.v(TAG, collectionViewModel.nomenclatureListLiveData.value?.data.toString())
+                adapter = ItemCollectionAdapter(nomList.data!!)
             })
 
         categoryId?.let { onCategorySelected(it) }
@@ -128,10 +129,11 @@ class FragmentCollection : Fragment() {
     private fun onCategorySelected(id: String) {
         Log.v(TAG, id)
         collectionViewModel.getNomenclatureCollectionByCategoryId(id)
-        collectionViewModel.nomenclatureList?.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = ItemCollectionAdapter(it)
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
         })
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
