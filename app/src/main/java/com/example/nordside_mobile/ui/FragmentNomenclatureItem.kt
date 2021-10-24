@@ -25,12 +25,10 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
     private lateinit var currentNomenclatureWithPrice: PriceTable
     private lateinit var currentNomenclature: Nomenclature
     private var currentNomenclatureName: String? = null
-
     private val nomenclatureItemViewModel by viewModels<NomenclatureItemViewModel>()
     private var COUNT_TO_CART_PLUS = 1.00
     private var COUNT_TO_CART_MINUS = -1.00
     private var CURRENT_SUMMA = 0.00
-    private var CURRENT_PRICE = 0.00
     private var currentCount: Double? = null
     private var currentSumma: Double? = null
     private var currentPrice: Double? = null
@@ -100,7 +98,7 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
         _binding = null
     }
 
-    fun changeCart(event: View) {
+    private fun changeCart(event: View) {
 
         if (event.id == R.id.button_add_fragment_nomenclature_item) {
             currentPrice = currentNomenclatureWithPrice.price
@@ -120,7 +118,6 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
             if (currentCount == null || currentSumma == null || currentCount!!.compareTo(0.00) == 0) {
                 currentPrice = 0.00
             } else {
-
                 currentPrice = currentSumma!! / currentCount!!
                 CURRENT_SUMMA -= currentPrice!!
                 if (currentCount == null) {
