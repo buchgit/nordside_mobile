@@ -34,7 +34,10 @@ import javax.inject.Singleton
 class NordsideRepository @Inject constructor(@ApplicationContext context: Context,
                                              private val cartDao: CartDao,
                                              private val nordsideApi: NordsideApi,
-                                             private val appSetting: AppPreference) {
+                                             //private val appSetting: AppPreference
+                                             private val retrofit: Retrofit,
+
+                                             ) {
 
     private val TAG = "${NordsideRepository::class.java.simpleName} ###"
     private val DATABASE_NAME = "nordside database"
@@ -46,40 +49,15 @@ class NordsideRepository @Inject constructor(@ApplicationContext context: Contex
             DATABASE_NAME
         ).build()
 
-    //private val cartDao = database.cartDao()
-
-    companion object {
-
-        //val TAG = "${NordsideRepository::class.java.simpleName} ###"
-        //lateinit var nordsideApi: NordsideApi
-
-//        private var instance: NordsideRepository? = null
+//        val token: String? = appSetting.getSavedString(ApplicationConstants().TOKEN)
 //
-//        fun initialize(context: Context) {
-//            if (instance == null) {
-//                instance = NordsideRepository(context)
-//            }
+//        val client = OkHttpClient.Builder().addInterceptor { chain ->
+//            val newRequest: Request = chain.request().newBuilder()
+//                .addHeader("Authorization", "Bearer $token")
+//                .build()
+//            chain.proceed(newRequest)
 //        }
-
-//        fun get(): NordsideRepository {
-//            return instance ?: throw IllegalStateException("Repository must be initialized")
-//        }
-    }
-
-
-//        val appSettins: SharedPreferences? = MyApp.getContext()?.getSharedPreferences(
-//            ApplicationConstants().SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
-//        )
-        val token: String? = appSetting.getSavedString(ApplicationConstants().TOKEN)
-
-
-        val client = OkHttpClient.Builder().addInterceptor { chain ->
-            val newRequest: Request = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer $token")
-                .build()
-            chain.proceed(newRequest)
-        }
-            .build()
+//            .build()
 
 //        val client = OkHttpClient.Builder().addInterceptor { chain ->
 //            val newRequest: Request = chain.request().newBuilder()
@@ -94,11 +72,11 @@ class NordsideRepository @Inject constructor(@ApplicationContext context: Contex
 //            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS) )
 //            .build()
 
-        val retrofit: Retrofit = Retrofit.Builder()
-            .client(client)
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+//        val retrofit: Retrofit = Retrofit.Builder()
+//            .client(client)
+//            .baseUrl(BuildConfig.BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
 
     fun getNomenclatureList(): LiveData<List<NomenclatureCollection>> {
         val nomenclatureCollectionList: MutableLiveData<List<NomenclatureCollection>> =
