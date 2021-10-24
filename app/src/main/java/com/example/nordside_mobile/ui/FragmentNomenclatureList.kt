@@ -62,21 +62,37 @@ class FragmentNomenclatureList : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //код ниже - для поворота экрана
+
+//         collectionViewModel.getNomenclatureByCollection(collectionId)
+
+//         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
+//             recyclerView.adapter = ItemCollectionAdapter(it.data!!)
+//         })
+
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
             .observe(viewLifecycleOwner, Observer {
                 recyclerView.adapter = ItemCollectionAdapter(it)
             })
+
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//         collectionViewModel.getNomenclatureByCollection(collectionId)
+//         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
+//             Observer { nomList ->
+//                 adapter = ItemCollectionAdapter(nomList.data!!)
+//             })
+
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
             .observe(viewLifecycleOwner,
                 Observer { nomList ->
                     adapter = ItemCollectionAdapter(nomList)
                 })
+
 
         onCollectionSelected(collectionId)
     }
@@ -140,11 +156,19 @@ class FragmentNomenclatureList : Fragment() {
     }
 
     private fun onCollectionSelected(id: String) {
+
+//         collectionViewModel.getNomenclatureByCollection(id)
+//         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
+//             Observer { nomList ->
+//                 adapter = ItemCollectionAdapter(nomList.data!!)
+//             })
+
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
             .observe(viewLifecycleOwner,
                 Observer { nomList ->
                     adapter = ItemCollectionAdapter(nomList)
                 })
+
     }
 
     override fun onAttach(context: Context) {

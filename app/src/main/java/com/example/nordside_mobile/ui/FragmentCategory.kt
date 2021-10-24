@@ -16,11 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
+import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.viewmodel.FragmentCategoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentCategory : Fragment() {
+class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var recyclerView: RecyclerView
     private val EMPTY_TITLE = "empty title of category"
     private val categoryViewModel by viewModels<FragmentCategoryViewModel>()
@@ -36,23 +37,26 @@ class FragmentCategory : Fragment() {
         fun onCategorySelected(category: Category?)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_category, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         recyclerView = view.findViewById(R.id.recycler_view_fragment_category) as RecyclerView
+
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        categoryViewModel.categoryList.observe(viewLifecycleOwner,
-            Observer {
-                recyclerView.adapter = CategoryAdapter(it)
-            })
-        return view
+
+        val categoryListLiveData = categoryViewModel.categoryListLiveData
+
+        categoryListLiveData.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = CategoryAdapter(it.data!!)
+        })
+
+
     }
 
-    //сюда прилетает вьюха (через конструктор) и модель (через bind), вьюху заполняем по модели
+
+    // Сюда прилетает вьюха (через конструктор) и модель (через bind), вьюху заполняем по модели
     inner class CategoryHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         private var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_category)
@@ -74,16 +78,17 @@ class FragmentCategory : Fragment() {
 
             textView.text = category?.title ?: EMPTY_TITLE
             when(textView.text) {
-                "Виниловый сайдинг" -> imageView.setImageResource(R.drawable.image_vinil_said)
-                "Фасадные панели" -> imageView.setImageResource(R.drawable.image_fasad_panel)
-                "ПВХ панели" -> imageView.setImageResource(R.drawable.image_panel_pvh)
-                "Водосточные системы" -> imageView.setImageResource(R.drawable.image_vodos_syst)
+                getString(R.string.categ1) -> imageView.setImageResource(R.drawable.image_vinil_said)
+                getString(R.string.categ2) -> imageView.setImageResource(R.drawable.image_fasad_panel)
+                getString(R.string.categ3) -> imageView.setImageResource(R.drawable.image_panel_pvh)
+                getString(R.string.categ4) -> imageView.setImageResource(R.drawable.image_vodos_syst)
             }
         }
 
     }
 
-    //adapter
+
+    // Adapter
     inner class CategoryAdapter(private var categoryList: List<Category>) :
         RecyclerView.Adapter<CategoryHolder>() {
 
@@ -100,6 +105,10 @@ class FragmentCategory : Fragment() {
         override fun getItemCount(): Int {
             return categoryList.size
         }
+    }
+
+
+    private fun showErrorMessage(message: String) {
 
     }
 
