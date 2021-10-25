@@ -120,9 +120,6 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
             } else {
                 currentPrice = currentSumma!! / currentCount!!
                 CURRENT_SUMMA -= currentPrice!!
-                if (currentCount == null) {
-                    return
-                }
                 COUNT_TO_CART_MINUS = currentCount?.minus(1.00) ?: 0.00
                 if (COUNT_TO_CART_MINUS.compareTo(0.00) <= 0) {
                     nomenclatureItemViewModel.deleteCartPosition(currentNomenclature.code)
