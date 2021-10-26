@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.FragmentLoginBinding
@@ -71,11 +72,13 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
                 when (tokenLiveData.value) {
                     is Resource.Success -> {
-                        Toast.makeText(
-                            context?.applicationContext,
-                            (tokenLiveData.value as Resource.Success<ServerToken>).data?.token,
-                            Toast.LENGTH_LONG
-                        ).show()
+//                        Toast.makeText(
+//                            context?.applicationContext,
+//                            (tokenLiveData.value as Resource.Success<ServerToken>).data?.token,
+//                            Toast.LENGTH_LONG
+//                        ).show()
+
+                        Log.v(TAG, "Resource.Success ${tokenLiveData.value}")
 
                         callbacks?.onLoginClicked(true)
                     }
@@ -83,6 +86,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
                         showErrorMessage(
                             (tokenLiveData.value as Resource.Error<ServerToken>).message
                         )
+                        Log.v(TAG, "Resource.Error ${tokenLiveData.value}")
                     }
                 }
 

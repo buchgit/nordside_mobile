@@ -64,28 +64,12 @@ class NordsideRepository @Inject constructor(
     }
 
     suspend fun login(login: LoginBody): Resource<ServerToken> {
+        Log.v(TAG, "login() ->  ${login.email} #### ${login.password}")
         return safeApiCall { nordsideApi.login(login) }
     }
 
-    fun getPersonalNomenclatureListByCollection(id: String): LiveData<List<PriceTable>> {
-        val listLiveData: MutableLiveData<List<PriceTable>> = MutableLiveData()
-        val siteRequest: Call<List<PriceTable>> =
-            nordsideApi.getPersonalNomenclatureListByCollection(id)
-        siteRequest.enqueue(object : Callback<List<PriceTable>> {
-            override fun onResponse(
-                call: Call<List<PriceTable>>,
-                response: Response<List<PriceTable>>
-            ) {
-                val responseBody: List<PriceTable>? = response.body()
-                Log.v(TAG, "getPersonalNomenclatureListByCollection() -> onResponse")
-                listLiveData.value = responseBody
-            }
-
-            override fun onFailure(call: Call<List<PriceTable>>, t: Throwable) {
-                Log.v(TAG, "getPersonalNomenclatureListByCollection() ->  onFailure")
-            }
-        })
-        return listLiveData
+    suspend fun getPersonalNomenclatureListByCollection(id: String):Resource<List<PriceTable>>{
+        return safeApiCall { nordsideApi.getPersonalNomenclatureListByCollection(id) }
     }
 
     @Transaction

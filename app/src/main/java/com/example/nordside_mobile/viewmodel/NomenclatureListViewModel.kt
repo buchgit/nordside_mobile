@@ -30,8 +30,13 @@ class NomenclatureListViewModel @Inject constructor(
         }
     }
 
-    fun getPersonalNomenclatureListByCollection(collectionId: String): LiveData<List<PriceTable>> {
-        return repository.getPersonalNomenclatureListByCollection(collectionId)
+    private var _nomenclaturePersonalListLiveData: MutableLiveData<Resource<List<PriceTable>>> = MutableLiveData()
+    public val nomenclaturePersonalListLiveData: LiveData<Resource<List<PriceTable>>> get() = _nomenclaturePersonalListLiveData
+
+    fun getPersonalNomenclatureListByCollection(collectionId: String){
+        viewModelScope.launch {
+            _nomenclaturePersonalListLiveData.value = repository.getPersonalNomenclatureListByCollection(collectionId)
+        }
     }
 
 }

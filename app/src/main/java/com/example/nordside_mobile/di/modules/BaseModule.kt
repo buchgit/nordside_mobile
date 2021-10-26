@@ -52,28 +52,6 @@ object BaseModule {
     fun provideNordsideApi(retrofit: Retrofit): NordsideApi =
         retrofit.create(NordsideApi::class.java)
 
-//        val client = OkHttpClient.Builder().addInterceptor { chain ->
-//            val newRequest: Request = chain.request().newBuilder()
-//                .addHeader("Authorization", "Bearer $token")
-//                .build()
-//            chain.proceed(newRequest)
-//        }
-//            .build()
-
-//        val client = OkHttpClient.Builder().addInterceptor { chain ->
-//            val newRequest: Request = chain.request().newBuilder()
-//                .addHeader("Authorization", "Bearer $token")
-//                .build()
-//            chain.proceed(newRequest)
-//        }
-//            .build()
-
-//        val client = OkHttpClient.Builder()
-//            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS) )
-//            .build()
-
-
-
     // DataBase
     @Singleton
     @Provides

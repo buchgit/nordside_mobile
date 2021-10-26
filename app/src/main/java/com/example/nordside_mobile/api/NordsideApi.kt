@@ -1,6 +1,7 @@
 package com.example.nordside_mobile.api
 
 import com.example.nordside_mobile.model.*
+import com.example.nordside_mobile.repository.BaseApiRepository
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,7 +14,7 @@ interface NordsideApi {
     suspend fun getAllNomenclature(): List<PriceTable>
 
     @GET("rest/user/personal/nomenclature/collection/{id}")
-    fun getPersonalNomenclatureListByCollection(@Path("id") id: String): Call<List<PriceTable>>
+    suspend fun getPersonalNomenclatureListByCollection(@Path("id") id: String): List<PriceTable>
 
     @GET("rest/user/nomenclature/all?email=user@gmail.com")
     suspend fun getNomenclatureList(): List<NomenclatureCollection>

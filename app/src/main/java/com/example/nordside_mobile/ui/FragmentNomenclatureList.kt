@@ -62,16 +62,15 @@ class FragmentNomenclatureList : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //код ниже - для поворота экрана
-
-//         collectionViewModel.getNomenclatureByCollection(collectionId)
+//         collectionViewModel.getNomenclatureByCollection(collectionId) //TODO заменил на персональный лист номенклатуры
 
 //         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
 //             recyclerView.adapter = ItemCollectionAdapter(it.data!!)
 //         })
 
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
-            .observe(viewLifecycleOwner, Observer {
-                recyclerView.adapter = ItemCollectionAdapter(it)
+        collectionViewModel.nomenclaturePersonalListLiveData.observe(viewLifecycleOwner, Observer {
+                  recyclerView.adapter = ItemCollectionAdapter(it.data!!)
             })
 
 
@@ -81,17 +80,16 @@ class FragmentNomenclatureList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//         collectionViewModel.getNomenclatureByCollection(collectionId)
+//         collectionViewModel.getNomenclatureByCollection(collectionId) //TODO заменил на персональный лист номенклатуры
 //         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
 //             Observer { nomList ->
 //                 adapter = ItemCollectionAdapter(nomList.data!!)
 //             })
 
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
-            .observe(viewLifecycleOwner,
-                Observer { nomList ->
-                    adapter = ItemCollectionAdapter(nomList)
-                })
+        collectionViewModel.nomenclaturePersonalListLiveData.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
+        })
 
 
         onCollectionSelected(collectionId)
@@ -157,17 +155,16 @@ class FragmentNomenclatureList : Fragment() {
 
     private fun onCollectionSelected(id: String) {
 
-//         collectionViewModel.getNomenclatureByCollection(id)
+//         collectionViewModel.getNomenclatureByCollection(id) //TODO заменил на персональный лист номенклатуры
 //         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
 //             Observer { nomList ->
 //                 adapter = ItemCollectionAdapter(nomList.data!!)
 //             })
 
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
-            .observe(viewLifecycleOwner,
-                Observer { nomList ->
-                    adapter = ItemCollectionAdapter(nomList)
-                })
+        collectionViewModel.nomenclaturePersonalListLiveData.observe(viewLifecycleOwner, Observer {
+            adapter = ItemCollectionAdapter(it.data!!)
+        })
 
     }
 
