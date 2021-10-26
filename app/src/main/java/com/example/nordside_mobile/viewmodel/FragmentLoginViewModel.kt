@@ -1,5 +1,7 @@
 package com.example.nordside_mobile.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +31,7 @@ class FragmentLoginViewModel @Inject constructor(
     private var _tokenLiveData: MutableLiveData<Resource<ServerToken>> = MutableLiveData()
     val tokenLiveData: LiveData<Resource<ServerToken>> get() = _tokenLiveData
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun logIn(loginBody: LoginBody) : LiveData<Resource<ServerToken>> {
         val tokenResource = getTokenUseCase.execute(loginBody)
         if (tokenResource is Resource.Success) {
@@ -45,7 +48,7 @@ class FragmentLoginViewModel @Inject constructor(
     }
 
     fun getTokenFromSharedPreferences():String?{
-        return appSetting.getSavedString(ApplicationConstants().TOKEN)
+        return appSetting.getSavedString(ApplicationConstants().ACCESS_TOKEN)
     }
 
 

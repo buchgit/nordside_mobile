@@ -28,7 +28,6 @@ import javax.inject.Singleton
 class NordsideRepository @Inject constructor(
     @ApplicationContext context: Context,
     private val cartDao: CartDao,
-    private val retrofit: Retrofit,
     private val nordsideApi: NordsideApi
 ) : BaseApiRepository() {
 

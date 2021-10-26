@@ -26,7 +26,7 @@ class FragmentNomenclatureList : Fragment() {
     private val TAG = FragmentNomenclatureList::class.simpleName
     private lateinit var recyclerView: RecyclerView
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
-    private val collectionViewModel : NomenclatureListViewModel by viewModels()
+    private val collectionViewModel: NomenclatureListViewModel by viewModels()
     private lateinit var collectionId: String
     private lateinit var collection_title: String
     private var callbacks: CallbackNomenclature? = null
@@ -46,7 +46,7 @@ class FragmentNomenclatureList : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectionId = arguments?.getString("id") ?: "100008" //TODO    подумать, убрать ли хардкор
-        collection_title = arguments?.getString("collection_title")?:""
+        collection_title = arguments?.getString("collection_title") ?: ""
 
     }
 
@@ -59,7 +59,8 @@ class FragmentNomenclatureList : Fragment() {
         textView = view.findViewById(R.id.tw_fragment_nomenclature)
         recyclerView = view.findViewById(R.id.recycler_view_fragment_nomenclature) as RecyclerView
         //recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //код ниже - для поворота экрана
 //         collectionViewModel.getNomenclatureByCollection(collectionId) //TODO заменил на персональный лист номенклатуры
@@ -70,8 +71,8 @@ class FragmentNomenclatureList : Fragment() {
 
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
         collectionViewModel.nomenclaturePersonalListLiveData.observe(viewLifecycleOwner, Observer {
-                  recyclerView.adapter = ItemCollectionAdapter(it.data!!)
-            })
+            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
+        })
 
 
         return view
