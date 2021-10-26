@@ -12,10 +12,10 @@ import java.time.ZoneId
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
-class AccessTokenUseCase @Inject constructor( appSetting: AppPreference) {
+class AccessTokenUseCase @Inject constructor(appSetting: AppPreference) {
 
     var token: String? = null
-    var isExpared:Boolean = false
+    var isExpared: Boolean = false
 
     init {
         token = appSetting.getSavedString(ApplicationConstants().ACCESS_TOKEN)
@@ -35,7 +35,7 @@ class AccessTokenUseCase @Inject constructor( appSetting: AppPreference) {
         var expireDate: LocalDate = LocalDate.now()
 
         //var base64UrlEncodedHeader:String = ""
-        var base64UrlEncodedPayload:String = ""
+        var base64UrlEncodedPayload: String = ""
 
         for (c in tokenString.toCharArray()) {
             if (c == JwtParser.SEPARATOR_CHAR) {
@@ -53,11 +53,12 @@ class AccessTokenUseCase @Inject constructor( appSetting: AppPreference) {
             }
         }
 
-        val payload:String = TextCodec.BASE64URL.decodeToString(base64UrlEncodedPayload)
+        val payload: String = TextCodec.BASE64URL.decodeToString(base64UrlEncodedPayload)
         if (payload[0] == '{' && payload[payload.length - 1] == '}') { //likely to be json, parse it:
             val parseString = payload.substringAfter("exp\":").substringBefore("}")
 
-            expireDate = Instant.ofEpochSecond(parseString.toLong()).atZone(ZoneId.systemDefault()).toLocalDate()
+            expireDate = Instant.ofEpochSecond(parseString.toLong()).atZone(ZoneId.systemDefault())
+                .toLocalDate()
 
         }
         return expireDate.isBefore(LocalDate.now(ZoneId.systemDefault()))

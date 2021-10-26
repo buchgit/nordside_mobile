@@ -10,9 +10,7 @@ import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
-import com.example.nordside_mobile.ui.FragmentCollection
 import com.example.nordside_mobile.usecases.AccessTokenUseCase
-import com.example.nordside_mobile.usecases.ApplicationConstants
 import com.example.nordside_mobile.usecases.RefreshTokenUseCase
 import dagger.Module
 import dagger.Provides
@@ -35,18 +33,19 @@ object BaseModule {
     @RequiresApi(Build.VERSION_CODES.O)
     @Singleton
     @Provides
-    fun provideRetrofit(appSetting: AppPreference,
-                        accessTokenUseCase: AccessTokenUseCase,
-                        refreshTokenUseCase: RefreshTokenUseCase)
-    : Retrofit {
+    fun provideRetrofit(
+        accessTokenUseCase: AccessTokenUseCase,
+        refreshTokenUseCase: RefreshTokenUseCase
+    )
+            : Retrofit {
 
         var token: String? = null
         if (!accessTokenUseCase.isExpared) {
             token = accessTokenUseCase.token
         } else if (!refreshTokenUseCase.isExpared) {
             token = refreshTokenUseCase.token
-        }else{
-           Log.v(TAG, "Both tokens is expired or null")
+        } else {
+            Log.v(TAG, "Both tokens is expired or null")
         }//TODO if both tokens is expired needs anything to do
 
         val client = OkHttpClient.Builder().addInterceptor { chain ->
@@ -87,13 +86,13 @@ object BaseModule {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
-    fun provideAccessToken(appSetting: AppPreference):AccessTokenUseCase{
+    fun provideAccessToken(appSetting: AppPreference): AccessTokenUseCase {
         return AccessTokenUseCase(appSetting)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
-    fun provideRefreshToken(appSetting: AppPreference):RefreshTokenUseCase{
+    fun provideRefreshToken(appSetting: AppPreference): RefreshTokenUseCase {
         return RefreshTokenUseCase(appSetting)
     }
 }

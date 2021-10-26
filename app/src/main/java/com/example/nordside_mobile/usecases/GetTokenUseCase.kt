@@ -26,15 +26,18 @@ class GetTokenUseCase @Inject constructor(
     suspend fun execute(
         loginBody: LoginBody,
 
-    ) : Resource<ServerToken> {
+        ): Resource<ServerToken> {
         val tokenResource = repositoryApi.login(loginBody)
 
         if (tokenResource is Resource.Success) {
-            sharedPreferences.saveString(ApplicationConstants().ACCESS_TOKEN, tokenResource.data?.accessToken)
-            sharedPreferences.saveString(ApplicationConstants().REFRESH_TOKEN, tokenResource.data?.refreshToken)
-        //TODO  (for debag) , delete later
-        //val expired : Boolean = isTokenExpired(tokenResource.data?.token)
-        //Log.v(TAG,"tokenResource expired is $expired" )
+            sharedPreferences.saveString(
+                ApplicationConstants().ACCESS_TOKEN,
+                tokenResource.data?.accessToken
+            )
+            sharedPreferences.saveString(
+                ApplicationConstants().REFRESH_TOKEN,
+                tokenResource.data?.refreshToken
+            )
         }
 
         return tokenResource

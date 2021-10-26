@@ -3,7 +3,6 @@ package com.example.nordside_mobile.repository
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import androidx.room.Transaction
 import com.example.nordside_mobile.api.NordsideApi
@@ -15,10 +14,6 @@ import com.example.nordside_mobile.model.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -67,7 +62,7 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.login(login) }
     }
 
-    suspend fun getPersonalNomenclatureListByCollection(id: String):Resource<List<PriceTable>>{
+    suspend fun getPersonalNomenclatureListByCollection(id: String): Resource<List<PriceTable>> {
         return safeApiCall { nordsideApi.getPersonalNomenclatureListByCollection(id) }
     }
 
@@ -107,12 +102,6 @@ class NordsideRepository @Inject constructor(
             cartDao.deleteCartPosition(code)
         }
     }
-
-//    fun cleanCart() = runBlocking{
-//        launch{
-//            cartDao.deleteAll()
-//        }
-//    }
 
     fun getCartPositionsCount(code: String): LiveData<CartPositionPojo?> {
         return cartDao.getCartPositionsCount(code)
