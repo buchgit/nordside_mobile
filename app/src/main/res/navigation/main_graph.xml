@@ -54,6 +54,11 @@
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentCommon"
             app:destination="@id/fragmentCommon" />
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentPersonal"
+            app:destination="@id/fragmentPersonal"
+            app:popUpTo="@id/fragmentLogin"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCart"
