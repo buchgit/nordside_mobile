@@ -13,7 +13,7 @@ class NomenclatureItemViewModel @Inject constructor(
     private val repository: NordsideRepository
 ):ViewModel() {
 
-    private val TAG =  "${NomenclatureItemViewModel::class.simpleName} ###"
+    private val TAG =  "${NomenclatureItemViewModel::class.java.simpleName} ###"
 
     fun saveToCart(owner: LifecycleOwner, code: String, count: Double, summa:Double, title:String, unit:String) {
         repository.saveToCart(code, count, summa, title, unit)

@@ -10,16 +10,17 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.O)
-class AccessTokenUseCase @Inject constructor(appSetting: AppPreference) {
+class AccessTokenUseCase(accessToken:String) {
 
-    var token: String? = null
-    var isExpared: Boolean = false
+    var token: String = ""
+    var isExpared by Delegates.notNull<Boolean>()
 
     init {
-        token = appSetting.getSavedString(ApplicationConstants().ACCESS_TOKEN)
-        isExpared = isTokenExpired(token)
+        token = accessToken
+        isExpared = isTokenExpired(accessToken)
     }
 
     private fun isTokenExpired(tokenString: String?): Boolean {

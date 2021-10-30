@@ -12,13 +12,13 @@ import java.time.ZoneId
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
-class RefreshTokenUseCase @Inject constructor(appSetting: AppPreference) {
+class RefreshTokenUseCase (refreshToken:String) {
 
-    var token: String? = null
+    var token: String =""
     var isExpared: Boolean = false
 
     init {
-        token = appSetting.getSavedString(ApplicationConstants().REFRESH_TOKEN)
+        token = refreshToken
         isExpared = isTokenExpired(token)
     }
 

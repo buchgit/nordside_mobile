@@ -34,4 +34,7 @@ interface NordsideApi {
     @POST("rest/user/auth")
     suspend fun login(@Body login: LoginBody): ServerToken
 
+    @POST("rest/user/refresh")
+    suspend fun refreshToken(): ServerToken
+
 }

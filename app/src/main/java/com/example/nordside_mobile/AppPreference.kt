@@ -2,11 +2,12 @@ package com.example.nordside_mobile
 
 import android.content.Context
 import com.example.nordside_mobile.usecases.ApplicationConstants
+import dagger.Component
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+//@Singleton перенес в BaseModule.kt
 class AppPreference @Inject constructor(
     @ApplicationContext appContext: Context
 ) {

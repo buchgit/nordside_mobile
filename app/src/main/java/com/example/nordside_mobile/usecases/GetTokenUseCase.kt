@@ -1,6 +1,7 @@
 package com.example.nordside_mobile.usecases
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.model.LoginBody
@@ -23,7 +24,7 @@ class GetTokenUseCase @Inject constructor(
     val TAG = "${GetTokenUseCase::class.java.simpleName} ###"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun execute(
+    suspend fun     execute(
         loginBody: LoginBody,
 
         ): Resource<ServerToken> {
@@ -34,10 +35,12 @@ class GetTokenUseCase @Inject constructor(
                 ApplicationConstants().ACCESS_TOKEN,
                 tokenResource.data?.accessToken
             )
+            Log.v(TAG,"saved access token ${tokenResource.data?.accessToken}")
             sharedPreferences.saveString(
                 ApplicationConstants().REFRESH_TOKEN,
                 tokenResource.data?.refreshToken
             )
+            Log.v(TAG,"saved refresh token ${tokenResource.data?.refreshToken}")
         }
 
         return tokenResource

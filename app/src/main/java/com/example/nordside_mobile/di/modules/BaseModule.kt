@@ -5,15 +5,18 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.room.Room
+import androidx.work.WorkerParameters
 import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
-import com.example.nordside_mobile.usecases.AccessTokenUseCase
-import com.example.nordside_mobile.usecases.RefreshTokenUseCase
+import com.example.nordside_mobile.repository.NordsideRepository
+import com.example.nordside_mobile.usecases.*
 import dagger.Module
 import dagger.Provides
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -21,11 +24,12 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object BaseModule {
+class BaseModule {
 
     private val TAG = "BaseModule ###"
 
@@ -84,15 +88,48 @@ object BaseModule {
     fun provideCartDao(database: NordsideDataBase): CartDao =
         database.cartDao()
 
+    @Singleton
+    @Provides
+    fun provideAppPreference(@ApplicationContext appContext: Context): AppPreference {
+        return AppPreference(appContext)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     fun provideAccessToken(appSetting: AppPreference): AccessTokenUseCase {
-        return AccessTokenUseCase(appSetting)
+        return AccessTokenUseCase(appSetting.getSavedString(ApplicationConstants().ACCESS_TOKEN)!!)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     fun provideRefreshToken(appSetting: AppPreference): RefreshTokenUseCase {
-        return RefreshTokenUseCase(appSetting)
+        return RefreshTokenUseCase(appSetting.getSavedString(ApplicationConstants().REFRESH_TOKEN)!!)
     }
+
+    @Singleton
+    @Provides
+    fun provideGetTokenUseCase(
+        repository: NordsideRepository,
+        sharedPreferences: AppPreference
+    ): GetTokenUseCase {
+        return GetTokenUseCase(repository, sharedPreferences)
+    }
+
+//    @Singleton
+//    @Provides
+//    fun provideCheckTokenUseC
+//
+//    @AssistedInject
+//    constructor(
+//        @Assisted appContext: Context,
+//        @Assisted workerParams: WorkerParameters,
+//        paramGetTokenUseCase: GetTokenUseCase
+//    ) {
+//        CheckTokenUseCase(
+//            appContext,
+//            workerParams,
+//            paramGetTokenUseCase
+//        )
+//    }
+
 }

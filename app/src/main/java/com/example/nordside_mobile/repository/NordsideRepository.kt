@@ -62,6 +62,10 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.login(login) }
     }
 
+    suspend fun refreshToken(): Resource<ServerToken> {
+        return safeApiCall { nordsideApi.refreshToken() }
+    }
+
     suspend fun getPersonalNomenclatureListByCollection(id: String): Resource<List<PriceTable>> {
         return safeApiCall { nordsideApi.getPersonalNomenclatureListByCollection(id) }
     }
