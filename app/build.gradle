@@ -121,6 +121,8 @@ dependencies {
     //
     //implementation 'androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5'
 
+    // Gif
+//    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }
 
 kapt {
