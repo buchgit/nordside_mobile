@@ -78,7 +78,7 @@
         android:label="FragmentPersonal" />
     <fragment
         android:id="@+id/fragmentOrder"
-        android:name="com.example.nordside_mobile.fragmentOrder"
+        android:name="com.example.nordside_mobile.ui.FragmentOrder"
         android:label="fragment_order"
         tools:layout="@layout/fragment_order" />
 </navigation>
