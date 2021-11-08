@@ -15,5 +15,10 @@
         android:id="@+id/fragmentCart"
         android:icon="@drawable/outline_shopping_cart_black_24dp"
         android:title="@string/title_cart" />
+    <item
+        android:id="@+id/fragmentOrder"
+        android:visible="false"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/order" />
 
 </menu>

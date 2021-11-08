@@ -63,7 +63,11 @@
     <fragment
         android:id="@+id/fragmentCart"
         android:name="com.example.nordside_mobile.ui.FragmentCart"
-        android:label="FragmentCart" />
+        android:label="FragmentCart" >
+        <action
+            android:id="@+id/action_fragmentCart_to_fragmentOrder"
+            app:destination="@id/fragmentOrder" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentForgotPass"
         android:name="com.example.nordside_mobile.ui.authoriz.FragmentForgotPass"
@@ -72,4 +76,9 @@
         android:id="@+id/fragmentPersonal"
         android:name="com.example.nordside_mobile.ui.authoriz.FragmentPersonal"
         android:label="FragmentPersonal" />
+    <fragment
+        android:id="@+id/fragmentOrder"
+        android:name="com.example.nordside_mobile.fragmentOrder"
+        android:label="fragment_order"
+        tools:layout="@layout/fragment_order" />
 </navigation>

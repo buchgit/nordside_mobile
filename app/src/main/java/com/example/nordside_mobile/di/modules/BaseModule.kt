@@ -13,6 +13,7 @@ import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.usecases.*
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.assisted.Assisted
@@ -105,31 +106,5 @@ class BaseModule {
     fun provideRefreshToken(appSetting: AppPreference): RefreshTokenUseCase {
         return RefreshTokenUseCase(appSetting.getSavedString(ApplicationConstants().REFRESH_TOKEN)!!)
     }
-
-    @Singleton
-    @Provides
-    fun provideGetTokenUseCase(
-        repository: NordsideRepository,
-        sharedPreferences: AppPreference
-    ): GetTokenUseCase {
-        return GetTokenUseCase(repository, sharedPreferences)
-    }
-
-//    @Singleton
-//    @Provides
-//    fun provideCheckTokenUseC
-//
-//    @AssistedInject
-//    constructor(
-//        @Assisted appContext: Context,
-//        @Assisted workerParams: WorkerParameters,
-//        paramGetTokenUseCase: GetTokenUseCase
-//    ) {
-//        CheckTokenUseCase(
-//            appContext,
-//            workerParams,
-//            paramGetTokenUseCase
-//        )
-//    }
 
 }

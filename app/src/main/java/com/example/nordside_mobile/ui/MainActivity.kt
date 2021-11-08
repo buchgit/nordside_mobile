@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -12,18 +14,22 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
-import com.example.nordside_mobile.model.*
-import com.example.nordside_mobile.repository.NordsideRepository
+import com.example.nordside_mobile.model.Category
+import com.example.nordside_mobile.model.LoginBody
+import com.example.nordside_mobile.model.NomenclatureCollection
+import com.example.nordside_mobile.model.PriceTable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
-    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback {
+    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, FragmentCart.Callback {
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
     lateinit var navController: NavController
+    lateinit var navView: BottomNavigationView
 
     private var currentFragment: Fragment? = null
 
@@ -48,12 +54,17 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         setSupportActionBar(binding.toolbarMain)
         supportActionBar?.also { it.setDisplayShowTitleEnabled(false) }
 
-        val navView: BottomNavigationView = binding.navView
+        navView = binding.navView
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+
     }
+
+//    private val navListener =  View.OnClickListener { item ->
+//            Log.v(TAG,item.id.toString())
+//        }
 
     // Общая функций для навигации
     private fun launchDestination(destinationId: Int, args: Bundle? = null) {
@@ -117,4 +128,28 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     override fun onSupportNavigateUp(): Boolean {
        return navController.navigateUp() || super.onSupportNavigateUp()
    }
+
+    override fun hideCartInBottomNavigation() {
+        navView.menu.forEach { item ->
+            if (item.title == getString(R.string.cart)) {
+                item.isVisible = false
+            }
+            if (item.title == getString(R.string.making_an_order)) {
+                item.isVisible = true
+            }
+        }
+
+    }
+
+    override fun setVisibleCartInBottomNavigation() {
+        navView.menu.forEach { item ->
+            if (item.title == getString(R.string.cart)) {
+                item.isVisible = true
+            }
+            if (item.title == getString(R.string.making_an_order)) {
+                item.isVisible = false
+            }
+        }
+
+    }
 }

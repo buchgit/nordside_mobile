@@ -1,12 +1,14 @@
 package com.example.nordside_mobile.ui
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -62,6 +64,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         fun onRegistrationClicked(login: LoginBody)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -78,6 +81,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun loginButtonListener() {
         loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
         Log.v(TAG, "login ${loginBody.email} ${loginBody.password}")

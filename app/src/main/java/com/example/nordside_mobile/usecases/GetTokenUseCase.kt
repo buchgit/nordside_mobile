@@ -24,10 +24,7 @@ class GetTokenUseCase @Inject constructor(
     val TAG = "${GetTokenUseCase::class.java.simpleName} ###"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun     execute(
-        loginBody: LoginBody,
-
-        ): Resource<ServerToken> {
+    suspend fun execute(loginBody: LoginBody): Resource<ServerToken> {
         val tokenResource = repositoryApi.login(loginBody)
 
         if (tokenResource is Resource.Success) {
@@ -35,14 +32,13 @@ class GetTokenUseCase @Inject constructor(
                 ApplicationConstants().ACCESS_TOKEN,
                 tokenResource.data?.accessToken
             )
-            Log.v(TAG,"saved access token ${tokenResource.data?.accessToken}")
+            Log.v(TAG, "saved access token ${tokenResource.data?.accessToken}")
             sharedPreferences.saveString(
                 ApplicationConstants().REFRESH_TOKEN,
                 tokenResource.data?.refreshToken
             )
-            Log.v(TAG,"saved refresh token ${tokenResource.data?.refreshToken}")
+            Log.v(TAG, "saved refresh token ${tokenResource.data?.refreshToken}")
         }
-
         return tokenResource
     }
 

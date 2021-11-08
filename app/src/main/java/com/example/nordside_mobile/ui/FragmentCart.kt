@@ -1,5 +1,6 @@
 package com.example.nordside_mobile.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +32,12 @@ class FragmentCart:Fragment() {
     private var currentCount:Double? = null
     private var currentSumma:Double? = null
     private var currentPrice:Double? = null
+    private var callbacks:Callback? = null
+
+    interface Callback{
+        fun hideCartInBottomNavigation()
+        fun setVisibleCartInBottomNavigation()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,11 +67,19 @@ class FragmentCart:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         cartViewModel.getAllCartPosition().observe(viewLifecycleOwner,
             Observer {
                 recyclerView.adapter = CartAdapter(it)
             })
 
+        callbacks!!.hideCartInBottomNavigation()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        callbacks!!.setVisibleCartInBottomNavigation()
     }
 
 //    override fun onDetach() {
@@ -157,5 +173,15 @@ class FragmentCart:Fragment() {
             }
         }
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callback
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
     }
 }

@@ -36,6 +36,7 @@ class CheckTokenUseCase @AssistedInject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun doWork(): Result {
+        Log.v(TAG,"doWork()")
         val accessTokenUseCase = appPreference.getString(ApplicationConstants().ACCESS_TOKEN, "")
             ?.let { AccessTokenUseCase(it) }
         if (accessTokenUseCase != null) {

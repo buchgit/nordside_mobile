@@ -23,6 +23,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/layout/toolbar.xml" value="0.20052083333333334" />
         <entry key="..\:/Users/User/AndroidStudioProjects/nordside_mobile/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20052083333333334" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/custom_button.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
@@ -36,6 +37,7 @@
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_nomenclature_item.xml" value="0.19298688193743693" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_nomenclature_list.xml" value="0.3423913043478261" />
+        <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_order.xml" value="0.2558876811594203" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_personal_office.xml" value="0.23229166666666667" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/fragment_register.xml" value="0.23229166666666667" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/layout/nomenclature_list_view_holder.xml" value="0.32653985507246375" />
