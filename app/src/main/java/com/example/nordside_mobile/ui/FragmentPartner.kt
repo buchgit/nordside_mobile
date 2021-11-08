@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -38,10 +39,23 @@ class FragmentPartner : Fragment(R.layout.fragment_partner) {
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_partner)
+        progressBar.visibility = View.VISIBLE
         val partnerListLiveData = partnerViewModel.partnerListLiveData
 
         partnerListLiveData.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = PartnerAdapter(it.data!!)
+            progressBar.visibility = View.INVISIBLE
+            when (partnerListLiveData.value) {
+                is Resource.Success -> {
+                    recyclerView.adapter = PartnerAdapter(it.data!!)
+                }
+                is Resource.Error -> {
+                    val errorTextView = view.findViewById<TextView>(R.id.error_message_partner)
+                    errorTextView.visibility = View.VISIBLE
+                    errorTextView.text =
+                        (partnerListLiveData.value as Resource.Error<List<Partner>>).message
+                }
+            }
         })
     }
 

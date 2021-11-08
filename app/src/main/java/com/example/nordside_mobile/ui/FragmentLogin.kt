@@ -98,14 +98,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
                 when (tokenLiveData.value) {
                     is Resource.Success -> {
-//                        Toast.makeText(
-//                            context?.applicationContext,
-//                            (tokenLiveData.value as Resource.Success<ServerToken>).data?.token,
-//                            Toast.LENGTH_LONG
-//                        ).show()
-
                         Log.v(TAG, "Resource.Success ${tokenLiveData.value}")
-
                         callbacks?.onLoginClicked(true)
                     }
                     is Resource.Error -> {

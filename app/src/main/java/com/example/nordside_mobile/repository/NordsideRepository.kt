@@ -28,15 +28,6 @@ class NordsideRepository @Inject constructor(
 
     private val TAG = "${NordsideRepository::class.java.simpleName} ###"
 
-    private val DATABASE_NAME = "nordside database"
-
-    private val database: NordsideDataBase =
-        Room.databaseBuilder(
-            context.applicationContext,
-            NordsideDataBase::class.java,
-            DATABASE_NAME
-        ).build()
-
     suspend fun getNomenclatureList(): Resource<List<NomenclatureCollection>> {
         return safeApiCall { nordsideApi.getNomenclatureList() }
     }

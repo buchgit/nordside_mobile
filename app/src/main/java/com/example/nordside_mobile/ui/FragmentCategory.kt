@@ -2,10 +2,12 @@ package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -14,11 +16,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
+import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.viewmodel.FragmentCategoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class FragmentCategory : Fragment(R.layout.fragment_category) {
@@ -43,14 +49,35 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
 
         recyclerView = view.findViewById(R.id.recycler_view_fragment_category) as RecyclerView
 
-        recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
 
+
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_category)
+        progressBar.visibility = View.VISIBLE
         val categoryListLiveData = categoryViewModel.categoryListLiveData
 
+
+
+
         categoryListLiveData.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = CategoryAdapter(it.data!!)
+            progressBar.visibility = View.INVISIBLE
+            when (categoryListLiveData.value) {
+                is Resource.Success -> {
+                    recyclerView.adapter = CategoryAdapter(it.data!!)
+                }
+                is Resource.Error -> {
+                    val errorTextView = view.findViewById<TextView>(R.id.error_message_category)
+                    errorTextView.text =
+                        (categoryListLiveData.value as Resource.Error<List<Category>>).message
+                    errorTextView.visibility = View.VISIBLE
+                }
+            }
         })
+
+        autoScrollRV(recyclerView)
+
 
 
     }
@@ -108,8 +135,35 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     }
 
 
-    private fun showErrorMessage(message: String) {
+    private fun showErrorMessage(message: String?) {
 
+    }
+
+    private fun hideProgressBar() {
+
+    }
+
+    private fun showProgressBar() {
+
+    }
+
+    private fun autoScrollRV(recyclerView: RecyclerView) {
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        viewLifecycleOwner.lifecycleScope.launch() {
+            while (true) {
+                withContext(Dispatchers.IO) {
+                    delay(5000)
+                }
+                if (layoutManager.findLastCompletelyVisibleItemPosition()
+                    < (recyclerView.adapter?.itemCount ?: 0) - 1
+                ) {
+                    recyclerView.smoothScrollToPosition(
+                        layoutManager.findLastCompletelyVisibleItemPosition() + 1)
+                } else {
+                    recyclerView.smoothScrollToPosition(0)
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
