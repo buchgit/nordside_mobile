@@ -20,5 +20,10 @@
         android:visible="false"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/order" />
+    <item
+        android:id="@+id/fragmentAllOrders"
+        android:visible="false"
+        android:icon="@drawable/icon_buy"
+        android:title="@string/buy" />
 
 </menu>

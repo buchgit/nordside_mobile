@@ -21,10 +21,9 @@ import com.example.nordside_mobile.model.PriceTable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
-    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, FragmentCart.Callback {
+    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback {
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
@@ -129,27 +128,12 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
        return navController.navigateUp() || super.onSupportNavigateUp()
    }
 
-    override fun hideCartInBottomNavigation() {
+    override fun setButtonVisible(buttonName: Int, isVisible: Boolean) {
         navView.menu.forEach { item ->
-            if (item.title == getString(R.string.cart)) {
-                item.isVisible = false
-            }
-            if (item.title == getString(R.string.making_an_order)) {
-                item.isVisible = true
+            if (item.title == getString(buttonName)) {
+                item.isVisible = isVisible
+                item.isChecked = isVisible
             }
         }
-
-    }
-
-    override fun setVisibleCartInBottomNavigation() {
-        navView.menu.forEach { item ->
-            if (item.title == getString(R.string.cart)) {
-                item.isVisible = true
-            }
-            if (item.title == getString(R.string.making_an_order)) {
-                item.isVisible = false
-            }
-        }
-
     }
 }

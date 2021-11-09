@@ -32,12 +32,12 @@ class FragmentCart:Fragment() {
     private var currentCount:Double? = null
     private var currentSumma:Double? = null
     private var currentPrice:Double? = null
-    private var callbacks:Callback? = null
+    private var callbacks:BottomNavigationButtonCallback? = null
 
-    interface Callback{
-        fun hideCartInBottomNavigation()
-        fun setVisibleCartInBottomNavigation()
-    }
+//    interface Callback{
+//        fun hideCartInBottomNavigation()
+//        fun setVisibleCartInBottomNavigation()
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,13 +73,15 @@ class FragmentCart:Fragment() {
                 recyclerView.adapter = CartAdapter(it)
             })
 
-        callbacks!!.hideCartInBottomNavigation()
+        callbacks!!.setButtonVisible(R.string.cart, false)
+        callbacks!!.setButtonVisible(R.string.making_an_order, true)
 
     }
 
     override fun onStop() {
         super.onStop()
-        callbacks!!.setVisibleCartInBottomNavigation()
+        callbacks!!.setButtonVisible(R.string.cart, true)
+        callbacks!!.setButtonVisible(R.string.making_an_order, false)
     }
 
 //    override fun onDetach() {
@@ -177,7 +179,7 @@ class FragmentCart:Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callbacks = context as Callback
+        callbacks = context as BottomNavigationButtonCallback
     }
 
     override fun onDetach() {
