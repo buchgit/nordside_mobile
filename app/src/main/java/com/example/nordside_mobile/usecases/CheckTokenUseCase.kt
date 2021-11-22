@@ -11,9 +11,16 @@ import androidx.work.WorkerParameters
 import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.MyApp
 import com.example.nordside_mobile.model.LoginBody
+import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.NordsideRepository
+import com.example.nordside_mobile.repository.Resource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -21,8 +28,8 @@ import javax.inject.Inject
 @HiltWorker
 class CheckTokenUseCase @AssistedInject constructor(
     @Assisted appContext: Context,
-    @Assisted workerParams: WorkerParameters,
-    paramGetTokenUseCase: GetTokenUseCase
+    @Assisted workerParams: WorkerParameters
+    //paramGetTokenUseCase: GetTokenUseCaseInt
 ) : Worker(appContext, workerParams) {
 
     private val TAG = "${CheckTokenUseCase::class.java.simpleName} ###"
@@ -32,9 +39,20 @@ class CheckTokenUseCase @AssistedInject constructor(
         Context.MODE_PRIVATE
     )
 
-    var getTokenUseCase: GetTokenUseCase = paramGetTokenUseCase
+    //var getTokenUseCase = paramGetTokenUseCase as GetTokenUseCase
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface GetTokenUseCaseInt {
+        fun getTokenUseCase(): GetTokenUseCase
+    }
+
+    val getTokenUseCaseInt =
+        EntryPointAccessors.fromApplication(appContext, GetTokenUseCaseInt::class.java)
+
+    var getTokenUseCase = getTokenUseCaseInt.getTokenUseCase()
+
+        @RequiresApi(Build.VERSION_CODES.O)
     override fun doWork(): Result {
         Log.v(TAG,"doWork()")
         val accessTokenUseCase = appPreference.getString(ApplicationConstants().ACCESS_TOKEN, "")
@@ -51,7 +69,7 @@ class CheckTokenUseCase @AssistedInject constructor(
     private fun launchRefreshToken() = runBlocking {
         launch {
             Log.v(TAG,"launchRefreshToken()")
-            getTokenUseCase.execute(LoginBody())
+            getTokenUseCase.execute(LoginBody("user@gmail.com","user"))
         }
     }
 

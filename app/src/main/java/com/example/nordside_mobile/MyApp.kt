@@ -39,8 +39,7 @@ open class MyApp : Application(), Configuration.Provider {
     var tokenRefreshRequest = PeriodicWorkRequest.Builder(
         CheckTokenUseCase::class.java, 15,
         java.util.concurrent.TimeUnit.MINUTES
-    )
-        .build()
+    ).build()
 
     override fun onCreate() {
         super.onCreate()

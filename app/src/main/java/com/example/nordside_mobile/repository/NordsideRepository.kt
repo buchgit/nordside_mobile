@@ -61,6 +61,10 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.getPersonalNomenclatureListByCollection(id) }
     }
 
+    suspend fun saveOrderOnServer(order: Order):Resource<String>{
+        return safeApiCall { nordsideApi.saveOrderOnServer(order) }
+    }
+
     @Transaction
     fun saveToCart(code: String, count: Double, summa: Double, title: String, unit: String) =
         runBlocking {
@@ -105,6 +109,8 @@ class NordsideRepository @Inject constructor(
     fun getAllCartPosition(): LiveData<List<CartPositionPojo?>> {
         return cartDao.getAllCartPositions()
     }
+
+
 
 }
 

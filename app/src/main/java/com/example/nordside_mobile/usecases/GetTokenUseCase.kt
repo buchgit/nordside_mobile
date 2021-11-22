@@ -8,9 +8,13 @@ import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.repository.Resource
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.jsonwebtoken.JwtParser
 import io.jsonwebtoken.impl.TextCodec
 import io.jsonwebtoken.lang.Strings
+import kotlinx.coroutines.delay
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -19,13 +23,18 @@ import javax.inject.Inject
 class GetTokenUseCase @Inject constructor(
     private val repositoryApi: NordsideRepository,
     private val sharedPreferences: AppPreference
-) {
+)  {
 
     val TAG = "${GetTokenUseCase::class.java.simpleName} ###"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun execute(loginBody: LoginBody): Resource<ServerToken> {
-        val tokenResource = repositoryApi.login(loginBody)
+    suspend fun execute(loginBody: LoginBody?): Resource<ServerToken> {
+
+        val tokenResource: Resource<ServerToken> = if (loginBody == null) {
+            repositoryApi.refreshToken()
+        } else {
+            repositoryApi.login(loginBody)
+        }
 
         if (tokenResource is Resource.Success) {
             sharedPreferences.saveString(
@@ -38,8 +47,9 @@ class GetTokenUseCase @Inject constructor(
                 tokenResource.data?.refreshToken
             )
             Log.v(TAG, "saved refresh token ${tokenResource.data?.refreshToken}")
+        } else {
+            Log.v(TAG, "tokenResource is not Resource.Success ${tokenResource.message}")
         }
         return tokenResource
     }
-
 }

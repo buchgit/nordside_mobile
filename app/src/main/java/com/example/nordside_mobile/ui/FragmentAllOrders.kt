@@ -8,14 +8,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.model.Order
+import com.example.nordside_mobile.model.OrderLine
 import com.example.nordside_mobile.viewmodel.FragmentAllOrdersViewModel
+import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FragmentAllOrders:Fragment() {
-    private val viewModel by viewModels<FragmentAllOrdersViewModel>()
+    private val allOrdersViewModel by viewModels<FragmentAllOrdersViewModel>()
+    private val cartViewModel by viewModels<FragmentCartViewModel>()
     private lateinit var recyclerView: RecyclerView
     private var callback: BottomNavigationButtonCallback? = null
 
@@ -37,6 +42,31 @@ class FragmentAllOrders:Fragment() {
 
         callback!!.setButtonVisible(R.string.buy, false)
 
+        makeAnOrder()
+
+    }
+
+    private fun makeAnOrder() {
+        //get cart items
+        cartViewModel.getAllCartPosition().observe(viewLifecycleOwner,
+        Observer {
+            val summa:Double = 0.00
+            val orderLineList = mutableListOf<OrderLine>()
+            for (i in it.indices){
+                val cartLine = it[i]
+                val orderLine  = OrderLine(
+                    cartLine?.code,
+                    cartLine?.title,
+                    cartLine?.unit,
+                    cartLine?.count,
+                    cartLine?.summa
+                )
+                orderLineList.add(orderLine)
+                summa.plus(cartLine?.summa!!)
+            }
+            var order = Order(null,null, summa, orderLineList)
+            allOrdersViewModel.saveOrderOnServer(order)
+        })
     }
 
 //    override fun onStop() {

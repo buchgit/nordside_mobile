@@ -22,9 +22,9 @@ class RefreshTokenUseCase (refreshToken:String) {
         isExpared = isTokenExpired(token)
     }
 
-    private fun isTokenExpired(tokenString: String?): Boolean {
+    private fun isTokenExpired(tokenString: String): Boolean {
 
-        if (tokenString == null) {
+        if (tokenString == "") {
             return false
         }
 

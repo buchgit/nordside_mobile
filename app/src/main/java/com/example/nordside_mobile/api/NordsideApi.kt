@@ -37,4 +37,9 @@ interface NordsideApi {
     @POST("rest/user/refresh")
     suspend fun refreshToken(): ServerToken
 
+    @POST("rest/user/order/create")
+    suspend fun saveOrderOnServer(@Body order:Order):String
+
+    @GET("rest/user/order/all")
+    suspend fun getOrderList(): List<Order>
 }

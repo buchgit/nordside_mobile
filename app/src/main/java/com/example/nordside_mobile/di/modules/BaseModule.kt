@@ -11,6 +11,7 @@ import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
+import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.usecases.*
 import dagger.Binds
@@ -47,8 +48,10 @@ class BaseModule {
         var token: String? = null
         if (!accessTokenUseCase.isExpared) {
             token = accessTokenUseCase.token
+            Log.v(TAG, "access token is no expired")
         } else if (!refreshTokenUseCase.isExpared) {
             token = refreshTokenUseCase.token
+            Log.v(TAG, "### refresh token is no expired $token")
         } else {
             Log.v(TAG, "Both tokens is expired or null")
         }//TODO if both tokens is expired needs anything to do
@@ -98,13 +101,28 @@ class BaseModule {
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     fun provideAccessToken(appSetting: AppPreference): AccessTokenUseCase {
-        return AccessTokenUseCase(appSetting.getSavedString(ApplicationConstants().ACCESS_TOKEN)!!)
+        return AccessTokenUseCase(appSetting.getSavedString(ApplicationConstants().ACCESS_TOKEN) ?:"")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     fun provideRefreshToken(appSetting: AppPreference): RefreshTokenUseCase {
-        return RefreshTokenUseCase(appSetting.getSavedString(ApplicationConstants().REFRESH_TOKEN)!!)
+        return RefreshTokenUseCase(appSetting.getSavedString(ApplicationConstants().REFRESH_TOKEN) ?:"")
     }
+
+    @Provides
+    fun provideLoginBody(): LoginBody {
+        return LoginBody()
+    }
+
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    @Provides
+//    fun provideCheckTokenUseCase(
+//        @ApplicationContext appContext: Context,
+//        workerParams: WorkerParameters,
+//        paramGetTokenUseCase: GetTokenUseCase
+//    ): CheckTokenUseCase {
+//        return CheckTokenUseCase(appContext, workerParams, paramGetTokenUseCase)
+//    }
 
 }

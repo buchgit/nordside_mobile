@@ -23,9 +23,9 @@ class AccessTokenUseCase(accessToken:String) {
         isExpared = isTokenExpired(accessToken)
     }
 
-    private fun isTokenExpired(tokenString: String?): Boolean {
+    private fun isTokenExpired(tokenString: String): Boolean {
 
-        if (tokenString == null) {
+        if (tokenString == "") {
             return false
         }
 
