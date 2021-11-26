@@ -25,6 +25,9 @@ interface CartDao {
     @Query("delete from CartPosition where code=:code ")
     suspend fun deleteCartPosition(code: String)
 
+    @Query("select sum(summa) as summa from CartPosition")
+    fun getTotalCartSumma():LiveData<Double>
+
 //    @Delete
 //    suspend fun deleteAll()
 

@@ -33,5 +33,7 @@
     <string name="making_an_order">Оформить заказ</string>
     <string name="buy">Купить</string>
     <string name="all_orders">Ваши заказы</string>
+    <string name="totalOrderSumma">"Итого по заказу: "</string>
+    <string name="rubles">" руб."</string>
 
 </resources>

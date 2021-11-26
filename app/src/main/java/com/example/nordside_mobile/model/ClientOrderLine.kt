@@ -1,6 +1,9 @@
 package com.example.nordside_mobile.model
 
-class OrderLine (
+import com.google.gson.annotations.SerializedName
+
+
+class ClientOrderLine (
     var code :String?,
     var title:String?,
     var unit:String?,
