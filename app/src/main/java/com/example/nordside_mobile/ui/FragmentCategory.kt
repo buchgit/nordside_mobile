@@ -53,12 +53,9 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         recyclerView.layoutManager = layoutManager
 
 
-
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_category)
         progressBar.visibility = View.VISIBLE
         val categoryListLiveData = categoryViewModel.categoryListLiveData
-
-
 
 
         categoryListLiveData.observe(viewLifecycleOwner, Observer {
@@ -66,6 +63,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             when (categoryListLiveData.value) {
                 is Resource.Success -> {
                     recyclerView.adapter = CategoryAdapter(it.data!!)
+                    autoScrollRV(recyclerView)
                 }
                 is Resource.Error -> {
                     val errorTextView = view.findViewById<TextView>(R.id.error_message_category)
@@ -75,11 +73,6 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 }
             }
         })
-
-        autoScrollRV(recyclerView)
-
-
-
     }
 
 
@@ -114,7 +107,6 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
 
     }
 
-
     // Adapter
     inner class CategoryAdapter(private var categoryList: List<Category>) :
         RecyclerView.Adapter<CategoryHolder>() {
@@ -134,34 +126,42 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         }
     }
 
-
-    private fun showErrorMessage(message: String?) {
-
-    }
-
-    private fun hideProgressBar() {
-
-    }
-
-    private fun showProgressBar() {
-
-    }
-
     private fun autoScrollRV(recyclerView: RecyclerView) {
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        var position = 0
+        var isTouched = false
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                isTouched = true
+            }
+        })
+
         viewLifecycleOwner.lifecycleScope.launch() {
+
+            withContext(Dispatchers.IO) { delay(1000) }
             while (true) {
-                withContext(Dispatchers.IO) {
-                    delay(5000)
+
+                if (isTouched) {
+                    isTouched = false
+                    withContext(Dispatchers.IO) { delay(4000) }
+                    continue
                 }
-                if (layoutManager.findLastCompletelyVisibleItemPosition()
-                    < (recyclerView.adapter?.itemCount ?: 0) - 1
-                ) {
-                    recyclerView.smoothScrollToPosition(
-                        layoutManager.findLastCompletelyVisibleItemPosition() + 1)
-                } else {
-                    recyclerView.smoothScrollToPosition(0)
+
+                position = layoutManager.findLastCompletelyVisibleItemPosition()
+                when {
+                    position == -1 -> {
+                        recyclerView.smoothScrollToPosition(layoutManager.findLastVisibleItemPosition())
+                    }
+                    position < (recyclerView.adapter?.itemCount ?: 0) - 1 -> {
+                        recyclerView.smoothScrollToPosition(position + 1)
+                    }
+                    else -> {
+                        recyclerView.smoothScrollToPosition(0)
+                    }
                 }
+                withContext(Dispatchers.IO) { delay(1000) }
             }
         }
     }
