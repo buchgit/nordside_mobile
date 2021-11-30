@@ -12,8 +12,10 @@ import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -110,9 +112,13 @@ class NordsideRepository @Inject constructor(
         return cartDao.getAllCartPositions()
     }
 
-
-
+    fun getTotalCartSumma(): LiveData<Double> {
+        return cartDao.getTotalCartSumma()
+    }
 }
+
+
+
 
 
 

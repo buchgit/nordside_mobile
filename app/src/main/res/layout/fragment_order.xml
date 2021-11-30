@@ -18,13 +18,18 @@
         android:layout_height="wrap_content"
         android:text="Товар ..."
         app:layout_constraintTop_toBottomOf="@+id/tw_fragment_order_1" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_fragment_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tw_fragment_order_2"
+        />
     <TextView
         android:id="@+id/tw_fragment_order_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Итого сумма"
-        app:layout_constraintTop_toBottomOf="@+id/tw_fragment_order_2"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view_fragment_order"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="126dp" />
 

@@ -1,21 +1,24 @@
 package com.example.nordside_mobile.ui
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Order
-import com.example.nordside_mobile.model.OrderLine
+import com.example.nordside_mobile.model.ClientOrderLine
 import com.example.nordside_mobile.viewmodel.FragmentAllOrdersViewModel
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class FragmentAllOrders:Fragment() {
@@ -46,15 +49,16 @@ class FragmentAllOrders:Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun makeAnOrder() {
         //get cart items
         cartViewModel.getAllCartPosition().observe(viewLifecycleOwner,
         Observer {
             val summa:Double = 0.00
-            val orderLineList = mutableListOf<OrderLine>()
+            val orderLineList = mutableListOf<ClientOrderLine>()
             for (i in it.indices){
                 val cartLine = it[i]
-                val orderLine  = OrderLine(
+                val orderLine  = ClientOrderLine(
                     cartLine?.code,
                     cartLine?.title,
                     cartLine?.unit,
@@ -64,7 +68,7 @@ class FragmentAllOrders:Fragment() {
                 orderLineList.add(orderLine)
                 summa.plus(cartLine?.summa!!)
             }
-            var order = Order(null,null, summa, orderLineList)
+            val order = Order("", LocalDate.now(),"", summa, orderLineList)
             allOrdersViewModel.saveOrderOnServer(order)
         })
     }
