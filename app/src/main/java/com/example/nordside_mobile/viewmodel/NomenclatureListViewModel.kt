@@ -1,5 +1,6 @@
 package com.example.nordside_mobile.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import com.example.nordside_mobile.model.PriceTable
 import com.example.nordside_mobile.repository.NordsideRepository
 import com.example.nordside_mobile.repository.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
