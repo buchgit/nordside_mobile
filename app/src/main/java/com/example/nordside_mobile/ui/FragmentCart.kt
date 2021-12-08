@@ -164,29 +164,24 @@ class FragmentCart:Fragment(R.layout.fragment_cart) {
                     currentCount = currentCount!! + 1
                     currentSumma = currentSumma!! + currentPrice!!
 
-                    cartViewModel.saveToCart(
-                        currentCartPosition?.code!!,
-                        currentCount!!,
-                        currentSumma!!,
-                        currentCartPosition?.title!!,
-                        currentCartPosition?.unit!!,
-                        currentCartPosition?.imageUri
-                    )
                 }
                 BUTTON_MINUS -> {
                     currentCount = currentCount!! - 1
                     currentSumma = currentSumma!! - currentPrice!!
-
-                    cartViewModel.saveToCart(
-                        currentCartPosition?.code!!,
-                        currentCount!!,
-                        currentSumma!!,
-                        currentCartPosition?.title!!,
-                        currentCartPosition?.unit!!,
-                        currentCartPosition?.imageUri
-                    )
+                    if (currentCount!! <= 0.00) {
+                        cartViewModel.deleteCartPosition(currentCartPosition!!.code!!)
+                        return
+                    }
                 }
             }
+            cartViewModel.saveToCart(
+                currentCartPosition?.code!!,
+                currentCount!!,
+                currentSumma!!,
+                currentCartPosition?.title!!,
+                currentCartPosition?.unit!!,
+                currentCartPosition?.imageUri
+            )
         }
 
 //        private fun changeCart(event:View){
