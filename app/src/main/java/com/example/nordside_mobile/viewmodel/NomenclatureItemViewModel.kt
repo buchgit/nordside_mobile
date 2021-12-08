@@ -1,5 +1,6 @@
 package com.example.nordside_mobile.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -15,8 +16,8 @@ class NomenclatureItemViewModel @Inject constructor(
 
     private val TAG =  "${NomenclatureItemViewModel::class.java.simpleName} ###"
 
-    fun saveToCart(owner: LifecycleOwner, code: String, count: Double, summa:Double, title:String, unit:String) {
-        repository.saveToCart(code, count, summa, title, unit)
+    fun saveToCart(owner: LifecycleOwner, code: String, count: Double, summa:Double, title:String, unit:String, imageUri: Uri) {
+        repository.saveToCart(code, count, summa, title, unit, imageUri)
     }
 
     fun getCartPositionCount(code:String):LiveData<CartPositionPojo?>{

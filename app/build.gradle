@@ -32,16 +32,16 @@ android {
             //buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/ru.nordside-1.5-auth-SNAPSHOT/\"'
             //buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/ru.nordside-1.4-SNAPSHOT/\"'
             //////////buildConfigField "String", "BASE_URL", '\"http://localhost:8080/\"'
-            //buildConfigField "String", "BASE_URL", '\"http://nordside-shop.herokuapp.com/\"'
-            buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/\"'
+            buildConfigField "String", "BASE_URL", '\"http://nordside-shop.herokuapp.com/\"'
+//            buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/\"'
         }
         debug{
 
             //buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/ru.nordside-1.5-auth-SNAPSHOT/\"'
             //buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/ru.nordside-1.4-SNAPSHOT/\"'
             ///////////buildConfigField "String", "BASE_URL", '\"http://localhost:8080/\"'
-            //buildConfigField "String", "BASE_URL", '\"http://nordside-shop.herokuapp.com/\"'
-            buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/\"'
+            buildConfigField "String", "BASE_URL", '\"http://nordside-shop.herokuapp.com/\"'
+//            buildConfigField "String", "BASE_URL", '\"http://192.168.1.179:8080/\"'
         }
     }
     compileOptions {
@@ -74,8 +74,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //Room
-    implementation 'androidx.room:room-runtime:2.4.0-beta01'
-    kapt 'androidx.room:room-compiler:2.4.0-beta01'
+    implementation 'androidx.room:room-runtime:2.4.0-rc01'
+    kapt 'androidx.room:room-compiler:2.4.0-rc01'
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.3.0")
 

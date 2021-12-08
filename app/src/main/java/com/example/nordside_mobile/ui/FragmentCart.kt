@@ -2,36 +2,42 @@ package com.example.nordside_mobile.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.database.CartPositionPojo
+import com.example.nordside_mobile.databinding.CartViewHolderBinding
+import com.example.nordside_mobile.databinding.FragmentCartBinding
+import com.example.nordside_mobile.databinding.FragmentOrderBinding
 import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class FragmentCart:Fragment() {
+class FragmentCart:Fragment(R.layout.fragment_cart) {
 
     private val cartViewModel by viewModels<FragmentCartViewModel>()
-    private lateinit var recyclerView:RecyclerView
-    //private var _binding: FragmentCartBinding? = null
-    //private val binding get() = _binding!!
+    private var _binding: FragmentCartBinding? = null
+    private val binding get() = _binding!!
     private var COUNT_TO_CART_PLUS = 1.00
     private var COUNT_TO_CART_MINUS = -1.00
     private var CURRENT_SUMMA = 0.00
-    private var currentCount:Double? = null
-    private var currentSumma:Double? = null
-    private var currentPrice:Double? = null
     private var callbacks:BottomNavigationButtonCallback? = null
 
 //    interface Callback{
@@ -39,44 +45,37 @@ class FragmentCart:Fragment() {
 //        fun setVisibleCartInBottomNavigation()
 //    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-//        _binding = FragmentCartBinding.inflate(inflater, container, false)
-//        val root: View = binding.root
-//
-//        val textView = binding.twFragmentCart
-//        textView.setText("Cart")
-//        val recyclerView = binding.recyclerViewFragmentCart
-
-        val view = inflater.inflate(R.layout.fragment_cart, container, false)
-        val textView = view.findViewById(R.id.tw_fragment_cart) as TextView
-        recyclerView = view.findViewById(R.id.recycler_view_fragment_cart) as RecyclerView
-
-        recyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        cartViewModel.getAllCartPosition().observe(viewLifecycleOwner,
-        Observer {
-            recyclerView.adapter = CartAdapter(it)
-        })
-        return view
-        //return root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCartBinding.bind(view)
+        binding.recyclerViewFragmentCart.layoutManager =
+            LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 
-        cartViewModel.getAllCartPosition().observe(viewLifecycleOwner,
-            Observer {
-                recyclerView.adapter = CartAdapter(it)
-            })
+//        //  Чтобы не мигало при изменение суммы
+//        val itemChangeAnimation = binding.recyclerViewFragmentCart.itemAnimator
+//        if (itemChangeAnimation is DefaultItemAnimator) {
+//            itemChangeAnimation.supportsChangeAnimations = false
+//        }
+
+        viewLifecycleOwner.lifecycleScope.apply {
+            launchWhenStarted {
+                cartViewModel.allCartPosition.collect {
+                    it?.let {
+                        if (binding.recyclerViewFragmentCart.adapter == null) {
+                            binding.recyclerViewFragmentCart.adapter = CartAdapter(it)
+                        } else {
+                            (binding.recyclerViewFragmentCart.adapter as CartAdapter)
+                                .updateAdapter(it)
+                        }
+                    }
+                }
+            }
+        }
 
         callbacks!!.setButtonVisible(R.string.cart, false)
         callbacks!!.setButtonVisible(R.string.making_an_order, true)
-
     }
+
 
     override fun onStop() {
         super.onStop()
@@ -84,24 +83,20 @@ class FragmentCart:Fragment() {
         callbacks!!.setButtonVisible(R.string.making_an_order, false)
     }
 
-//    override fun onDetach() {
-//        super.onDetach()
-//        _binding = null
-//    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+    inner class CartAdapter( private var cartPositionList: List<CartPositionPojo?>):RecyclerView.Adapter<CartHolder>() {
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
+        fun updateAdapter(newPositionList: List<CartPositionPojo?>) {
+            val diffCallback = CartDiffCallback(cartPositionList, newPositionList)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            cartPositionList = newPositionList
+            diffResult.dispatchUpdatesTo(this@CartAdapter)
+        }
 
-    inner class CartAdapter(private var cartPositionList:List<CartPositionPojo?>):RecyclerView.Adapter<CartHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartHolder {
             val inflater = LayoutInflater.from(context)
-            val view:View = inflater.inflate(R.layout.cart_view_holder, parent, false)
-            return CartHolder(view)
+            val binding = CartViewHolderBinding.inflate(inflater, parent, false)
+            return CartHolder(binding)
         }
 
         override fun onBindViewHolder(holder: CartHolder, position: Int) {
@@ -113,68 +108,119 @@ class FragmentCart:Fragment() {
         }
     }
 
-    inner class CartHolder(view: View):RecyclerView.ViewHolder(view){
 
-        private val textView_title:TextView = itemView.findViewById(R.id.tw_cart_view_holder_1)
-        private val textView_unit:TextView = itemView.findViewById(R.id.tw_cart_view_holder_2)
-        private val textView_count:TextView = itemView.findViewById(R.id.tw_cart_view_holder_3)
-        private val textView_summa:TextView = itemView.findViewById(R.id.tw_cart_view_holder_4)
-        private val button_plus:MaterialButton = itemView.findViewById(R.id.button_plus_cart_view_holder)
-        private val button_minus:MaterialButton = itemView.findViewById(R.id.button_minus_cart_view_holder)
+    inner class CartHolder(
+        private val binding: CartViewHolderBinding
+    ):RecyclerView.ViewHolder(binding.root){
         private var currentCartPosition: CartPositionPojo? = null
-
-
-        fun binding(cartPosition: CartPositionPojo?) {
-            currentCartPosition = cartPosition
-            currentCount = currentCartPosition?.count
-            currentSumma = currentCartPosition?.summa
-            textView_title.setText(currentCartPosition?.title ?: "*")
-            textView_unit.setText(currentCartPosition?.unit ?: "*")
-            textView_count.setText(String.format("%.2f",currentCount)) //two digits after decimal point
-            textView_summa.setText(String.format("%.2f",currentSumma))
-        }
+        private var currentCount: Double? = null
+        private var currentSumma: Double? = null
+        private var currentPrice: Double? = null
+        private val BUTTON_PLUS = true
+        private val BUTTON_MINUS = false
 
         init {
-            button_plus.setOnClickListener(View.OnClickListener {
-                changeCart(this.button_plus)})
-            button_minus.setOnClickListener(View.OnClickListener {
-                changeCart(this.button_minus)
-                })
-        }
-
-        private fun changeCart(event:View){
-
-            currentPrice = currentSumma!! / currentCount!!
-            CURRENT_SUMMA = currentSumma!!
-
-            if (event.id == R.id.button_plus_cart_view_holder) {
-                CURRENT_SUMMA += currentPrice!!
-                COUNT_TO_CART_PLUS = currentCount?.plus(1.00) ?: 1.00
-                currentCartPosition?.let { it1 ->
-                    it1.code?.let { it2 ->
-                        currentCartPosition!!.title?.let { it3 -> currentCartPosition!!.unit?.let { it4 ->
-                            cartViewModel.saveToCart(  it2, COUNT_TO_CART_PLUS, CURRENT_SUMMA, it3,  it4
-                            ) } } } }
-            } else if (event.id == R.id.button_minus_cart_view_holder) {
-                CURRENT_SUMMA -= currentPrice!!
-                if (currentCount == null) {
-                    return
+            with(binding) {
+                buttonPlusCartViewHolder.setOnClickListener {
+                    changeCart(BUTTON_PLUS)
                 }
-                COUNT_TO_CART_MINUS = currentCount?.minus(1.00) ?: 0.00
-                if (COUNT_TO_CART_MINUS.compareTo(0.00) <= 0) {
-                    currentCartPosition?.let { it1 -> it1.code?.let {
-                        cartViewModel.deleteCartPosition(it) } }
-
-                } else {
-                    currentCartPosition?.let { it1 ->
-                        it1.code?.let { it2 ->
-                            currentCartPosition!!.title?.let { it3 -> currentCartPosition!!.unit?.let { it4 ->
-                                cartViewModel.saveToCart(  it2, COUNT_TO_CART_MINUS, CURRENT_SUMMA, it3,  it4
-                                ) } } } }
+                buttonMinusCartViewHolder.setOnClickListener {
+                    changeCart(BUTTON_MINUS)
                 }
             }
         }
 
+        fun binding(cartPosition: CartPositionPojo?) {
+            currentCartPosition = cartPosition
+
+            //Todo: лучше передавать Price с сервера, а полную стоимость не сохранять в Room(1)
+            currentCount = currentCartPosition?.count
+            currentSumma = currentCartPosition?.summa
+
+            with(binding) {
+                twCartViewHolderTitle.text = currentCartPosition?.title ?: "*"
+                twCartViewHolderUnit.text = currentCartPosition?.unit ?: "*"
+                twCartViewHolderCount.text = String.format("%.2f",currentCount)  // two digits after decimal point
+                twCartViewHolderSumma.text = String.format("%.2f",currentSumma)
+
+                if (currentCartPosition?.imageUri != null) {
+                    Glide.with(this@FragmentCart)
+                        .load(currentCartPosition?.imageUri)
+                        .centerCrop()
+                        .into(ivProductImage)
+                } else {
+                    ivProductImage.setImageResource(R.drawable.image_fasad_panel)
+                }
+            }
+        }
+
+        private fun changeCart(event: Boolean) {
+            //Todo: лучше передавать Price с сервера, а полную стоимость не сохранять в Room(2)
+            currentPrice = currentSumma!! / currentCount!!
+            currentSumma = currentCount!! * currentPrice!!
+
+            when (event) {
+                BUTTON_PLUS -> {
+                    currentCount = currentCount!! + 1
+                    currentSumma = currentSumma!! + currentPrice!!
+
+                    cartViewModel.saveToCart(
+                        currentCartPosition?.code!!,
+                        currentCount!!,
+                        currentSumma!!,
+                        currentCartPosition?.title!!,
+                        currentCartPosition?.unit!!,
+                        currentCartPosition?.imageUri
+                    )
+                }
+                BUTTON_MINUS -> {
+                    currentCount = currentCount!! - 1
+                    currentSumma = currentSumma!! - currentPrice!!
+
+                    cartViewModel.saveToCart(
+                        currentCartPosition?.code!!,
+                        currentCount!!,
+                        currentSumma!!,
+                        currentCartPosition?.title!!,
+                        currentCartPosition?.unit!!,
+                        currentCartPosition?.imageUri
+                    )
+                }
+            }
+        }
+
+//        private fun changeCart(event:View){
+//
+//            currentPrice = currentSumma!! / currentCount!!
+//            CURRENT_SUMMA = currentSumma!!
+//
+//            if (event.id == R.id.button_plus_cart_view_holder) {
+//                CURRENT_SUMMA += currentPrice!!
+//                COUNT_TO_CART_PLUS = currentCount?.plus(1.00) ?: 1.00
+//                currentCartPosition?.let { it1 ->
+//                    it1.code?.let { it2 ->
+//                        currentCartPosition!!.title?.let { it3 -> currentCartPosition!!.unit?.let { it4 ->
+//                            cartViewModel.saveToCart(  it2, COUNT_TO_CART_PLUS, CURRENT_SUMMA, it3,  it4, currentCartPosition!!.imageUri
+//                            ) } } } }
+//            } else if (event.id == R.id.button_minus_cart_view_holder) {
+//                CURRENT_SUMMA -= currentPrice!!
+//                if (currentCount == null) {
+//                    return
+//                }
+//                COUNT_TO_CART_MINUS = currentCount?.minus(1.00) ?: 0.00
+//                if (COUNT_TO_CART_MINUS.compareTo(0.00) <= 0) {
+//                    currentCartPosition?.let { it1 -> it1.code?.let {
+//                        cartViewModel.deleteCartPosition(it) } }
+//
+//                } else {
+//                    currentCartPosition?.let { it1 ->
+//                        it1.code?.let { it2 ->
+//                            currentCartPosition!!.title?.let { it3 -> currentCartPosition!!.unit?.let { it4 ->
+//                                cartViewModel.saveToCart(  it2, COUNT_TO_CART_MINUS, CURRENT_SUMMA, it3,  it4, currentCartPosition!!.imageUri
+//                                ) } } } }
+//                }
+//            }
+//        }
     }
 
     override fun onAttach(context: Context) {
@@ -184,6 +230,7 @@ class FragmentCart:Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+        _binding = null
         callbacks = null
     }
 }
