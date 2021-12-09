@@ -28,7 +28,7 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class FragmentNomenclatureList : Fragment() {
 
-    private val TAG = FragmentNomenclatureList::class.simpleName
+    private val TAG = "${FragmentNomenclatureList::class.java.simpleName} ###"
     private lateinit var recyclerView: RecyclerView
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
     private val collectionViewModel: NomenclatureListViewModel by viewModels()
@@ -52,6 +52,7 @@ class FragmentNomenclatureList : Fragment() {
         super.onCreate(savedInstanceState)
         collectionId = arguments?.getString("id") ?: "100008" //TODO    подумать, убрать ли хардкор
         collection_title = arguments?.getString("collection_title") ?: ""
+
     }
 
     override fun onCreateView(
@@ -67,9 +68,6 @@ class FragmentNomenclatureList : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         collectionViewModel.getPersonalNomenclatureListByCollection(collectionId)
-
-
-
         collectionViewModel.nomenclaturePersonalListLiveData.observe(viewLifecycleOwner, Observer {
             recyclerView.adapter = ItemCollectionAdapter(it.data!!)
         })

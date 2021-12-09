@@ -52,9 +52,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         val refreshToken = appPreference.getSavedString(ApplicationConstants().REFRESH_TOKEN)
 
         token?.let{
-//            if (token == refreshToken) {
-                ifTokenExist()
-//            }
+            //ifTokenExist()  //TODO Временно закомментил, так как переключаюсь между разными серверами с разными парами токенов
         }
     }
 

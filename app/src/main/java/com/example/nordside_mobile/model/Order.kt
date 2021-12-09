@@ -1,14 +1,11 @@
 package com.example.nordside_mobile.model
 
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDate
+import java.util.*
 
 class Order(
-    var id:String?,
-    var date: LocalDate,
-    var number_1c:String?,
-    var summa:Double,
+    var date: Date,
+    var summa: Double,
     @SerializedName("orderLinesTable")
-    var itemTable:List<ClientOrderLine>
-    ) {
-}
+    var itemTable: List<ClientOrderLine>
+)

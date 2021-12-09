@@ -19,6 +19,7 @@ import com.example.nordside_mobile.viewmodel.FragmentAllOrdersViewModel
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
+import java.util.*
 
 @AndroidEntryPoint
 class FragmentAllOrders:Fragment() {
@@ -40,6 +41,7 @@ class FragmentAllOrders:Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,7 +61,6 @@ class FragmentAllOrders:Fragment() {
             for (i in it.indices){
                 val cartLine = it[i]
                 val orderLine  = ClientOrderLine(
-                    cartLine?.code,
                     cartLine?.title,
                     cartLine?.unit,
                     cartLine?.count,
@@ -68,7 +69,8 @@ class FragmentAllOrders:Fragment() {
                 orderLineList.add(orderLine)
                 summa.plus(cartLine?.summa!!)
             }
-            val order = Order("", LocalDate.now(),"", summa, orderLineList)
+            //val order = Order("", LocalDate.now(),"", summa, orderLineList)
+            val order = Order( Date(), summa, orderLineList)
             allOrdersViewModel.saveOrderOnServer(order)
         })
     }
