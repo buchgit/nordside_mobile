@@ -1,4 +1,4 @@
-package com.example.nordside_mobile.ui
+package com.example.nordside_mobile.ui.utils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.nordside_mobile.database.CartPositionPojo

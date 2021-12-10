@@ -21,6 +21,8 @@ import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.databinding.CartViewHolderBinding
 import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.databinding.FragmentOrderBinding
+import com.example.nordside_mobile.ui.utils.ProductCardAdapter
+import com.example.nordside_mobile.ui.utils.ProductCardRecyclerListener
 import com.example.nordside_mobile.viewmodel.FragmentOrderViewModel
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,18 +31,12 @@ import java.math.MathContext
 import java.math.RoundingMode
 
 @AndroidEntryPoint
-class FragmentOrder:Fragment(R.layout.fragment_order) {
+class FragmentOrder : Fragment(R.layout.fragment_order), ProductCardRecyclerListener {
 
     private val orderViewModel by viewModels<FragmentOrderViewModel>()
     private var callback: BottomNavigationButtonCallback? = null
     private var _binding: FragmentOrderBinding? = null
     private val binding get() = _binding!!
-    private var COUNT_TO_CART_PLUS = 1.00
-    private var COUNT_TO_CART_MINUS = -1.00
-    private var CURRENT_SUMMA = 0.00
-    private var currentCount:Double? = null
-    private var currentSumma:Double? = null
-    private var currentPrice:Double? = null
 
 
     @SuppressLint("SetTextI18n")
@@ -51,18 +47,30 @@ class FragmentOrder:Fragment(R.layout.fragment_order) {
         binding.recyclerViewFragmentOrder.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 
+        //  Чтобы не мигало при изменение суммы
+        binding.recyclerViewFragmentOrder.itemAnimator = null
+
         viewLifecycleOwner.lifecycleScope.apply {
 
             launchWhenStarted {
                 orderViewModel.allCartPosition.collect {
-                    it?.let { binding.recyclerViewFragmentOrder.adapter = OrderAdapter(it) }
+                    it?.let {
+
+                        if (binding.recyclerViewFragmentOrder.adapter == null) {
+                            binding.recyclerViewFragmentOrder.adapter =
+                                ProductCardAdapter(it, this@FragmentOrder)
+                        } else {
+                            // Todo: Fragment предполагает, что у полученного адаптера есть метод updateAdapter, исправить это. или это норма?
+                            (binding.recyclerViewFragmentOrder.adapter as ProductCardAdapter)
+                                .updateAdapter(it)
+                        }
+                    }
                 }
             }
 
             launchWhenStarted {
                 orderViewModel.totalCartSumma.collect {
                     it?.let {
-//                    val bigDecimal:java.math.BigDecimal = java.math.BigDecimal(it)
                         binding.twTextViewSumma.text =
                             "${getString(R.string.totalOrderSumma)} " +
                                     "${String.format("%.2f",it)} ${getString(R.string.rubles)}"
@@ -73,101 +81,6 @@ class FragmentOrder:Fragment(R.layout.fragment_order) {
         callback!!.setButtonVisible(R.string.buy, true)
     }
 
-
-    inner class OrderAdapter(
-        private var cartPositionList:List<CartPositionPojo?>
-        ) : RecyclerView.Adapter<OrderHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            val binding = CartViewHolderBinding.inflate(inflater, parent, false)
-            return OrderHolder(binding)
-        }
-
-        override fun onBindViewHolder(holder: OrderHolder, position: Int) {
-            holder.binding(cartPositionList[position])
-        }
-
-        override fun getItemCount(): Int {
-            return cartPositionList.size
-        }
-    }
-
-
-    inner class OrderHolder(
-        private val binding: CartViewHolderBinding
-    ):RecyclerView.ViewHolder(binding.root){
-        private var currentCartPosition: CartPositionPojo? = null
-
-        init {
-            with(binding) {
-                buttonPlusCartViewHolder.setOnClickListener {
-                    changeCart(buttonPlusCartViewHolder)
-                }
-                buttonMinusCartViewHolder.setOnClickListener {
-                    changeCart(buttonMinusCartViewHolder)
-                }
-            }
-        }
-
-        fun binding(cartPosition: CartPositionPojo?) {
-            currentCartPosition = cartPosition
-            currentCount = currentCartPosition?.count
-            currentSumma = currentCartPosition?.summa
-
-            with(binding) {
-                twCartViewHolderTitle.text = currentCartPosition?.title ?: "*"
-                twCartViewHolderUnit.text = currentCartPosition?.unit ?: "*"
-                twCartViewHolderCount.text = String.format("%.2f",currentCount)  // two digits after decimal point
-                twCartViewHolderSumma.text = String.format("%.2f",currentSumma)
-
-                if (currentCartPosition?.imageUri != null) {
-                    Glide.with(this@FragmentOrder)
-                        .load(currentCartPosition?.imageUri)
-                        .into(ivProductImage)
-                } else {
-                    ivProductImage.setImageResource(R.drawable.image_fasad_panel)
-                }
-            }
-        }
-
-        private fun changeCart(event:View){
-
-            currentPrice = currentSumma!! / currentCount!!
-            CURRENT_SUMMA = currentSumma!!
-
-            if (event.id == R.id.button_plus_cart_view_holder) {
-                CURRENT_SUMMA += currentPrice!!
-                COUNT_TO_CART_PLUS = currentCount?.plus(1.00) ?: 1.00
-                currentCartPosition?.let { it1 ->
-                    it1.code?.let { it2 ->
-                        currentCartPosition!!.title?.let { it3 ->
-                            currentCartPosition!!.unit?.let { it4 ->
-                                orderViewModel.saveToCart(  it2, COUNT_TO_CART_PLUS, CURRENT_SUMMA, it3,  it4, currentCartPosition!!.imageUri)
-                            }
-                        }
-                    }
-                }
-            } else if (event.id == R.id.button_minus_cart_view_holder) {
-                CURRENT_SUMMA -= currentPrice!!
-                if (currentCount == null) {
-                    return
-                }
-                COUNT_TO_CART_MINUS = currentCount?.minus(1.00) ?: 0.00
-                if (COUNT_TO_CART_MINUS.compareTo(0.00) <= 0) {
-                    currentCartPosition?.let { it1 -> it1.code?.let {
-                        orderViewModel.deleteCartPosition(it) } }
-
-                } else {
-                    currentCartPosition?.let { it1 ->
-                        it1.code?.let { it2 ->
-                            currentCartPosition!!.title?.let { it3 -> currentCartPosition!!.unit?.let { it4 ->
-                                orderViewModel.saveToCart(  it2, COUNT_TO_CART_MINUS, CURRENT_SUMMA, it3,  it4, currentCartPosition!!.imageUri
-                                ) } } } }
-                }
-            }
-        }
-    }
 
     override fun onStop() {
         super.onStop()
@@ -185,6 +98,18 @@ class FragmentOrder:Fragment(R.layout.fragment_order) {
         super.onDetach()
         _binding = null
         callback = null
+    }
+
+    override fun onClickButtonPlusMinusCardProduct(
+        currentCartPosition: CartPositionPojo?,
+        currentCount: Double?,
+        currentSumma: Double?
+    ) {
+        orderViewModel.changeCart(
+            currentCartPosition,
+            currentCount,
+            currentSumma
+        )
     }
 
 }

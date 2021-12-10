@@ -28,7 +28,7 @@ class FragmentCartViewModel @Inject constructor(
         }
     }
 
-    fun saveToCart(code: String, count: Double, summa: Double, title: String, unit: String, imageUri: Uri?) {
+    private fun saveToCart(code: String, count: Double, summa: Double, title: String, unit: String, imageUri: Uri?) {
         repository.saveToCart(code, count, summa, title, unit, imageUri)
     }
 
@@ -36,8 +36,27 @@ class FragmentCartViewModel @Inject constructor(
         return repository.getCartPositionsCount(code)
     }
 
-    fun deleteCartPosition(code: String) {
+    private fun deleteCartPosition(code: String) {
         repository.deleteCartPosition(code)
+    }
+
+    fun changeCart(
+        currentCartPosition: CartPositionPojo?,
+        currentCount: Double?,
+        currentSumma: Double?,
+    ) {
+        if (currentCount!! <= 0.00) {
+            deleteCartPosition(currentCartPosition!!.code!!)
+            return
+        }
+        saveToCart(
+            currentCartPosition?.code!!,
+            currentCount,
+            currentSumma!!,
+            currentCartPosition.title!!,
+            currentCartPosition.unit!!,
+            currentCartPosition.imageUri
+        )
     }
 
 //    fun cleanCart(){
