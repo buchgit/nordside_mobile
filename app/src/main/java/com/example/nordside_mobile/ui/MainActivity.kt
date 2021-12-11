@@ -3,9 +3,11 @@ package com.example.nordside_mobile.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -114,9 +116,9 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
     private fun updateUi() {
         when(currentFragment) {
             is FragmentNomenclatureList, is FragmentNomenclatureItem, is FragmentCollection -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setDisplayShowHomeEnabled(true)
-                }
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setDisplayShowHomeEnabled(true)
+            }
             else -> {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setDisplayShowHomeEnabled(false)

@@ -1,5 +1,6 @@
 package com.example.nordside_mobile.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -39,29 +40,43 @@ class FragmentCart : Fragment(R.layout.fragment_cart), ProductCardRecyclerListen
     private val binding get() = _binding!!
     private var callbacks:BottomNavigationButtonCallback? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCartBinding.bind(view)
 
+//        val notScrollingLayoutManager = object : LinearLayoutManager(
+//            context, LinearLayoutManager.VERTICAL,false
+//        ) {
+//            override fun canScrollVertically(): Boolean {
+//                return false
+//            }
+//        }
+
         binding.recyclerViewFragmentCart.layoutManager =
-            LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 
         //  Чтобы не мигало при изменение суммы
         binding.recyclerViewFragmentCart.itemAnimator = null
 
+        binding.recyclerViewFragmentCart.scrollState
+
         viewLifecycleOwner.lifecycleScope.apply {
+
             launchWhenStarted {
                 cartViewModel.allCartPosition.collect {
                     it?.let {
+                        updateAdapter(it)
+                        updateUi(it.isEmpty())
+                    }
+                }
+            }
 
-                        if (binding.recyclerViewFragmentCart.adapter == null) {
-                            binding.recyclerViewFragmentCart.adapter =
-                                ProductCardAdapter(it, this@FragmentCart)
-                        } else {
-                            // Todo: Fragment предполагает, что у полученного адаптера есть метод updateAdapter, исправить это. или это норма?
-                            (binding.recyclerViewFragmentCart.adapter as ProductCardAdapter)
-                                .updateAdapter(it)
-                        }
+            launchWhenStarted {
+                cartViewModel.totalCartSumma.collect {
+                    it?.let {
+                        binding.tvTotalSummaNumbers.text =
+                            "${String.format("%.2f",it)} ${getString(R.string.rubles)}"
                     }
                 }
             }
@@ -87,15 +102,56 @@ class FragmentCart : Fragment(R.layout.fragment_cart), ProductCardRecyclerListen
         callbacks = null
     }
 
+    // Связывает Adapter c ViewModel
     override fun onClickButtonPlusMinusCardProduct(
         currentCartPosition: CartPositionPojo?,
         currentCount: Double?,
         currentSumma: Double?
     ) {
-        cartViewModel.changeCart(
-            currentCartPosition,
+        if (currentCount!! <= 0.00) {
+            cartViewModel.deleteCartPosition(currentCartPosition!!.code!!)
+            return
+        }
+        cartViewModel.saveToCart(
+            currentCartPosition?.code!!,
             currentCount,
-            currentSumma
+            currentSumma!!,
+            currentCartPosition.title!!,
+            currentCartPosition.unit!!,
+            currentCartPosition.imageUri
         )
     }
+
+    private fun updateAdapter(newPositionList: List<CartPositionPojo?>) {
+        if (binding.recyclerViewFragmentCart.adapter == null) {
+            binding.recyclerViewFragmentCart.adapter =
+                ProductCardAdapter(newPositionList, this@FragmentCart)
+        } else {
+            // Todo: Fragment предполагает, что у полученного адаптера есть метод updateAdapter, исправить это. или это норма?
+            (binding.recyclerViewFragmentCart.adapter as ProductCardAdapter)
+                .updateAdapter(newPositionList)
+        }
+    }
+
+    private fun updateUi(isEmpty: Boolean) {
+        // Todo: из корзины в Room при уменьшении количества товара сначала удаляется товар, потом insert-cя, поэтому может проскакивать cartEmpty, когда остается 1 товар
+        if (isEmpty) {
+            with(binding) {
+                if (tvCartEmpty.visibility == View.VISIBLE) return
+                tvCartEmpty.visibility = View.VISIBLE
+                tvTotalSumma.visibility = View.GONE
+                tvTotalSummaNumbers.visibility = View.GONE
+                buttonCheckOut.visibility = View.GONE
+            }
+        } else {
+            with(binding) {
+                if (tvCartEmpty.visibility == View.GONE) return
+                tvCartEmpty.visibility = View.GONE
+                tvTotalSumma.visibility = View.VISIBLE
+                tvTotalSummaNumbers.visibility = View.VISIBLE
+                buttonCheckOut.visibility = View.VISIBLE
+            }
+        }
+    }
+
 }

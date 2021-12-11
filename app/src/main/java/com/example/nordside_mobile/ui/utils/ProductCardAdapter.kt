@@ -14,6 +14,7 @@ class ProductCardAdapter(
     private val listener: ProductCardRecyclerListener
 ): RecyclerView.Adapter<ProductCardAdapter.ProductCardHolder>() {
 
+    // Функция, чтобы RecyclerView обновлял только нужны Item, а не обновлялся целиком
     fun updateAdapter(newPositionList: List<CartPositionPojo?>) {
         val diffCallback = CartDiffCallback(cartPositionList, newPositionList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -34,6 +35,7 @@ class ProductCardAdapter(
     override fun getItemCount(): Int {
         return cartPositionList.size
     }
+
 
     inner class ProductCardHolder(
         private val binding: CartViewHolderBinding
@@ -108,9 +110,10 @@ class ProductCardAdapter(
             }
         }
     }
+
 }
 
-// Интерфейс для связки Адаптера с ViewModel, реализуется фрагментом
+// Интерфейс для связки Адаптера с ViewModel Фрагмента, реализуется фрагментом
 interface ProductCardRecyclerListener {
     fun onClickButtonPlusMinusCardProduct(
         currentCartPosition: CartPositionPojo?,
