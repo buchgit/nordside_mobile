@@ -5,11 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_fragment_partner"
-    android:layout_width="150dp"
+    android:layout_width="match_parent"
     android:layout_height="100dp"
     android:padding="15dp"
-    android:layout_margin="15dp"
-    app:cardElevation="10dp"
+    android:layout_margin="20dp"
+    app:cardElevation="5dp"
     app:cardCornerRadius="15dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -21,6 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/tw_partner_view_holder"/>
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:contentDescription="petrovich" />
 
 </com.google.android.material.card.MaterialCardView>
 

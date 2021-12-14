@@ -69,6 +69,10 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.saveOrderOnServer(order) }
     }
 
+    suspend fun register(loginBody: LoginBody) : Resource<Boolean> {
+        return safeApiCall { nordsideApi.register(loginBody) }
+    }
+
     @Transaction
     fun saveToCart(
         code: String, count: Double, summa: Double, title: String, unit: String, imageUri: Uri?

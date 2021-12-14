@@ -8,19 +8,14 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        app:cardElevation="2dp"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.97"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="H,0.35"
-        android:orientation="vertical"
+        style="@style/ProductCard"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="2dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
@@ -49,7 +44,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-
+                android:scaleType="centerInside"
+                android:src="@drawable/pluscart"
                 android:id="@+id/button_plus_cart_view_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,6 +90,8 @@
                 android:textColor="@color/black"/>
 
             <ImageButton
+                android:src="@drawable/minuscart"
+                android:scaleType="centerInside"
                 app:strokeWidth="1dp"
                 app:strokeColor="@color/grey"
                 android:id="@+id/button_minus_cart_view_holder"
@@ -118,7 +116,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/green"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

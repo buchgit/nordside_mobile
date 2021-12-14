@@ -1,6 +1,7 @@
 package com.example.nordside_mobile.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ class FragmentCommon : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.d("@@", "frcom " + Thread.currentThread().name)
 
         val view = inflater.inflate(R.layout.fragment_common, container, false)
 

@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@id/cv_password_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.75"
+        app:layout_constraintVertical_bias="0.65"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintWidth_percent="0.90">
 
@@ -39,8 +39,10 @@
             android:id="@+id/et_email_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintTextColor="@color/grey"
+            app:hintTextColor="@color/green"
             app:boxStrokeWidth="0dp"
+            android:textColorHint="@color/green"
+            app:boxStrokeColor="@color/green"
             app:boxStrokeWidthFocused="1dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -64,17 +66,18 @@
         app:layout_constraintWidth_percent="0.90">
 
         <com.google.android.material.textfield.TextInputLayout
-
             android:hint="password"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:endIconMode="password_toggle"
             android:id="@+id/et_password_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:boxBackgroundColor="@color/white"
+            app:hintTextColor="@color/green"
             app:boxStrokeWidth="0dp"
+            android:textColorHint="@color/green"
+            app:boxStrokeColor="@color/green"
             app:boxStrokeWidthFocused="1dp">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
@@ -82,39 +85,32 @@
                 android:inputType="textPassword"
                 android:text="user"
                 android:textSize="18sp" />
-
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.card.MaterialCardView>
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_login"
-        style="@style/Widget.MaterialComponents.Button"
-
-        android:layout_marginTop="80dp"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+        style="@style/BigButton"
         android:text="Вход"
-        android:textAllCaps="false"
-        app:cornerRadius="20dp"
-        app:layout_constraintWidth_percent="0.90"
-        app:layout_constraintTop_toBottomOf="@+id/cv_password_container"
+        app:layout_constraintVertical_bias="0.78"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/forgot_password" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:id="@+id/forgot_password"
+        android:id="@+id/button_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+
         android:textAllCaps="false"
         android:textSize="12dp"
         android:text="Забыли пароль?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login"
+        app:layout_constraintBottom_toTopOf="@+id/button_registration"
         android:textColor="@color/grey"/>
 
     <com.google.android.material.button.MaterialButton
@@ -125,10 +121,11 @@
         android:textAllCaps="false"
         android:text="@string/registration"
         android:textColor="@color/grey"
+        android:layout_marginBottom="5dp"
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forgot_password"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:textSize="12dp"/>
 
     <TextView
@@ -141,7 +138,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

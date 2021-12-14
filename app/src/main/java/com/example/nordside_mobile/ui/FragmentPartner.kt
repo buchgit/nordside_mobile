@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
@@ -35,9 +37,20 @@ class FragmentPartner : Fragment(R.layout.fragment_partner) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val notScrollingLayoutManager = object : GridLayoutManager(
+            context,2, LinearLayoutManager.VERTICAL,false
+        ) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
+
+//        recyclerView.layoutManager =
+//            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
         recyclerView = view.findViewById(R.id.recycler_view_fragment_partner) as RecyclerView
-        recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        recyclerView.layoutManager = notScrollingLayoutManager
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_partner)
         progressBar.visibility = View.VISIBLE
@@ -62,10 +75,22 @@ class FragmentPartner : Fragment(R.layout.fragment_partner) {
 
     inner class PartnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_partner)
+        var imageView: ImageView = itemView.findViewById(R.id.iv_logo)
         var textView: TextView = itemView.findViewById(R.id.tw_partner_view_holder)
 
         fun bind(partner: Partner) {
-            textView.setText(partner.title)
+            when (partner.title) {
+                "Петрович" -> {
+                    imageView.setImageResource(R.drawable.logo_petrovich)
+                }
+                "М-Профиль" -> {
+                    imageView.setImageResource(R.drawable.logo_mprofile)
+                }
+                else -> {
+                    imageView.setImageResource(R.drawable.logo_domvimos)
+                }
+            }
+//            textView.setText(partner.title)
         }
     }
 

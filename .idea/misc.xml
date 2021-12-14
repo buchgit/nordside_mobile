@@ -25,22 +25,23 @@
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/drawable/custom_button.xml" value="0.12" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/activity_main.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/cart_product_holder.xml" value="0.5921625544267054" />
-        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/cart_view_holder.xml" value="0.33" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/cart_view_holder.xml" value="0.22" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/category_view_holder.xml" value="0.20729166666666668" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_all_orders.xml" value="0.2504528985507246" />
-        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_cart.xml" value="0.34322916666666664" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_category.xml" value="0.20729166666666668" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_collection.xml" value="0.24166666666666667" />
-        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_common.xml" value="0.20729166666666668" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_common.xml" value="0.25" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_forgot_pass.xml" value="0.34322916666666664" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_login.xml" value="0.33" />
-        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_nomenclature_item.xml" value="0.34322916666666664" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_nomenclature_item.xml" value="0.25" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_nomenclature_list.xml" value="0.2" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_order.xml" value="0.32447916666666665" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_partner.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_personal_office.xml" value="0.34322916666666664" />
-        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/item_collection_view_holder.xml" value="0.1" />
-        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/partner_view_holder.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/fragment_register.xml" value="0.22" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/item_collection_view_holder.xml" value="0.5" />
+        <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/layout/partner_view_holder.xml" value="0.1" />
         <entry key="..\:/Users/unxxx/StudioProjects/nordside_mobile/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23148148148148148" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/programming/androidApps/nordside_mobile/app/src/main/res/drawable/buy_background.xml" value="0.1" />
@@ -75,5 +76,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
   </component>
 </project>

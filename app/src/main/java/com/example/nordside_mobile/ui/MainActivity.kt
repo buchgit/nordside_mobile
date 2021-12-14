@@ -3,11 +3,8 @@ package com.example.nordside_mobile.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
-import androidx.core.view.get
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -25,7 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
-    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback {
+    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback,
+FragmentRegister.Callback{
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
@@ -109,8 +107,11 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         }
     }
 
-    override fun onRegistrationClicked(login: LoginBody) {
-
+    override fun onRegistrationClicked(loginBody: LoginBody) {
+        launchDestination(
+            R.id.fragmentRegister,
+            FragmentLogin.createArgs(loginBody)
+        )
     }
 
     private fun updateUi() {
@@ -137,5 +138,9 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
                 item.isChecked = isVisible
             }
         }
+    }
+
+    override fun onRegisterClicked() {
+        launchDestination(R.id.fragmentLogin)
     }
 }

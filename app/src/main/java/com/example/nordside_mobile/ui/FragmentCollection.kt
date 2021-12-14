@@ -56,7 +56,7 @@ class FragmentCollection : Fragment(R.layout.fragment_collection) {
         _binding = FragmentCollectionBinding.bind(view)
 
         binding.recyclerViewFragmentCollection.layoutManager = GridLayoutManager(
-            context, 2, GridLayoutManager.VERTICAL, false
+            context, 1, GridLayoutManager.VERTICAL, false
         )
 
         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
@@ -110,18 +110,29 @@ class FragmentCollection : Fragment(R.layout.fragment_collection) {
             when (currentCollection.title) {
                 "Панели с офсетной печатью" -> {
                     binding.ivCollection.setImageResource(R.drawable.paneli_ofsetnaya)
+                    binding.tvItemCollectionDescription.text =
+                        "Устойчивы к воздействию ультрафиолетовых лучей и к механическим воздействиям."
                 }
                 "Панели с термопереводной печатью" -> {
                     binding.ivCollection.setImageResource(R.drawable.paneli_termoperev)
+                    binding.tvItemCollectionDescription.text =
+                        "Используются для внутренней отделки стен и потолков помещений различного назначения."
                 }
                 "Панели с цифровой печатью" -> {
+                    // Todo: На сайте другая коллекция и друга картинка
                     binding.ivCollection.setImageResource(R.drawable.paneli_matov_white)
+                    binding.tvItemCollectionDescription.text =
+                        "!!!"
                 }
                 "Панели ламинированные" -> {
                     binding.ivCollection.setImageResource(R.drawable.paneli_laminirov)
+                    binding.tvItemCollectionDescription.text =
+                        "Самые ударопрочные и износостойкие декоративные панели ПВХ"
                 }
                 "Панели потолочные" -> {
                     binding.ivCollection.setImageResource(R.drawable.paneli_pvh_potoloch)
+                    binding.tvItemCollectionDescription.text =
+                        "Благодаря устойчивости к влаге их можно использовать как в жилых помещениях, так и в ванных комнатах."
                 }
                 else -> {
 

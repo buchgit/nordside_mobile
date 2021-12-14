@@ -34,15 +34,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_check_out"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_margin="10dp"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:visibility="gone"
+        style="@style/BigButton"
         android:text="Оформить заказ"
-        android:textAllCaps="false"
-        app:cornerRadius="20dp"
-        app:layout_constraintWidth_percent="0.90"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.78"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

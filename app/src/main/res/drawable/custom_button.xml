@@ -6,6 +6,5 @@
             <solid android:color="@color/white" />
         </shape>
     </item>
-<!--    <item android:drawable="@drawable/outline_add_black_24dp" />-->
 
 </layer-list>
