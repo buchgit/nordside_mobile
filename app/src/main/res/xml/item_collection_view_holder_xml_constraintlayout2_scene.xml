@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@+id/iv_description_extend" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetStart="@+id/end"
+        motion:constraintSetEnd="@id/start"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@+id/iv_description_up" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/tv_item_collection_view_holder"
+            motion:layout_constraintWidth_percent="0.6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:visibilityMode="normal"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toEndOf="@id/iv_collection"
+            motion:layout_constraintBottom_toTopOf="@id/iv_description_extend" />
+        <Constraint
+            android:id="@+id/iv_description_extend"
+            android:scaleType="centerInside"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="visible"
+            app:visibilityMode="normal"
+            motion:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            motion:layout_constraintTop_toBottomOf="@id/tv_item_collection_view_holder"
+            motion:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder" />
+        <Constraint
+            android:id="@+id/tv_item_collection_description"
+            android:layout_width="0dp"
+            app:visibilityMode="normal"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintBottom_toTopOf="@id/iv_description_extend"
+            motion:layout_constraintTop_toBottomOf="@id/tv_item_collection_view_holder"
+            motion:layout_constraintStart_toEndOf="@id/iv_collection" />
+        <Constraint
+            android:id="@+id/iv_description_up"
+            app:visibilityMode="normal"
+            android:scaleType="centerInside"
+            motion:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
+            motion:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/tv_item_collection_view_holder"
+            motion:layout_constraintWidth_percent="0.6"
+            android:layout_width="0dp"
+            app:visibilityMode="normal"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toEndOf="@id/iv_collection" />
+        <Constraint
+            android:id="@+id/iv_description_extend"
+            android:layout_width="40dp"
+            app:visibilityMode="normal"
+            android:layout_height="40dp"
+            android:visibility="invisible"
+            android:scaleType="centerInside"
+            motion:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder" />
+        <Constraint
+            android:id="@+id/tv_item_collection_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:visibilityMode="normal"
+            android:visibility="visible"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/tv_item_collection_view_holder"
+            motion:layout_constraintStart_toEndOf="@id/iv_collection" />
+        <Constraint
+            android:id="@+id/iv_description_up"
+            android:scaleType="centerInside"
+            motion:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:visibilityMode="normal"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
+            motion:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder" />
+    </ConstraintSet>
+</MotionScene>

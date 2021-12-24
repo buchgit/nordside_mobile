@@ -2,36 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/greyBack"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_view_fragment_nomenclature_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="18dp"
-        android:padding="15dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="W,1.5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_fragment_nomenclature_item_1"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                app:layout_constraintDimensionRatio="W,1.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
+                style="@style/BigTextType"
+                android:gravity="center"
                 android:id="@+id/tw_fragment_nomenclature_item_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,55 +34,78 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_fragment_nomenclature_item_1" />
 
-            <TextView
-                android:id="@+id/tw_fragment_nomenclature_item_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tw_fragment_nomenclature_item_1" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/tw_fragment_nomenclature_item_2"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <com.google.android.material.button.MaterialButton
+
+
+
+                <ImageButton
                     android:id="@+id/button_add_fragment_nomenclature_item"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="+ cart"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pluscart"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/custom_button"
+                    android:contentDescription="plus"
+                    android:elevation="4dp"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_bias="0.20"
+                    app:strokeColor="@color/grey"
+                    app:strokeWidth="1dp" />
+                <ImageButton
+                    android:id="@+id/button_delete_fragment_nomenclature_item"
+                    android:src="@drawable/minuscart"
+                    android:scaleType="centerInside"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/grey"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:elevation="4dp"
+                    android:background="@drawable/custom_button"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.80"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="minus" />
 
                 <TextView
                     android:id="@+id/tw_fragment_nomenclature_item_3"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    style="@style/BigTextType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="TextView"
                     android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_add_fragment_nomenclature_item"
+                    app:layout_constraintEnd_toStartOf="@id/tw_fragment_nomenclature_item_2"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@+id/button_add_fragment_nomenclature_item"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/button_add_fragment_nomenclature_item" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_delete_fragment_nomenclature_item"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="- cart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                <TextView
+                    android:id="@+id/tw_fragment_nomenclature_item_2"
+                    style="@style/BigTextType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/tw_fragment_nomenclature_item_3"
+                    app:layout_constraintEnd_toStartOf="@+id/button_delete_fragment_nomenclature_item"
                     app:layout_constraintStart_toEndOf="@+id/tw_fragment_nomenclature_item_3"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/tw_fragment_nomenclature_item_3" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

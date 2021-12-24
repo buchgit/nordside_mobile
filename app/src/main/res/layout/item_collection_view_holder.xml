@@ -9,10 +9,11 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/item_collection_view_holder_xml_constraintlayout2_scene">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_collection"
@@ -25,7 +26,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_item_collection_view_holder"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/MediumText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,40 +34,44 @@
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="Панели с офсетной"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@id/iv_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_collection"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.6" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_item_collection_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="8dp"
             android:gravity="center"
             android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_next"
-            app:layout_constraintStart_toEndOf="@id/iv_collection"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_collection_view_holder"
-            app:layout_constraintVertical_bias="0.2" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/next"
-            android:layout_marginTop="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/iv_description_extend"
             app:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
             app:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder"
             app:layout_constraintTop_toBottomOf="@id/tv_item_collection_view_holder" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_description_extend"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/next"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            app:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_description_up"
+            android:scaleType="centerInside"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/nextup"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            app:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder"/>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
     </com.google.android.material.card.MaterialCardView>

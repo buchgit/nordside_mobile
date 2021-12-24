@@ -116,7 +116,8 @@ FragmentRegister.Callback{
 
     private fun updateUi() {
         when(currentFragment) {
-            is FragmentNomenclatureList, is FragmentNomenclatureItem, is FragmentCollection -> {
+            is FragmentNomenclatureList, is FragmentNomenclatureItem,
+            is FragmentCollection, is FragmentRegister -> {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 supportActionBar?.setDisplayShowHomeEnabled(true)
             }

@@ -46,10 +46,10 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_cart_empty"
+        style="@style/BigTextType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Пустая корзина"
-        android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -10,9 +10,9 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_forgot_pass"
         android:layout_width="0dp"
+        android:gravity="center"
+        style="@style/MediumText"
         android:text="Пожалуйста, введите Ваш адрес электронной почты. Вы получите ссылку для создания нового пароля по электронной почте."
-        android:textColor="@color/black"
-        android:textSize="16dp"
         android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

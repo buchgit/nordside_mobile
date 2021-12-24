@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -70,6 +72,7 @@ class FragmentCollection : Fragment(R.layout.fragment_collection) {
                 adapter = ItemCollectionAdapter(nomList.data!!)
             })
 
+
         categoryId?.let { onCategorySelected(it) }
 
     }
@@ -92,6 +95,8 @@ class FragmentCollection : Fragment(R.layout.fragment_collection) {
             return collectionList.size
         }
 
+
+
     }
 
     inner class ItemCollectionHolder(
@@ -103,9 +108,11 @@ class FragmentCollection : Fragment(R.layout.fragment_collection) {
             itemView.setOnClickListener(this)
         }
 
+
         fun bind(nomenclatureCollection: NomenclatureCollection) {
             currentCollection = nomenclatureCollection
             binding.tvItemCollectionViewHolder.text = currentCollection.title
+
 
             when (currentCollection.title) {
                 "Панели с офсетной печатью" -> {

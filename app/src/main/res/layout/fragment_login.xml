@@ -6,17 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <com.google.android.material.textview.MaterialTextView-->
-<!--        android:layout_width="0dp"-->
-<!--        android:text="Кабинет"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="34dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/cv_email_container"-->
-<!--        app:layout_constraintWidth_percent="0.90"/>-->
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/MediumText"
+        android:layout_width="0dp"
+        android:text="Войдите в личный кабинет, чтобы получать персональные цены, просматривать историю заказов."
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cv_email_container"
+        app:layout_constraintWidth_percent="0.90"/>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_height="wrap_content"
@@ -104,14 +104,13 @@
         android:id="@+id/button_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:textAllCaps="false"
-        android:textSize="12dp"
+        android:textSize="13dp"
         android:text="Забыли пароль?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/button_registration"
-        android:textColor="@color/grey"/>
+        android:textColor="?attr/colorPrimary"/>
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -120,13 +119,13 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="@string/registration"
-        android:textColor="@color/grey"
+        android:textColor="?attr/colorPrimary"
         android:layout_marginBottom="5dp"
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="12dp"/>
+        android:textSize="13dp"/>
 
     <TextView
         android:id="@+id/tw_token"
