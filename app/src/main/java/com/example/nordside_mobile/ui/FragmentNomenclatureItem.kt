@@ -87,6 +87,7 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
             })
 
         }
+        // comment
 
         Glide.with(this)
             .load(currentNomenclature.imageUri)
