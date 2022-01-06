@@ -5,20 +5,18 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.room.Room
-import androidx.work.WorkerParameters
 import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.BuildConfig
 import com.example.nordside_mobile.api.NordsideApi
 import com.example.nordside_mobile.dao.CartDao
 import com.example.nordside_mobile.database.NordsideDataBase
 import com.example.nordside_mobile.model.LoginBody
-import com.example.nordside_mobile.repository.NordsideRepository
-import com.example.nordside_mobile.usecases.*
-import dagger.Binds
+import com.example.nordside_mobile.usecases.AccessTokenUseCase
+import com.example.nordside_mobile.usecases.ApplicationConstants
+import com.example.nordside_mobile.usecases.RefreshTokenUseCase
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -26,8 +24,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -64,10 +62,14 @@ class BaseModule {
         }
             .build()
 
+        val gson = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            .create()
+
         return Retrofit.Builder()
-            .client(client)
+            //.client(client)
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
     }

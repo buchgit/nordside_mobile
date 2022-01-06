@@ -3,18 +3,17 @@ package com.example.nordside_mobile.api
 import com.example.nordside_mobile.model.*
 import com.example.nordside_mobile.repository.BaseApiRepository
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface NordsideApi {
+
+    //TODO нужно каждому методу персонально определять Handler с разной авторизацией. Из ретрофита убирать клиента с авторизацией через токен.
 
     @GET("rest/user/nomenclature/all?email=user@gmail.com")
     suspend fun getAllNomenclature(): List<PriceTable>
 
     @GET("rest/user/personal/nomenclature/collection/{id}")
-    suspend fun getPersonalNomenclatureListByCollection(@Path("id") id: String): List<PriceTable>
+    suspend fun getPersonalNomenclatureListByCollection(@Header(value = "Authorization") token: String,@Path("id") id: String): List<PriceTable>
 
     @GET("rest/user/nomenclature/all?email=user@gmail.com")
     suspend fun getNomenclatureList(): List<NomenclatureCollection>
@@ -35,10 +34,10 @@ interface NordsideApi {
     suspend fun login(@Body login: LoginBody): ServerToken
 
     @POST("rest/user/refresh")
-    suspend fun refreshToken(): ServerToken
+    suspend fun refreshToken(@Header(value = "Authorization") token: String): ServerToken
 
     @POST("rest/user/order/create")
-    suspend fun saveOrderOnServer(@Body order:Order):String
+    suspend fun saveOrderOnServer(@Header(value = "Authorization") token: String, @Body order:Order):String
 
     @GET("rest/user/order/all")
     suspend fun getOrderList(): List<Order>

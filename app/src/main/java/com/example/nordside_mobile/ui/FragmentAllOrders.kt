@@ -21,6 +21,7 @@ import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.time.LocalDate
+import java.util.*
 
 @AndroidEntryPoint
 class FragmentAllOrders:Fragment(R.layout.fragment_all_orders) {
@@ -28,6 +29,20 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders) {
     private val cartViewModel by viewModels<FragmentCartViewModel>()
     private lateinit var recyclerView: RecyclerView
     private var callback: BottomNavigationButtonCallback? = null
+
+
+//     override fun onCreateView(
+//         inflater: LayoutInflater,
+//         container: ViewGroup?,
+//         savedInstanceState: Bundle?
+//     ): View? {
+//         super.onCreateView(inflater, container, savedInstanceState)
+
+//         val view = inflater.inflate(R.layout.fragment_all_orders, container, false)
+//         val textView_title = view.findViewById(R.id.tw_fragment_all_orders_1) as TextView
+//         //recyclerView =
+//         return view
+//     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +55,7 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun makeAnOrder() {
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             cartViewModel.allCartPosition.collect {
                 val summaOfOrder = 0.00
@@ -56,6 +72,28 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders) {
                 allOrdersViewModel.saveOrderOnServer(order)
             }
         }
+
+//         //get cart items
+//         cartViewModel.getAllCartPosition().observe(viewLifecycleOwner,
+//         Observer {
+//             val summa:Double = 0.00
+//             val orderLineList = mutableListOf<ClientOrderLine>()
+//             for (i in it.indices){
+//                 val cartLine = it[i]
+//                 val orderLine  = ClientOrderLine(
+//                     cartLine?.title,
+//                     cartLine?.unit,
+//                     cartLine?.count,
+//                     cartLine?.summa
+//                 )
+//                 orderLineList.add(orderLine)
+//                 summa.plus(cartLine?.summa!!)
+//             }
+//             //val order = Order("", LocalDate.now(),"", summa, orderLineList)
+//             val order = Order( Date(), summa, orderLineList)
+//             allOrdersViewModel.saveOrderOnServer(order)
+//         })
+
     }
 
 //    override fun onStop() {

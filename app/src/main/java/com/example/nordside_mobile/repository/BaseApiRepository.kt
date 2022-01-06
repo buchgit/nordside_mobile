@@ -27,7 +27,7 @@ abstract class BaseApiRepository {
                         Resource.Error("Http error code ${throwable.code()}")
                     }
                     else -> {
-                        Resource.Error("Network error" + throwable.message)
+                        Resource.Error("Resource.Error ${throwable.message}")
                     }
                 }
 

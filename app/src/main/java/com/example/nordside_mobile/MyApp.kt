@@ -41,6 +41,7 @@ open class MyApp : Application(), Configuration.Provider {
         java.util.concurrent.TimeUnit.MINUTES
     ).build()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
         Log.v(TAG,"onCreate()")

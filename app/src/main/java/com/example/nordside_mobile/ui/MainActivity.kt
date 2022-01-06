@@ -1,8 +1,12 @@
 package com.example.nordside_mobile.ui
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
@@ -11,14 +15,22 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.LoginBody
 import com.example.nordside_mobile.model.NomenclatureCollection
 import com.example.nordside_mobile.model.PriceTable
+import com.example.nordside_mobile.usecases.AccessTokenUseCase
+import com.example.nordside_mobile.usecases.ApplicationConstants
+import com.example.nordside_mobile.usecases.RefreshTokenUseCase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.prefs.Preferences
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
@@ -31,6 +43,14 @@ FragmentRegister.Callback{
     lateinit var navView: BottomNavigationView
 
     private var currentFragment: Fragment? = null
+
+    @Inject
+    lateinit var  appPreferences: AppPreference
+
+//    private val appPreference: SharedPreferences = this.getSharedPreferences(
+//        ApplicationConstants().SHARED_PREFERENCES_FILE,
+//        Context.MODE_PRIVATE
+//    )
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(
@@ -46,6 +66,7 @@ FragmentRegister.Callback{
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
@@ -58,6 +79,8 @@ FragmentRegister.Callback{
         navView.setupWithNavController(navController)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+
+        checkTokenExpired()
 
     }
 
@@ -141,7 +164,24 @@ FragmentRegister.Callback{
         }
     }
 
+
     override fun onRegisterClicked() {
+
+//     @RequiresApi(Build.VERSION_CODES.O)
+//     private fun checkTokenExpired(){
+//         val refreshTokenUseCase = appPreferences.getSavedString(ApplicationConstants().REFRESH_TOKEN)
+//             ?.let { RefreshTokenUseCase(it) }
+//         if (refreshTokenUseCase != null) {
+//             if (refreshTokenUseCase.isExpared) {
+//                 goToLoginPage()
+//             }
+//         }
+//     }
+
+//     @RequiresApi(Build.VERSION_CODES.O)
+//     private fun goToLoginPage() {
+//         Log.v(TAG,"launchRefreshToken() in MainActivity")
+
         launchDestination(R.id.fragmentLogin)
     }
 }
