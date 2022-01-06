@@ -1,29 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_fragment_item_collection"
-        app:layout_constraintHeight_percent = "0.5"
-        android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
+        style="@style/ProductCard"
+        android:backgroundTint="@color/white"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:cardBackgroundColor="@color/purple_200"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layoutDescription="@xml/item_collection_view_holder_xml_constraintlayout2_scene">
 
-        <TextView
-            android:id="@+id/tw_item_collection_view_holder"
-            android:layout_width="100dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_collection"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey"
+            app:layout_constraintDimensionRatio="W,1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_collection_view_holder"
+            style="@style/MediumText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="Панели с офсетной"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_collection"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.6" />
 
-    </androidx.cardview.widget.CardView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_collection_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/iv_description_extend"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            app:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_collection_view_holder" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_description_extend"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/next"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            app:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_description_up"
+            android:scaleType="centerInside"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/nextup"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_collection_view_holder"
+            app:layout_constraintStart_toStartOf="@id/tv_item_collection_view_holder"/>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+    </com.google.android.material.card.MaterialCardView>

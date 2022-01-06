@@ -13,15 +13,14 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.*
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.ServerToken
 import com.example.nordside_mobile.repository.Resource
+import com.example.nordside_mobile.ui.utils.PagerDecorator
 import com.example.nordside_mobile.viewmodel.FragmentCategoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -52,6 +51,8 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
 
+        val snap = PagerSnapHelper()
+        snap.attachToRecyclerView(recyclerView)
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_category)
         progressBar.visibility = View.VISIBLE
@@ -63,6 +64,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             when (categoryListLiveData.value) {
                 is Resource.Success -> {
                     recyclerView.adapter = CategoryAdapter(it.data!!)
+                    recyclerView.addItemDecoration(PagerDecorator())
                     autoScrollRV(recyclerView)
                 }
                 is Resource.Error -> {
@@ -73,6 +75,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 }
             }
         })
+
     }
 
 

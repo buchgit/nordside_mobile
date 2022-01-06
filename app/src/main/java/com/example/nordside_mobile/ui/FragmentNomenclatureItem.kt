@@ -111,7 +111,8 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
                 COUNT_TO_CART_PLUS,
                 CURRENT_SUMMA,
                 currentNomenclature.title,
-                currentNomenclature.unit
+                currentNomenclature.unit,
+                currentNomenclature.imageUri
             )
         } else if (event.id == R.id.button_delete_fragment_nomenclature_item) {
 
@@ -130,7 +131,8 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
                         COUNT_TO_CART_MINUS,
                         -CURRENT_SUMMA,
                         currentNomenclature.title,
-                        currentNomenclature.unit
+                        currentNomenclature.unit,
+                        currentNomenclature.imageUri
                     )
                 }
             }

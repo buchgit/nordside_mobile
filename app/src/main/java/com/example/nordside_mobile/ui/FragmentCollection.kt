@@ -4,29 +4,31 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.core.app.NotificationCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
+import com.example.nordside_mobile.databinding.FragmentCollectionBinding
+import com.example.nordside_mobile.databinding.ItemCollectionViewHolderBinding
 import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.NomenclatureCollection
-import com.example.nordside_mobile.repository.Resource
 import com.example.nordside_mobile.viewmodel.FragmentCollectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentCollection : Fragment() {
+class FragmentCollection : Fragment(R.layout.fragment_collection) {
+
+    private var _binding: FragmentCollectionBinding? = null
+    private val binding get() = _binding!!
 
     private val TAG = "${FragmentCollection::class.simpleName} ###"
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var textView: TextView
     private var adapter: ItemCollectionAdapter = ItemCollectionAdapter(emptyList())
     private val collectionViewModel by viewModels<FragmentCollectionViewModel>()
     private var callbacks: Callback? = null
@@ -51,34 +53,25 @@ class FragmentCollection : Fragment() {
         categoryTitle = requireArguments().getString("category_title")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_collection, container, false)
-        textView = view.findViewById(R.id.tw_fragment_collection)
-        recyclerView = view.findViewById(R.id.recycler_view_fragment_collection) as RecyclerView
-        //recyclerView.layoutManager = GridLayoutManager(context,2)
-        recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-
-        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
-        })
-
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCollectionBinding.bind(view)
+
+        binding.recyclerViewFragmentCollection.layoutManager = GridLayoutManager(
+            context, 1, GridLayoutManager.VERTICAL, false
+        )
+
+        collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
+            binding.recyclerViewFragmentCollection.adapter = ItemCollectionAdapter(it.data!!)
+        })
+
         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner,
             Observer { nomList ->
                 Log.v(TAG, nomList.data?.size.toString())
                 Log.v(TAG, collectionViewModel.nomenclatureListLiveData.value?.data.toString())
                 adapter = ItemCollectionAdapter(nomList.data!!)
             })
+
 
         categoryId?.let { onCategorySelected(it) }
 
@@ -89,8 +82,8 @@ class FragmentCollection : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemCollectionHolder {
             val inflater = LayoutInflater.from(context)
-            val view = inflater.inflate(R.layout.item_collection_view_holder, parent, false)
-            return ItemCollectionHolder(view)
+            val binding = ItemCollectionViewHolderBinding.inflate(inflater, parent, false)
+            return ItemCollectionHolder(binding)
         }
 
         override fun onBindViewHolder(holder: ItemCollectionHolder, position: Int) {
@@ -102,21 +95,56 @@ class FragmentCollection : Fragment() {
             return collectionList.size
         }
 
+
+
     }
 
-    inner class ItemCollectionHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
-        var cardView: CardView = itemView.findViewById(R.id.card_view_fragment_item_collection)
-        var textView: TextView = itemView.findViewById(R.id.tw_item_collection_view_holder)
-        lateinit var currentCollection: NomenclatureCollection
-
-        fun bind(nomenclatureCollection: NomenclatureCollection) {
-            currentCollection = nomenclatureCollection
-            textView.setText(currentCollection.title)
-        }
+    inner class ItemCollectionHolder(
+        private var binding: ItemCollectionViewHolderBinding
+    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        private lateinit var currentCollection: NomenclatureCollection
 
         init {
             itemView.setOnClickListener(this)
+        }
+
+
+        fun bind(nomenclatureCollection: NomenclatureCollection) {
+            currentCollection = nomenclatureCollection
+            binding.tvItemCollectionViewHolder.text = currentCollection.title
+
+
+            when (currentCollection.title) {
+                "Панели с офсетной печатью" -> {
+                    binding.ivCollection.setImageResource(R.drawable.paneli_ofsetnaya)
+                    binding.tvItemCollectionDescription.text =
+                        "Устойчивы к воздействию ультрафиолетовых лучей и к механическим воздействиям."
+                }
+                "Панели с термопереводной печатью" -> {
+                    binding.ivCollection.setImageResource(R.drawable.paneli_termoperev)
+                    binding.tvItemCollectionDescription.text =
+                        "Используются для внутренней отделки стен и потолков помещений различного назначения."
+                }
+                "Панели с цифровой печатью" -> {
+                    // Todo: На сайте другая коллекция и друга картинка
+                    binding.ivCollection.setImageResource(R.drawable.paneli_matov_white)
+                    binding.tvItemCollectionDescription.text =
+                        "!!!"
+                }
+                "Панели ламинированные" -> {
+                    binding.ivCollection.setImageResource(R.drawable.paneli_laminirov)
+                    binding.tvItemCollectionDescription.text =
+                        "Самые ударопрочные и износостойкие декоративные панели ПВХ"
+                }
+                "Панели потолочные" -> {
+                    binding.ivCollection.setImageResource(R.drawable.paneli_pvh_potoloch)
+                    binding.tvItemCollectionDescription.text =
+                        "Благодаря устойчивости к влаге их можно использовать как в жилых помещениях, так и в ванных комнатах."
+                }
+                else -> {
+
+                }
+            }
         }
 
         override fun onClick(v: View?) {
@@ -130,10 +158,9 @@ class FragmentCollection : Fragment() {
         Log.v(TAG, id)
         collectionViewModel.getNomenclatureCollectionByCategoryId(id)
         collectionViewModel.nomenclatureListLiveData.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = ItemCollectionAdapter(it.data!!)
+            binding.recyclerViewFragmentCollection.adapter = ItemCollectionAdapter(it.data!!)
         })
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

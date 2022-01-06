@@ -41,7 +41,9 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
     @Inject lateinit var appPreference: AppPreference
 
     companion object {
-        fun createArgs() = bundleOf(
+        fun createArgs(login: LoginBody) = bundleOf(
+            "EMAIL" to login.email,
+            "PASSWORD" to login.password
         )
     }
 
@@ -71,10 +73,11 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         with(binding) {
             buttonLogin.setOnClickListener() { loginButtonListener() }
             buttonRegistration.setOnClickListener { registrationButtonListener() }
-            val textViewToken = binding.twToken
+            buttonForgotPassword.setOnClickListener { }
 
+            val textViewToken = binding.twToken
             //TODO удалить после отладки
-            textViewToken.setText(viewModel.getTokenFromSharedPreferences() ?: "token is null")
+            textViewToken.text = viewModel.getTokenFromSharedPreferences() ?: "token is null"
 
         }
     }
@@ -96,14 +99,14 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
                 when (tokenLiveData.value) {
                     is Resource.Success -> {
-                        Log.v(TAG, "Resource.Success ${tokenLiveData.value}")
+                        Log.d(TAG, "Resource.Success ${tokenLiveData.value}")
                         callbacks?.onLoginClicked(true)
                     }
                     is Resource.Error -> {
                         showErrorMessage(
                             (tokenLiveData.value as Resource.Error<ServerToken>).message
                         )
-                        Log.v(TAG, "Resource.Error ${tokenLiveData.value}")
+                        Log.d(TAG, "Resource.Error ${tokenLiveData.value}")
                     }
                 }
 
@@ -129,9 +132,12 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
                     binding.etPasswordContainer.error = getString(R.string.password_small)
                 }
             }
-
-
         }
+    }
+
+    private fun registrationButtonListener() {
+        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        callbacks?.onRegistrationClicked(loginBody)
     }
 
     private fun showErrorMessage(message: String?) {
@@ -150,9 +156,8 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         findNavController().navigate(R.id.action_fragmentLogin_to_fragmentPersonal)
     }
 
-    private fun registrationButtonListener() {
-        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
-        callbacks?.onRegistrationClicked(loginBody)
+    private fun forgotPassButtonListener() {
+
     }
 
     override fun onAttach(context: Context) {

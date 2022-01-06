@@ -11,24 +11,36 @@
         android:layout_width="match_parent"
         android:layout_marginBottom="150dp"
         android:layout_height="wrap_content"
+        android:background="@color/greyBack"
         tools:context=".ui.MainActivity">
 
         <TextView
-
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="18dp"
+            style="@style/BigTextType"
             android:id="@+id/text_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="10dp"
+            android:text="Категории"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_marginStart="20dp"
+            android:id="@+id/imageView"
+            android:layout_width="22sp"
+            android:layout_height="22sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_category"
+            app:layout_constraintBottom_toBottomOf="@+id/text_category"
             app:layout_constraintStart_toStartOf="parent"
-            android:textSize="22sp"
-            android:text="Категории"/>
+            app:layout_constraintTop_toTopOf="@+id/text_category" />
 
         <FrameLayout
+            android:background="@color/greyBack"
             android:id="@+id/container_fragment_1"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/text_category"/>
 
     <!--    <FrameLayout-->
@@ -41,21 +53,33 @@
     <!--    </FrameLayout>-->
 
         <TextView
-
-            android:layout_marginStart="18dp"
+            style="@style/BigTextType"
             android:layout_marginTop="18dp"
             android:id="@+id/text_partner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/container_fragment_1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@id/iv_partner"
+            android:layout_marginStart="10dp"
             android:text="Наши партнеры"/>
 
+        <ImageView
+            android:layout_marginStart="20dp"
+            android:id="@+id/iv_partner"
+            android:layout_width="22sp"
+            android:layout_height="22sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_partners"
+            app:layout_constraintBottom_toBottomOf="@+id/text_partner"
+            app:layout_constraintEnd_toStartOf="@+id/text_partner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_partner" />
+
         <FrameLayout
+            android:background="@color/greyBack"
             android:id="@+id/container_fragment_3"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/text_partner"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

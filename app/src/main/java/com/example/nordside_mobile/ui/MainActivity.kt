@@ -9,7 +9,6 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -35,7 +34,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
-    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback {
+    FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback,
+FragmentRegister.Callback{
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
@@ -130,16 +130,20 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         }
     }
 
-    override fun onRegistrationClicked(login: LoginBody) {
-
+    override fun onRegistrationClicked(loginBody: LoginBody) {
+        launchDestination(
+            R.id.fragmentRegister,
+            FragmentLogin.createArgs(loginBody)
+        )
     }
 
     private fun updateUi() {
         when(currentFragment) {
-            is FragmentNomenclatureList, is FragmentNomenclatureItem, is FragmentCollection -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    supportActionBar?.setDisplayShowHomeEnabled(true)
-                }
+            is FragmentNomenclatureList, is FragmentNomenclatureItem,
+            is FragmentCollection, is FragmentRegister -> {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setDisplayShowHomeEnabled(true)
+            }
             else -> {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 supportActionBar?.setDisplayShowHomeEnabled(false)
@@ -160,20 +164,24 @@ class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCol
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun checkTokenExpired(){
-        val refreshTokenUseCase = appPreferences.getSavedString(ApplicationConstants().REFRESH_TOKEN)
-            ?.let { RefreshTokenUseCase(it) }
-        if (refreshTokenUseCase != null) {
-            if (refreshTokenUseCase.isExpared) {
-                goToLoginPage()
-            }
-        }
-    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun goToLoginPage() {
-        Log.v(TAG,"launchRefreshToken() in MainActivity")
+    override fun onRegisterClicked() {
+
+//     @RequiresApi(Build.VERSION_CODES.O)
+//     private fun checkTokenExpired(){
+//         val refreshTokenUseCase = appPreferences.getSavedString(ApplicationConstants().REFRESH_TOKEN)
+//             ?.let { RefreshTokenUseCase(it) }
+//         if (refreshTokenUseCase != null) {
+//             if (refreshTokenUseCase.isExpared) {
+//                 goToLoginPage()
+//             }
+//         }
+//     }
+
+//     @RequiresApi(Build.VERSION_CODES.O)
+//     private fun goToLoginPage() {
+//         Log.v(TAG,"launchRefreshToken() in MainActivity")
+
         launchDestination(R.id.fragmentLogin)
     }
 }

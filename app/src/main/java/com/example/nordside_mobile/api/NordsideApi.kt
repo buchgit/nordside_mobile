@@ -41,4 +41,6 @@ interface NordsideApi {
 
     @GET("rest/user/order/all")
     suspend fun getOrderList(): List<Order>
+
+    suspend fun register(@Body login: LoginBody): Boolean
 }

@@ -1,6 +1,7 @@
 package com.example.nordside_mobile.repository
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
@@ -13,6 +14,7 @@ import com.example.nordside_mobile.entity.CartPosition
 import com.example.nordside_mobile.model.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -67,20 +69,19 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.saveOrderOnServer(token, order) }
     }
 
+    suspend fun register(loginBody: LoginBody) : Resource<Boolean> {
+        return safeApiCall { nordsideApi.register(loginBody) }
+    }
+
     @Transaction
-    fun saveToCart(code: String, count: Double, summa: Double, title: String, unit: String) =
+    fun saveToCart(
+        code: String, count: Double, summa: Double, title: String, unit: String, imageUri: Uri?
+    ) =
         runBlocking {
             launch {
                 deleteCartPosition(code)
                 cartDao.saveCartPosition(
-                    CartPosition(
-                        UUID.randomUUID(),
-                        code,
-                        count,
-                        summa,
-                        title,
-                        unit
-                    )
+                    CartPosition(UUID.randomUUID(), code, count, summa, title, unit, imageUri)
                 )
                 Log.v(TAG, cartDao.getCartPositionsCount(code).toString())
             }
@@ -108,17 +109,12 @@ class NordsideRepository @Inject constructor(
         return cartDao.getCartPositionsCount(code)
     }
 
-    fun getAllCartPosition(): LiveData<List<CartPositionPojo?>> {
+    fun getAllCartPosition(): Flow<List<CartPositionPojo?>?> {
         return cartDao.getAllCartPositions()
     }
 
-    fun getTotalCartSumma(): LiveData<Double> {
+    fun getTotalCartSumma(): Flow<Double?> {
         return cartDao.getTotalCartSumma()
     }
+
 }
-
-
-
-
-
-

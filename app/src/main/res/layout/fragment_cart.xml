@@ -4,21 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/tw_fragment_cart"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/cart"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/recycler_view_fragment_cart"
-    />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_fragment_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recycler_view_fragment_cart"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/tw_fragment_cart"
-    app:layout_constraintBottom_toBottomOf="parent"
-    />
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/tv_total_summa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/button_check_out"
+        app:layout_constraintStart_toStartOf="@id/button_check_out"
+        android:textSize="14sp"
+        android:text="Итого сумма:"/>
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/tv_total_summa_numbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/button_check_out"
+        app:layout_constraintEnd_toEndOf="@id/button_check_out"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_check_out"
+        style="@style/BigButton"
+        android:text="Оформить заказ"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.78"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_cart_empty"
+        style="@style/BigTextType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Пустая корзина"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

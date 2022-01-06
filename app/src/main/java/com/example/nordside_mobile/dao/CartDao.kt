@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.entity.CartPosition
+import kotlinx.coroutines.flow.Flow
 import org.jetbrains.annotations.NotNull
 
 @Dao
 interface CartDao {
 
     @Query("select code, max(title) as title, max(unit) as unit, sum(count) as count, sum(summa) as summa from CartPosition group By code")
-    fun getAllCartPositions(): LiveData<List<CartPositionPojo?>>
+    fun getAllCartPositions(): Flow<List<CartPositionPojo?>?>
 
     @Query("select code, title, unit, sum(count) as count, sum(summa) as summa from CartPosition where code=:code ")
     //@Query("select s.* FROM(select code, title, unit, sum(count) as count, sum(summa) as summa from CartPosition where code=:code) as s where s.summa>0 ")
@@ -26,7 +27,7 @@ interface CartDao {
     suspend fun deleteCartPosition(code: String)
 
     @Query("select sum(summa) as summa from CartPosition")
-    fun getTotalCartSumma():LiveData<Double>
+    fun getTotalCartSumma(): Flow<Double?>
 
 //    @Delete
 //    suspend fun deleteAll()
