@@ -57,16 +57,16 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.login(login) }
     }
 
-    suspend fun refreshToken(): Resource<ServerToken> {
-        return safeApiCall { nordsideApi.refreshToken() }
+    suspend fun refreshToken(token:String): Resource<ServerToken> {
+        return safeApiCall { nordsideApi.refreshToken(token) }
     }
 
-    suspend fun getPersonalNomenclatureListByCollection(id: String): Resource<List<PriceTable>> {
-        return safeApiCall { nordsideApi.getPersonalNomenclatureListByCollection(id) }
+    suspend fun getPersonalNomenclatureListByCollection(token:String, id: String): Resource<List<PriceTable>> {
+        return safeApiCall { nordsideApi.getPersonalNomenclatureListByCollection(token, id) }
     }
 
-    suspend fun saveOrderOnServer(order: Order):Resource<String>{
-        return safeApiCall { nordsideApi.saveOrderOnServer(order) }
+    suspend fun saveOrderOnServer(token: String, order: Order):Resource<String>{
+        return safeApiCall { nordsideApi.saveOrderOnServer(token, order) }
     }
 
     suspend fun register(loginBody: LoginBody) : Resource<Boolean> {

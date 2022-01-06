@@ -31,7 +31,11 @@ class GetTokenUseCase @Inject constructor(
     suspend fun execute(loginBody: LoginBody?): Resource<ServerToken> {
 
         val tokenResource: Resource<ServerToken> = if (loginBody == null) {
-            repositoryApi.refreshToken()
+            val token: String? = sharedPreferences.getSavedString(ApplicationConstants().REFRESH_TOKEN)
+            if (token != null) {
+                 repositoryApi.refreshToken(token)
+            }
+           Resource.Error("refresh token error")
         } else {
             repositoryApi.login(loginBody)
         }
