@@ -98,6 +98,7 @@ class FragmentNomenclatureItem : Fragment(R.layout.fragment_nomenclature_item) {
         super.onDetach()
         _binding = null
     }
+    // hh
 
     private fun changeCart(event: View) {
 
