@@ -40,7 +40,7 @@ interface NordsideApi {
     suspend fun saveOrderOnServer(@Header(value = "Authorization") token: String, @Body order:Order):String
 
     @GET("rest/user/order/all")
-    suspend fun getOrderList(): List<Order>
+    suspend fun getPersonalOrderList(@Header(value = "Authorization") token: String): List<Order>
 
     suspend fun register(@Body login: LoginBody): Boolean
 }

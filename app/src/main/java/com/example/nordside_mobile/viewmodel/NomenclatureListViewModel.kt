@@ -27,7 +27,7 @@ class NomenclatureListViewModel @Inject constructor(
 ): ViewModel() {
 
     private var _nomenclatureLiveData: MutableLiveData<Resource<List<Nomenclature>>> = MutableLiveData()
-    val nomenclatureListLiveData: LiveData<Resource<List<Nomenclature>>> get() = _nomenclatureLiveData
+    //val nomenclatureListLiveData: LiveData<Resource<List<Nomenclature>>> get() = _nomenclatureLiveData
 
     private var _nomenclaturePersonalListLiveData: MutableLiveData<Resource<List<PriceTable>>> = MutableLiveData()
     val nomenclaturePersonalListLiveData: LiveData<Resource<List<PriceTable>>> get() = _nomenclaturePersonalListLiveData

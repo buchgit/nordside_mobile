@@ -164,24 +164,25 @@ FragmentRegister.Callback{
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkTokenExpired() {
+        val refreshTokenUseCase =
+            appPreferences.getSavedString(ApplicationConstants().REFRESH_TOKEN)
+                ?.let { RefreshTokenUseCase(it) }
+        if (refreshTokenUseCase != null) {
+            if (refreshTokenUseCase.isExpared) {
+                goToLoginPage()
+            }
+        }
+    }
 
-    override fun onRegisterClicked() {
-
-//     @RequiresApi(Build.VERSION_CODES.O)
-//     private fun checkTokenExpired(){
-//         val refreshTokenUseCase = appPreferences.getSavedString(ApplicationConstants().REFRESH_TOKEN)
-//             ?.let { RefreshTokenUseCase(it) }
-//         if (refreshTokenUseCase != null) {
-//             if (refreshTokenUseCase.isExpared) {
-//                 goToLoginPage()
-//             }
-//         }
-//     }
-
-//     @RequiresApi(Build.VERSION_CODES.O)
-//     private fun goToLoginPage() {
-//         Log.v(TAG,"launchRefreshToken() in MainActivity")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun goToLoginPage() {
+        Log.v(TAG, "launchRefreshToken() in MainActivity")
 
         launchDestination(R.id.fragmentLogin)
+    }
+
+    override fun onRegisterClicked() {
     }
 }

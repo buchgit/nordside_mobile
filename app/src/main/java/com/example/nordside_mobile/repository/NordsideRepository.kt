@@ -69,6 +69,10 @@ class NordsideRepository @Inject constructor(
         return safeApiCall { nordsideApi.saveOrderOnServer(token, order) }
     }
 
+    suspend fun getPersonalOrderList(token: String):Resource<List<Order>>{
+        return safeApiCall { nordsideApi.getPersonalOrderList(token) }
+    }
+
     suspend fun register(loginBody: LoginBody) : Resource<Boolean> {
         return safeApiCall { nordsideApi.register(loginBody) }
     }
