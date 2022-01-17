@@ -49,7 +49,6 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
 
          val view = inflater.inflate(R.layout.fragment_all_orders, container, false)
          tv_title = view.findViewById(R.id.tw_fragment_all_orders_1)
-         tv_title.setText("Все ваши заказы:")
          recyclerView = view.findViewById(R.id.recycler_view_fragment_all_orders)
          recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 
