@@ -8,4 +8,8 @@ class Order(
     var summa: Double,
     @SerializedName("orderLinesTable")
     var itemTable: List<ClientOrderLine>
-)
+){
+    override fun toString(): String {
+        return "Order(date=$date, summa=$summa, itemTable=$itemTable)"
+    }
+}

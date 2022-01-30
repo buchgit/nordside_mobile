@@ -3,13 +3,12 @@ package com.example.nordside_mobile.ui
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -20,18 +19,17 @@ import com.example.nordside_mobile.R
 import com.example.nordside_mobile.database.CartPositionPojo
 import com.example.nordside_mobile.model.Order
 import com.example.nordside_mobile.model.ClientOrderLine
-import com.example.nordside_mobile.model.PriceTable
-import com.example.nordside_mobile.ui.utils.ProductCardAdapter
 import com.example.nordside_mobile.ui.utils.ProductCardRecyclerListener
 import com.example.nordside_mobile.viewmodel.FragmentAllOrdersViewModel
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import java.time.LocalDate
 import java.util.*
 
 @AndroidEntryPoint
 class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecyclerListener {
+
+    private val TAG = "${FragmentAllOrders::class.simpleName} ###"
     private val allOrdersViewModel by viewModels<FragmentAllOrdersViewModel>()
     private val cartViewModel by viewModels<FragmentCartViewModel>()
 
@@ -102,6 +100,7 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
         }
 
         override fun onBindViewHolder(holder: FragmentAllOrdersHolder, position: Int) {
+            Log.v(TAG, orderList[position].toString())
             return holder.bind(orderList[position])
         }
 
@@ -119,7 +118,8 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
 
         fun bind(order:Order) {
             textView_date.setText(order.date.toString())
-            textView_summa.setText(order.summa.toString())
+            val summa = order.summa
+            textView_summa.setText("${String.format("%.2f",summa)} ${getString(R.string.rubles)}")
 
         }
 

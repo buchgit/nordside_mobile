@@ -43,10 +43,10 @@ class FragmentAllOrdersViewModel @Inject constructor(
 
     fun getPersonalOrderList(){
         val token : String? = appPreference.getSavedString(ApplicationConstants().ACCESS_TOKEN)
-        var httpStatus: String? = null
         viewModelScope.launch {
             val result:Resource<List<Order>> = repository.getPersonalOrderList("Bearer $token")
             if (result is Resource.Success){
+                Log.v(TAG, result.data!![0].summa.toString())
                 orderList.value = result.data
             }
         }
