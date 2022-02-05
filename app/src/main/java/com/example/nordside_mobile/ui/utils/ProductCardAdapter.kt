@@ -36,6 +36,11 @@ class ProductCardAdapter(
         return cartPositionList.size
     }
 
+    //todo
+    override fun getItemViewType(position: Int): Int {
+
+        return 0
+    }
 
     inner class ProductCardHolder(
         private val binding: CartViewHolderBinding

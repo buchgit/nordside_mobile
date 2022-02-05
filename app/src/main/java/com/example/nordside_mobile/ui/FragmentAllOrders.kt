@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.database.CartPositionPojo
+import com.example.nordside_mobile.model.Category
 import com.example.nordside_mobile.model.Order
 import com.example.nordside_mobile.model.ClientOrderLine
 import com.example.nordside_mobile.ui.utils.ProductCardRecyclerListener
@@ -27,7 +28,7 @@ import kotlinx.coroutines.flow.collect
 import java.util.*
 
 @AndroidEntryPoint
-class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecyclerListener {
+class FragmentAllOrders : Fragment(R.layout.fragment_all_orders){
 
     private val TAG = "${FragmentAllOrders::class.simpleName} ###"
     private val allOrdersViewModel by viewModels<FragmentAllOrdersViewModel>()
@@ -35,29 +36,35 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var tv_title: TextView
-    private var callback: BottomNavigationButtonCallback? = null
+    private var callbacksOrder: Callback? = null
+    private var callback :BottomNavigationButtonCallback? = null
+
+    interface Callback {
+        fun onOrderSelected(order: Order)
+    }
 
 
-     override fun onCreateView(
-         inflater: LayoutInflater,
-         container: ViewGroup?,
-         savedInstanceState: Bundle?
-     ): View? {
-         super.onCreateView(inflater, container, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
-         val view = inflater.inflate(R.layout.fragment_all_orders, container, false)
-         tv_title = view.findViewById(R.id.tw_fragment_all_orders_1)
-         recyclerView = view.findViewById(R.id.recycler_view_fragment_all_orders)
-         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        val view = inflater.inflate(R.layout.fragment_all_orders, container, false)
+        tv_title = view.findViewById(R.id.tw_fragment_all_orders_1)
+        recyclerView = view.findViewById(R.id.recycler_view_fragment_all_orders)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-         //заполнили список для адаптера
-         allOrdersViewModel.getPersonalOrderList()
-         allOrdersViewModel.orderList.observe(viewLifecycleOwner, Observer {
-             recyclerView.adapter = FragmentAllOrdersAdapter(it)
-         })
+        //заполнили список для адаптера
+        allOrdersViewModel.getPersonalOrderList()
+        allOrdersViewModel.orderList.observe(viewLifecycleOwner, Observer {
+            recyclerView.adapter = FragmentAllOrdersAdapter(it)
+        })
 
-         return view
-     }
+        return view
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,14 +83,23 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
                 val summaOfOrder = 0.00
                 val orderLineList = mutableListOf<ClientOrderLine>()
 
+
                 it?.forEach { cartLine ->
                     cartLine?.apply {
-                        orderLineList.add(ClientOrderLine(title, unit, count, summa))
+                        val clientOrderLine : ClientOrderLine = ClientOrderLine()
+                        clientOrderLine.title = title
+                        clientOrderLine.count = count
+                        clientOrderLine.unit = unit
+                        clientOrderLine.summa = summa
+                        orderLineList.add(clientOrderLine)
                         summaOfOrder.plus(summa ?: 0.00)
                     }
                 }
 
-                val order = Order(Date(),summaOfOrder, orderLineList)
+                val order = Order()
+                order.date = Date()
+                order.summa = summaOfOrder
+                order.itemTable = orderLineList
                 allOrdersViewModel.saveOrderOnServer(order)
             }
         }
@@ -113,18 +129,27 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
     inner class FragmentAllOrdersHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        private var textView_date: TextView =  itemView.findViewById(R.id.tw_all_orders_view_holder_date)
-        private var textView_summa: TextView = itemView.findViewById(R.id.tw_all_orders_view_holder_summa)
+        private lateinit var currentOrder: Order
 
-        fun bind(order:Order) {
+        private var textView_date: TextView =
+            itemView.findViewById(R.id.tw_all_orders_view_holder_date)
+        private var textView_summa: TextView =
+            itemView.findViewById(R.id.tw_all_orders_view_holder_summa)
+
+        fun bind(order: Order) {
+            currentOrder = order
             textView_date.setText(order.date.toString())
             val summa = order.summa
-            textView_summa.setText("${String.format("%.2f",summa)} ${getString(R.string.rubles)}")
+            textView_summa.setText("${String.format("%.2f", summa)} ${getString(R.string.rubles)}")
 
         }
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         override fun onClick(v: View?) {
-//            callbacks?.onNomenclatureSelected(currentNomenclatureWithPrice)
+            callbacksOrder?.onOrderSelected(currentOrder)
         }
 
     }
@@ -132,19 +157,13 @@ class FragmentAllOrders:Fragment(R.layout.fragment_all_orders),ProductCardRecycl
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = context as BottomNavigationButtonCallback
+        callbacksOrder = context as Callback?
     }
 
     override fun onDetach() {
         super.onDetach()
         callback = null
-    }
-
-    override fun onClickButtonPlusMinusCardProduct(
-        currentCartPosition: CartPositionPojo?,
-        currentCount: Double?,
-        currentSumma: Double?
-    ) {
-        TODO("Not yet implemented")
+        callbacksOrder = null
     }
 
 }

@@ -3,32 +3,19 @@ package com.example.nordside_mobile.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-import com.bumptech.glide.Glide
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.database.CartPositionPojo
-import com.example.nordside_mobile.databinding.CartViewHolderBinding
-import com.example.nordside_mobile.databinding.FragmentLoginBinding
 import com.example.nordside_mobile.databinding.FragmentOrderBinding
 import com.example.nordside_mobile.ui.utils.ProductCardAdapter
 import com.example.nordside_mobile.ui.utils.ProductCardRecyclerListener
 import com.example.nordside_mobile.viewmodel.FragmentOrderViewModel
-import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import java.math.MathContext
-import java.math.RoundingMode
 
 @AndroidEntryPoint
 class FragmentOrder : Fragment(R.layout.fragment_order), ProductCardRecyclerListener {

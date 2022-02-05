@@ -18,10 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.nordside_mobile.AppPreference
 import com.example.nordside_mobile.R
 import com.example.nordside_mobile.databinding.ActivityMainBinding
-import com.example.nordside_mobile.model.Category
-import com.example.nordside_mobile.model.LoginBody
-import com.example.nordside_mobile.model.NomenclatureCollection
-import com.example.nordside_mobile.model.PriceTable
+import com.example.nordside_mobile.model.*
 import com.example.nordside_mobile.usecases.AccessTokenUseCase
 import com.example.nordside_mobile.usecases.ApplicationConstants
 import com.example.nordside_mobile.usecases.RefreshTokenUseCase
@@ -35,7 +32,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback,
-FragmentRegister.Callback{
+FragmentRegister.Callback, FragmentAllOrders.Callback{
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
@@ -184,5 +181,9 @@ FragmentRegister.Callback{
     }
 
     override fun onRegisterClicked() {
+    }
+
+    override fun onOrderSelected(order: Order) {
+        launchDestination(R.id.fragmentSelectedOrder, FragmentSelectedOrder.createArgs(order))
     }
 }

@@ -1,9 +1,10 @@
 package com.example.nordside_mobile.model
 
-class ClientOrderLine (
-    var title:String?,
-    var unit:String?,
-    var count:Double?,
-    var summa:Double?
-    ) {
+import java.io.Serializable
+
+class ClientOrderLine : Serializable {
+    var title:String? = null
+    var unit:String? = null
+    var count:Double? = 0.00
+    var summa:Double? = null
 }

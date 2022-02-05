@@ -35,5 +35,8 @@
     <string name="all_orders">Ваши заказы</string>
     <string name="totalOrderSumma">"Итого по заказу: "</string>
     <string name="rubles">" руб."</string>
+    <string name="selected_order">Ваш заказ</string>
+    <string name="order_items">Товары</string>
+    <string name="total_order_summa">Итого сумма</string>
 
 </resources>
