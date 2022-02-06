@@ -1,5 +1,6 @@
 package com.example.nordside_mobile.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -8,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -24,6 +27,7 @@ import com.example.nordside_mobile.ui.utils.ProductCardRecyclerListener
 import com.example.nordside_mobile.viewmodel.FragmentAllOrdersViewModel
 import com.example.nordside_mobile.viewmodel.FragmentCartViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import java.util.*
 
@@ -38,11 +42,20 @@ class FragmentAllOrders : Fragment(R.layout.fragment_all_orders){
     private lateinit var tv_title: TextView
     private var callbacksOrder: Callback? = null
     private var callback :BottomNavigationButtonCallback? = null
+    private var makeOrder:Boolean = false
 
     interface Callback {
         fun onOrderSelected(order: Order)
     }
 
+    companion object{
+        fun createArgs(makeOrder:Boolean) = bundleOf("make_order" to makeOrder)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        makeOrder = arguments?.getBoolean("make_order") ?:true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,12 +71,16 @@ class FragmentAllOrders : Fragment(R.layout.fragment_all_orders){
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         //заполнили список для адаптера
+        updateRecycler()
+
+        return view
+    }
+
+    private fun updateRecycler(){
         allOrdersViewModel.getPersonalOrderList()
         allOrdersViewModel.orderList.observe(viewLifecycleOwner, Observer {
             recyclerView.adapter = FragmentAllOrdersAdapter(it)
         })
-
-        return view
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -72,9 +89,12 @@ class FragmentAllOrders : Fragment(R.layout.fragment_all_orders){
 
         callback!!.setButtonVisible(R.string.buy, false)
 
-        makeAnOrder()
+        if (makeOrder) {
+            makeAnOrder()
+        }
     }
 
+    @SuppressLint("ShowToast")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun makeAnOrder() {
 
@@ -96,13 +116,17 @@ class FragmentAllOrders : Fragment(R.layout.fragment_all_orders){
                     }
                 }
 
-                val order = Order()
-                order.date = Date()
-                order.summa = summaOfOrder
-                order.itemTable = orderLineList
-                allOrdersViewModel.saveOrderOnServer(order)
+                if (orderLineList.size != 0) {
+                    val order = Order()
+                    order.date = Date()
+                    order.summa = summaOfOrder
+                    order.itemTable = orderLineList
+                    allOrdersViewModel.saveOrderOnServer(order)
+                }
             }
         }
+
+        cartViewModel.cleanCart()
 
     }
 

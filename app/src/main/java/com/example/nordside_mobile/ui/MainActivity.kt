@@ -188,7 +188,7 @@ FragmentRegister.Callback, FragmentAllOrders.Callback, FragmentPersonal.Callback
     }
 
     override fun onMyOrdersClicked() {
-        launchDestination(R.id.fragmentAllOrders, null)
+        launchDestination(R.id.fragmentAllOrders, FragmentAllOrders.createArgs(false))
     }
 
     override fun onChangePasswordClicked() {

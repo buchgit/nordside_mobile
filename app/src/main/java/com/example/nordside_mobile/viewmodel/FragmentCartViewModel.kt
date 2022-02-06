@@ -46,7 +46,7 @@ class FragmentCartViewModel @Inject constructor(
         repository.deleteCartPosition(code)
     }
 
-//    fun cleanCart(){
-//        repository.cleanCart()
-//    }
+    fun cleanCart(){
+        repository.cleanCart()
+    }
 }

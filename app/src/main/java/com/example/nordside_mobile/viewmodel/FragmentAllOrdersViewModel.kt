@@ -37,6 +37,12 @@ class FragmentAllOrdersViewModel @Inject constructor(
                 //TODO сделать навигацию на страничку ошибки "Ваш заказ не сохранен."
                 Log.v(TAG,result.message!!)
             }
+            //обновляем список
+            val result2:Resource<List<Order>> = repository.getPersonalOrderList("Bearer $token")
+            if (result2 is Resource.Success){
+                orderList.value = result2.data
+            }
+
         }
         return httpStatus
     }

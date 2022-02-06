@@ -109,6 +109,12 @@ class NordsideRepository @Inject constructor(
         }
     }
 
+    fun cleanCart() = runBlocking {
+        launch {
+            cartDao.delete()
+        }
+    }
+
     fun getCartPositionsCount(code: String): LiveData<CartPositionPojo?> {
         return cartDao.getCartPositionsCount(code)
     }

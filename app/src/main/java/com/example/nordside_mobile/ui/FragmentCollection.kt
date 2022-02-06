@@ -42,7 +42,6 @@ class FragmentCollection : Fragment(R.layout.fragment_collection) {
         )
     }
 
-
     interface Callback {
         fun onCollectionSelected(nomenclatureCollection: NomenclatureCollection)
     }

@@ -29,7 +29,7 @@ interface CartDao {
     @Query("select sum(summa) as summa from CartPosition")
     fun getTotalCartSumma(): Flow<Double?>
 
-//    @Delete
-//    suspend fun deleteAll()
+    @Query("delete from CartPosition")
+    suspend fun delete()
 
 }
