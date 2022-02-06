@@ -32,7 +32,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentCategory.Callback, FragmentCollection.Callback,
     FragmentNomenclatureList.CallbackNomenclature, FragmentLogin.Callback, BottomNavigationButtonCallback,
-FragmentRegister.Callback, FragmentAllOrders.Callback{
+FragmentRegister.Callback, FragmentAllOrders.Callback, FragmentPersonal.Callback{
 
     private var TAG = "${MainActivity::class.simpleName} ###"
     private lateinit var binding: ActivityMainBinding
@@ -185,5 +185,13 @@ FragmentRegister.Callback, FragmentAllOrders.Callback{
 
     override fun onOrderSelected(order: Order) {
         launchDestination(R.id.fragmentSelectedOrder, FragmentSelectedOrder.createArgs(order))
+    }
+
+    override fun onMyOrdersClicked() {
+        launchDestination(R.id.fragmentAllOrders, null)
+    }
+
+    override fun onChangePasswordClicked() {
+        //TODO("Not yet implemented")
     }
 }

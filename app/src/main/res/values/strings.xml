@@ -38,5 +38,10 @@
     <string name="selected_order">Ваш заказ</string>
     <string name="order_items">Товары</string>
     <string name="total_order_summa">Итого сумма</string>
+    <string name="my_orders">Мои заказы</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="personal_page">Личный кабинет</string>
+    <string name="make_order">Оформить заказ</string>
+    <string name="empty_cart">Пустая корзина</string>
 
 </resources>
