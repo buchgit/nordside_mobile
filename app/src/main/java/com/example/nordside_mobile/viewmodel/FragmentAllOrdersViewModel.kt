@@ -38,10 +38,12 @@ class FragmentAllOrdersViewModel @Inject constructor(
                 Log.v(TAG,result.message!!)
             }
             //обновляем список
-            val result2:Resource<List<Order>> = repository.getPersonalOrderList("Bearer $token")
-            if (result2 is Resource.Success){
-                orderList.value = result2.data
-            }
+//            val result2:Resource<List<Order>> = repository.getPersonalOrderList("Bearer $token")
+//            if (result2 is Resource.Success){
+//                orderList.value = result2.data
+//            }
+
+            getPersonalOrderList()
 
         }
         return httpStatus
