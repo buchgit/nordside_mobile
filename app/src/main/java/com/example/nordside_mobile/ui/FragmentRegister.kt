@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,7 @@ class FragmentRegister : Fragment(R.layout.fragment_register)  {
     private val binding get() = _binding!!
     private val viewModel: FragmentRegisterViewModel by viewModels()
     private var callbacks: Callback? = null
+
 
     interface Callback {
         fun onRegisterClicked()

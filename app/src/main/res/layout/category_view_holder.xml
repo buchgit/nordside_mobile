@@ -12,7 +12,6 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="27dp"
         app:cardElevation="10dp"
-        app:cardCornerRadius="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,11 +27,11 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:layout_gravity="center_horizontal"
-
                 android:contentDescription="@string/logo"/>
             <TextView
                 android:id="@+id/tw_category_view_holder"
                 android:textColor="@color/white"
+                style="@style/MediumText"
                 android:textStyle="bold"
                 android:layout_margin="20dp"
                 android:layout_gravity="bottom|center_horizontal"

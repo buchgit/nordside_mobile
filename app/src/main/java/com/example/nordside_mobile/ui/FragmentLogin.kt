@@ -54,7 +54,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         val refreshToken = appPreference.getSavedString(ApplicationConstants().REFRESH_TOKEN)
 
         token?.let{
-            //ifTokenExist()  //TODO Временно закомментил, так как переключаюсь между разными серверами с разными парами токенов
+//            ifTokenExist()  //TODO Временно закомментил, так как переключаюсь между разными серверами с разными парами токенов
         }
     }
 
@@ -62,6 +62,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
     interface Callback {
         fun onLoginClicked(isCorrectLogin: Boolean)
         fun onRegistrationClicked(login: LoginBody)
+        fun onForgotPassClicked(login: LoginBody)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -73,7 +74,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         with(binding) {
             buttonLogin.setOnClickListener() { loginButtonListener() }
             buttonRegistration.setOnClickListener { registrationButtonListener() }
-            buttonForgotPassword.setOnClickListener { }
+            buttonForgotPassword.setOnClickListener { forgotPassButtonListener() }
 
             val textViewToken = binding.twToken
             //TODO удалить после отладки
@@ -135,6 +136,11 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         }
     }
 
+    private fun forgotPassButtonListener() {
+        loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        callbacks?.onForgotPassClicked(loginBody)
+    }
+
     private fun registrationButtonListener() {
         loginBody = LoginBody(binding.etEmail.text.toString(), binding.etPassword.text.toString())
         callbacks?.onRegistrationClicked(loginBody)
@@ -154,10 +160,6 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private fun ifTokenExist() {
         findNavController().navigate(R.id.action_fragmentLogin_to_fragmentPersonal)
-    }
-
-    private fun forgotPassButtonListener() {
-
     }
 
     override fun onAttach(context: Context) {

@@ -134,6 +134,13 @@ FragmentRegister.Callback, FragmentAllOrders.Callback, FragmentPersonal.Callback
         )
     }
 
+    override fun onForgotPassClicked(login: LoginBody) {
+        launchDestination(
+            R.id.fragmentForgotPass,
+            FragmentLogin.createArgs(login)
+        )
+    }
+
     private fun updateUi() {
         when(currentFragment) {
             is FragmentNomenclatureList, is FragmentNomenclatureItem,

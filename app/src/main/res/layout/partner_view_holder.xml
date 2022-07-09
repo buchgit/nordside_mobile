@@ -3,14 +3,12 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_fragment_partner"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:padding="15dp"
-    android:layout_margin="20dp"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="15dp"
+    android:layout_margin="10dp"
+    app:cardElevation="2dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
-        android:contentDescription="petrovich" />
+        android:contentDescription="partners" />
 
 </com.google.android.material.card.MaterialCardView>
 
